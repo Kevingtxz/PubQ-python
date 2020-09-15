@@ -1,136 +1,95 @@
 from django.db import models
+from django.contrib.auth.models import User
+# from django.db.models.signals import pre_save
 
 
-class Customer(models.Model):
-    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+class State(models.Model):
+    name = models.CharField(max_length=100, null=True)
+
+class City(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    state = models.ForeignKey(State, on_delete=models.PROTECT, null=True)
+
+class Address(models.Model):
+    neighborhood = models.CharField(max_length=200, null=True)
+    complement = models.CharField(max_length=200, null=True)
+    city = models.ForeignKey(City, on_delete=models.PROTECT, null=True)
+
+class Person(models.Model):
+    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     firstname = models.CharField(max_length=100, null=True)
     lastname = models.CharField(max_length=200, null=True)
     phone = models.CharField(max_length=11, null=True)
     email = models.CharField(max_length=200, null=True)
+    sex = models.CharField(max_length=1, null=True)
+    birth = models.CharField(max_length=8, null=True)
     profile_pic = models.ImageField(default='profile1.png', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+    address = models.OneToOneField(Address, null=True, blank=True, on_delete=models.PROTECT)
 
-# Create your models here.
+class Student(models.Model):
+    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    universities = []
 
-#  I will create it in other place
-#  User{
-# 	nickname 						String
-# 	password 						String
-# 	date_created					Date	
-# }
+class Teacher(models.Model):
+    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    universities = []
 
+class Performance(models.Model):
+    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+ 	question_wrong = []
+ 	question_right = []
 
+class Exam(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
 
-# State{
-# 	Id								Integer
-# 	name 							String
-# }
+    diciplines = []
+    subject = []
+    questions = []
+    user_like = []
+    user_deslike = []
 
-# City{
-# 	Id 								Integer
-# 	name 							String
+class Question(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    text = models.CharField(max_length=10000, null=True)
+    answears = [models.CharField(max_length=500, null=True)]
+    right_answear = models.CharField(max_length=1, null=True)
 
-# 	State 							ManyToOne
-# 	name 							String
-# }
-
-# Address{
-# 	neighborhood 					String
-	
-# 	User 							OneToOne
-# 	State							ManyToOne
-# 	City							ManyToOne
-# }
-
-# Person{
-# 	name 							String
-# 	sex 							Char
-# 	email 							String
-# 	birth 							Date
-# 	phone							String		null=True
-# 	picture 						picture		null=True
-
-# 	User 							OneToOne
-# 	Address							ManyToOne
-# }
-
-# Student{
-# 	Person 							OneToOne
-# 	University						OneToOne	
-# }
-
-# Teacher{
-# 	Person 							OneToOne
-# 	University						OneToOne	
-# }
-
-# Performance{
-# 	User 							OneToOne
-# 	Question_wrong					OneToMany
-# 	Question_right 					OneToMany
-# }
-
-# Exam{
-# 	data created 					Date
-
-# 	Dicipline 						OneToOne
-# 	Subject 						OneToMany
-# 	Question 						OneToMany
-# 	University 						OneToMany
-# 	Teacher 						OneToOne
-# 	User - like 					ManyToMany
-# 	User - deslike					ManyToMany
-# }
-
-# Question{
-# 	description 					String
-# 	aswears 						String
-# 	right_aswear					Char
-
-# 	Exam							ManyToOne
-# 	User - poster					OneToOne 
-# 	Commentary 						OneToMany
-# 	User - like 					ManyToMany
-# 	User - deslike					ManyToMany
-# 	User - Wrong Answer 			ManyToMany
-# 	User - Right Answer				ManyToMany
-# }
+    # exam = 
+    # user_poster = models
+    # commentaties = 
+    # users_like = 
+    # users_deslike =
+    # wrong_answer =
+    # right_answer = 
 
 
-# Book{	
-# 	User							OneToOne
-# 	Question						OneToMany
-# 	Exams							ManyToMany
-# 	Discipline						ManyToMany
-# }
-
-# Commentary{
-# 	User 							OneToOne
-# 	Question 			 			ManyToOne
-# 	User - like 					ManyToMany
-# 	User - deslike					ManyToMany
-# }
+# class Book(models.Model):
+    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    # questions = []
+    # exams = []
 
 
-# Subject{
-# 	name 							String
+# class Commentary(models.Model):
+    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    # questions = 
+    # users_like = 
+    # users_deslike =
 
-# 	Discipline						ManyToOne
-# }
 
-# Discipline{
-# 	name 							String
+class Subject(models.Model):
+ 	name = models.CharField(max_length=200, null=True)
+ 	# exam = []
 
-# 	Subject							OneToMany
-# 	Exams 							OneToMany
-# }
+class Discipline(models.Model):
+	name = models.CharField(max_length=200, null=True)
+    # subjects = []
 
-# University{ 
-# 	name 							String
-# 	initials 						String
-# 	data created 					Date
-	
-# 	Students 						OneToMany
-# 	Teachers 						OneToMany
-# 	Address							OneToOne
-# }
+class University(models.Model): 
+	data_created = models.DateTimeField(auto_now_add=True, null=True)
+	name = models.CharField(max_length=200, null=True)
+	initials = models.CharField(max_length=5, null=True)
+    
+	# students = []
+	# teachers = []
+	# address = 
