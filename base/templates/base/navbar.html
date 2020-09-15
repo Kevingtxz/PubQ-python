@@ -3,21 +3,30 @@
     <div>
         <nav class="navbar navbar-light" style="background-color: #e3f2fd; margin-bottom:30px;">
             <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <img src="{% static 'images/logo1.png' %}">
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'questions' %}">Questions</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'universities' %}">Universities</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'support' %}">Support</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'aboutus' %}">About Us</a>
-            </li>
+                <li class="nav-item">
+                    <img src="{% static 'images/logo1.png' %}">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'questions' %}">Questions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'exams' %}">Exams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'postexam' %}">Post Exam</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'postquestion' %}">Post Question</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'universities' %}">Universities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'support' %}">Support</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'aboutus' %}">About Us</a>
+                </li>
             </ul>
         </nav>
     </div>
