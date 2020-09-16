@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 
 
 class State(models.Model):
@@ -50,7 +51,6 @@ class University(models.Model):
 class Student(models.Model):
     person = models.OneToOneField(Person, null=True, blank=True, on_delete=models.CASCADE)
     university = models.ForeignKey(University, on_delete=models.SET_NULL, null=True)
-    # universities = models.ManyToManyField(University, blank=True)
 
     def __str__(self):
         return self.person
@@ -58,38 +58,37 @@ class Student(models.Model):
 class Teacher(models.Model):
     person = models.OneToOneField(Person, null=True, blank=True, on_delete=models.CASCADE)
     university = models.ForeignKey(University, on_delete=models.SET_NULL, null=True)
-    # universities = models.ManyToManyField(University, blank=True)
 
     def __str__(self):
         return self.person
 
 class Exam(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    person_like = models.ManyToManyField(Person, blank=True)
-    # person_deslike = models.ManyToManyField(Person, blank=True)
 
 class Question(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    text = models.CharField(max_length=10000, null=True)
-    answears = [models.CharField(max_length=500, null=True)]
-    right_answear = models.CharField(max_length=1, null=True)
-
+    text = models.TextField
     exam = models.ForeignKey(Exam, null=True, blank=True, on_delete=models.CASCADE)  
-    poster = models.OneToOneField(Person, on_delete=models.PROTECT)
-
-    # person_like = models.ManyToManyField(Person, blank=True)
-    # person_deslike = models.ManyToManyField(Person, blank=True)
+    poster = models.ForeignKey(Person, on_delete=models.PROTECT)
+    right_answear = models.CharField(max_length=1)
+    answears = ArrayField(models.TextField(blank=True), size=5)
 
     def __str__(self):
         return [self.text, self.poster]
 
 class Performance(models.Model):
     person = models.OneToOneField(Person, null=True, blank=True, on_delete=models.CASCADE)
-    question_wrong = models.ManyToManyField(Question, blank=True)
-    # question_right = models.ManyToManyField(Question, blank=True)
 
     def __str__(self):
         return self.person
+
+class QuestionWrong(models.Model):
+    performance = models.ForeignKey(Performance, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+class QuestionRight(models.Model):
+    performance = models.ForeignKey(Performance, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
 class Subject(models.Model):
     name = models.CharField(max_length=200, null=True)
@@ -118,6 +117,81 @@ class Book(models.Model):
 
 class Commentary(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE) 
-    # person_like = models.ManyToManyField(Person, blank=True)
-    # person_deslike = models.ManyToManyField(Person, blank=True)
+    text = models.TextField
+
+    def __str__(self):
+        return self.person
+
+class CommentaryQuestion(Commentary):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+class CommentaryExam(Commentary):
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+
+class CommentaryBook(Commentary):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+class CommentaryUniversity(Commentary):
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+
+class LikeDeslike(Commentary):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.person
+
+class Interaction(models.Model):
+    islike = models.BooleanField
+    like_deslike = models.ForeignKey(LikeDeslike, blank= True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.islike
+
+
+class InteractionQuestion(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True)
+
+class InteractionExam(models.Model):
+    islike = models.BooleanField
+    like_deslike = models.ForeignKey(LikeDeslike, blank= True, on_delete=models.CASCADE)
+    models.ForeignKey(Exam, on_delete=models.CASCADE, blank=True)
+
+class InteractionCommentaryQuestion(models.Model):
+    islike = models.BooleanField
+    like_deslike = models.ForeignKey(LikeDeslike, blank= True, on_delete=models.CASCADE)
+    models.ForeignKey(CommentaryQuestion, on_delete=models.CASCADE, blank=True)
+
+class InteractionCommentaryExam(models.Model):
+    islike = models.BooleanField
+    like_deslike = models.ForeignKey(LikeDeslike, blank= True, on_delete=models.CASCADE)
+    models.ForeignKey(CommentaryExam, on_delete=models.CASCADE, blank=True)
+
+class InteractionCommentaryUniversity(models.Model):
+    islike = models.BooleanField
+    like_deslike = models.ForeignKey(LikeDeslike, blank= True, on_delete=models.CASCADE)
+    models.ForeignKey(CommentaryUniversity, on_delete=models.CASCADE, blank=True)
+
+class InteractionCommentaryBook(models.Model):
+    islike = models.BooleanField
+    like_deslike = models.ForeignKey(LikeDeslike, blank= True, on_delete=models.CASCADE)
+    models.ForeignKey(CommentaryBook, on_delete=models.CASCADE, blank=True)
+    
+
+class InteractionBook(models.Model):
+    islike = models.BooleanField
+    like_deslike = models.ForeignKey(LikeDeslike, blank= True, on_delete=models.CASCADE)
+    models.ForeignKey(Book, on_delete=models.CASCADE, blank=True)
+
+class InteractionUniversity(models.Model):
+    islike = models.BooleanField
+    like_deslike = models.ForeignKey(LikeDeslike, blank= True, on_delete=models.CASCADE)
+    models.ForeignKey(University, on_delete=models.CASCADE, blank=True)
+
+class StudentUniversity(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+
+class TeacherUniversity(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+

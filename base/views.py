@@ -1,6 +1,8 @@
 from django.shortcuts import render
+# from django.contrib import messages       use after
 
 def questions(request):
+    # questions = Question.objects.values('exam', 'text', 'answears')
     return render(request, 'base/questions.html')
 
 def exams(request):
@@ -21,9 +23,17 @@ def aboutus(request):
 def universities(request):
     return render(request, 'base/universities.html')
 
-# customer settings
+# def logoutUser(request):
+# 	logout(request)
+# 	return redirect('login')
 
-# login pages
+# def accountSettings(request):
+#     return render(request, 'base/profilesettings.html')
+
+# def loginPage(request):
+#     return render(request, 'base/register.html')
+
+
 
 
 
