@@ -27,12 +27,15 @@ def universities(request):
 # 	logout(request)
 # 	return redirect('login')
 
-# def accountSettings(request):
-#     return render(request, 'base/profilesettings.html')
+# def register(request):
+#     return render(request, register)
 
 # def loginPage(request):
 #     return render(request, 'base/register.html')
 
+
+# def accountSettings(request):
+#     return render(request, 'base/profilesettings.html')
 
 
 
