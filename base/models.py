@@ -1,22 +1,30 @@
 from django.db import models
 from django.contrib.auth.models import User
-# from django.db.models.signals import pre_save
 
 
 class State(models.Model):
-    name = models.CharField(max_length=100, null=True)
+    initials = models.CharField(max_length=2)
+
+    def __str__(self):
+        return self.initials
 
 class City(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    state = models.ForeignKey(State, on_delete=models.PROTECT, null=True)
+    name = models.CharField(max_length=100)
+    state = models.ForeignKey(State, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return [self.name, self.state]
 
 class Address(models.Model):
     neighborhood = models.CharField(max_length=200, null=True)
     complement = models.CharField(max_length=200, null=True)
-    city = models.ForeignKey(City, on_delete=models.PROTECT, null=True)
+    city = models.ForeignKey(City, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return [self.neighborhood, self.complement, self.city]
 
 class Person(models.Model):
-    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     firstname = models.CharField(max_length=100, null=True)
     lastname = models.CharField(max_length=200, null=True)
     phone = models.CharField(max_length=11, null=True)
@@ -27,27 +35,38 @@ class Person(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     address = models.OneToOneField(Address, null=True, blank=True, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return [self.firstname, self.lastname]
+
+class University(models.Model):
+    name = models.CharField(max_length=200, null=True)
+    data_created = models.DateTimeField(auto_now_add=True, null=True)
+    initials = models.CharField(max_length=5, null=True)
+    address = models.OneToOneField(Address, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.name
+
 class Student(models.Model):
-    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    universities = []
+    person = models.OneToOneField(Person, null=True, blank=True, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.SET_NULL, null=True)
+    # universities = models.ManyToManyField(University, blank=True)
+
+    def __str__(self):
+        return self.person
 
 class Teacher(models.Model):
-    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    universities = []
+    person = models.OneToOneField(Person, null=True, blank=True, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.SET_NULL, null=True)
+    # universities = models.ManyToManyField(University, blank=True)
 
-class Performance(models.Model):
-    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
- 	question_wrong = []
- 	question_right = []
+    def __str__(self):
+        return self.person
 
 class Exam(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-
-    diciplines = []
-    subject = []
-    questions = []
-    user_like = []
-    user_deslike = []
+    person_like = models.ManyToManyField(Person, blank=True)
+    # person_deslike = models.ManyToManyField(Person, blank=True)
 
 class Question(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -55,41 +74,50 @@ class Question(models.Model):
     answears = [models.CharField(max_length=500, null=True)]
     right_answear = models.CharField(max_length=1, null=True)
 
-    # exam = 
-    # user_poster = models
-    # commentaties = 
-    # users_like = 
-    # users_deslike =
-    # wrong_answer =
-    # right_answer = 
+    exam = models.ForeignKey(Exam, null=True, blank=True, on_delete=models.CASCADE)  
+    poster = models.OneToOneField(Person, on_delete=models.PROTECT)
 
+    # person_like = models.ManyToManyField(Person, blank=True)
+    # person_deslike = models.ManyToManyField(Person, blank=True)
 
-# class Book(models.Model):
-    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    # questions = []
-    # exams = []
+    def __str__(self):
+        return [self.text, self.poster]
 
+class Performance(models.Model):
+    person = models.OneToOneField(Person, null=True, blank=True, on_delete=models.CASCADE)
+    question_wrong = models.ManyToManyField(Question, blank=True)
+    # question_right = models.ManyToManyField(Question, blank=True)
 
-# class Commentary(models.Model):
-    # user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    # questions = 
-    # users_like = 
-    # users_deslike =
-
+    def __str__(self):
+        return self.person
 
 class Subject(models.Model):
- 	name = models.CharField(max_length=200, null=True)
- 	# exam = []
+    name = models.CharField(max_length=200, null=True)
+    exam = models.ManyToManyField(Exam, blank=True)
+    question = models.ManyToManyField(Question, blank=True)
+
+    def __str__(self):
+        return self.name
 
 class Discipline(models.Model):
-	name = models.CharField(max_length=200, null=True)
-    # subjects = []
+    name = models.CharField(max_length=200, null=True)
+    subjects = models.ManyToManyField(Subject, blank=True)
 
-class University(models.Model): 
-	data_created = models.DateTimeField(auto_now_add=True, null=True)
-	name = models.CharField(max_length=200, null=True)
-	initials = models.CharField(max_length=5, null=True)
-    
-	# students = []
-	# teachers = []
-	# address = 
+    def __str__(self):
+        return self.name
+
+class Book(models.Model):
+    name = models.CharField(max_length=200)
+
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    questions = models.ManyToManyField(Question, blank=True)
+    exams = models.ManyToManyField(Exam, blank=True)
+
+    def __str__(self):
+        return self.name
+
+class Commentary(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE) 
+    # person_like = models.ManyToManyField(Person, blank=True)
+    # person_deslike = models.ManyToManyField(Person, blank=True)
