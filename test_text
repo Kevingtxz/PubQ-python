@@ -8,17 +8,30 @@ iff_address = Address(number=2020, neighborhood='Mirante da Lagoa', complement=N
 
 knutsk_address = Address(number=104, neighborhood='Centro', complement=None, city=Macae)
 
-kevin = Student(user=None, firstname='Kevin', lastname='Trindade Gonçalves', phone='22937841287', email='kevingtxz@gmail.com', sex='M', birth='21101996', address=kevin_address)
-
 IFF = University(name='Instituto Federal Fluminense', initials='IFF', address=iff_address, teacher_students=None)
+
+kevin = Student(user=None, firstname='Kevin', lastname='Trindade Gonçalves', phone='22937841287', email='kevingtxz@gmail.com', sex='M', birth='21101996', address=kevin_address)
 
 knutsk = Teacher(user=None, firstname='José', lastname='Knustk', phone='22937841283', email='knutsk@gmail.com', sex='M', birth='21101990', address=knutsk_address)
 
 exam_iff = Exam(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, questions=None)
 
-question_iff = Question(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, text="Faça 30 questões X", right_answear='C', exam=exam_iff)
+question_iff_1 = Question(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, text="Faça 1 questões X", right_answear='C', exam=exam_iff)
+
+question_iff_2 = Question(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, text="Faça 2 questões X", right_answear='C', exam=exam_iff)
+
+question_iff_3 = Question(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, text="Faça 3 questões X", right_answear='C', exam=exam_iff)
 
 subject_integral = Subject(name='Integral', question=question_iff, discipline=None)
 
 discipline_calculus = Discipline(name='Calculus', subject=[subject_integral])
 
+kevin_book = Book(name='calculus', note=None, student=kevin, questions=[question_iff], exams=[exam_iff])
+
+kevin_commentary_question = CommentaryQuestion(questions=[question_iff])
+
+Commentaries(standardUser=kevin, commentary_question=kevin_commentary_question)
+
+iff_ts = UniversityTeacherStudent(university=IFF, teachers=None)
+
+iff_eq = UniversityExamQuestion(university=IFF)
