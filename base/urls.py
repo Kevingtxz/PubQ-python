@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+# use include;      model_detail;           app_name = 'public_exam;         
+
 urlpatterns = [
     path('', views.questions, name='questions'),
     path('exams/', views.exams, name='exams'),

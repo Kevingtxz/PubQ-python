@@ -1,6 +1,8 @@
 from django.shortcuts import render
 # from django.contrib import messages       use after
 
+# ListView; DetailView; FormView; DeleteView; UpdateView...
+
 def questions(request):
     # questions = Question.objects.values('exam', 'text', 'answears')
     return render(request, 'base/questions.html')

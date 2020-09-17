@@ -10,10 +10,10 @@ class QuestionForm(ModelForm):
 		model = Question
 		fields = '__all__'
 
-# class CreateUserForm(UserCreationForm):
+# class CreateUserForm(ModelForm):
 # 	class Meta:
 # 		model = User
-# 		fields = ['username', 'email', 'password1', 'password2']
+# 		fields = ('username', 'email', 'password1', 'password2')
 
 # class PersonForm(ModelForm):
 # 	class Meta:
