@@ -40,11 +40,11 @@ class StandardUser(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     address = models.OneToOneField(Address, blank=True, on_delete=models.PROTECT)
-    book = models.OneToOneField('Book', blank=True, null=True, on_delete=models.CASCADE)
-    performance = models.OneToOneField('Performance', blank=True, null=True, on_delete=models.CASCADE)
+    university = models.ForeignKey('University', on_delete=models.SET_NULL, null= True, blank= True)
+    questions = models.ManyToManyField('Question', on_delete=models.CASCADE, null=True, blank=True)
 
-    def __str__(self):
-        return self.firstname
+    class Meta:
+        abstract = True
 
 # OneToOne: Address;
 class University(models.Model):
@@ -58,66 +58,46 @@ class University(models.Model):
     def __str__(self):
         return self.name
 
+# OneToOne: StandardUser, University;
+class Student(StandardUser):
+    book = models.OneToOneField('Book', blank=True, null=True, on_delete=models.CASCADE)
+    question_right = models.ManyToManyField('Question', blank=True, on_delete=models.CASCADE)
+
+# OneToOne: StandardUser, University;
+class Teacher(StandardUser):
+    pass
 
 # Abstract class for making clean code
-class university_questions(models.Model):
-    university = models.ForeignKey(University, on_delete=models.SET_NULL, null= True, blank= True)
-    questions = models.ManyToManyField('Question', on_delete=models.CASCADE, null=True, blank=True)
+class baseExamQuestion(models.Model):
+    teacher_name = models.CharField(max_length=300, blank=True, null=True)
+    note = models.CharField(max_length=300, blank=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    teacher_owner = models.OneToOneField(Teacher, blank=True, null=True, on_delete=models.PROTECT)
+    university = models.ForeignKey(University, blank=True, null=True, on_delete=models.PROTECT)
+    subject = models.ForeignKey('Subject', blank=True, null=True, on_delete=models.SET_NULL)
+    poster_student = models.ForeignKey(Student, null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         abstract = True
 
-# OneToOne: StandardUser, University;
-class Student(university_questions):
-    standardUser = models.OneToOneField(StandardUser, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.standardUser
-
-# OneToOne: StandardUser, University;
-class Teacher(university_questions):
-    standardUser = models.OneToOneField(StandardUser, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.standardUser
-
 # ManyToOne: Teacher, University;
-class Exam(university_questions):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-    teacher_name = models.CharField(max_length=300, blank=True)
-    notes = models.CharField(max_length=500, null=True, blank=True)
-
-    teacher_owner = models.ForeignKey(Teacher, blank=True, on_delete=models.PROTECT)
-
+class Exam(baseExamQuestion):
+    questions = models.ManyToManyField('Question', on_delete=models.CASCADE, null=True, blank=True)
 
 # ManyToOne: Exam; OneToOne: Teacher, University;
-class Question(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
+class Question(baseExamQuestion):
     text = models.TextField(blank= True)
     right_answear = models.CharField(max_length=1, blank= True)
     answears = ArrayField(ArrayField(models.TextField(null=True, blank=True)))
-    teacher_owner_name = models.CharField(max_length=200, blank=True, null=True)
 
-    exam = models.ForeignKey(Exam, blank=True, on_delete=models.CASCADE, null=True)  
-    poster = models.ForeignKey(Student, on_delete=models.PROTECT)
-    teacher_owner = models.OneToOneField(Teacher, blank=True, null=True, on_delete=models.PROTECT)
-    university = models.ForeignKey(University, blank=True, null=True, on_delete=models.PROTECT)
-    subject = models.ForeignKey('Subject', blank=True, null=True, on_delete=models.SET_NULL)
-    def __str__(self):
-        return self.text
-
-# OneToOne: StandardUser; ManyToOne: Question;
-class Performance(models.Model):
-    standardUser = models.OneToOneField(StandardUser, on_delete=models.CASCADE, null=True, blank=True)
-    question_right = models.ManyToManyField(Question, blank=True, on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return self.standardUser
+    exam = models.ForeignKey(Exam, blank=True, on_delete=models.CASCADE, null=True)
 
 
 # ManyToOne: Discipline; OneToMany: Question, Exam;
 class Subject(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=100)
+    
     question = models.ManyToManyField(Question, on_delete=models.CASCADE)
     discipline = models.ForeignKey('Discipline', null= True, blank= True, on_delete=models.SET_NULL)
 
@@ -126,7 +106,8 @@ class Subject(models.Model):
 
 # OneToMany: Subject;
 class Discipline(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=100)
+
     subject = models.ManyToManyField(Subject, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -134,13 +115,12 @@ class Discipline(models.Model):
 
 # OneToOne: StandardUser; OneToMany: Question, Exam;
 class Book(models.Model):
-    name = models.CharField(max_length=200)
-    note = models.CharField(max_length=500)
+    name = models.CharField(max_length=100)
+    note = models.CharField(max_length=400)
 
-    standardUser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-
-    questions = models.ManyToManyField(Question, blank=True)
-    exams = models.ManyToManyField(Exam,  blank=True)
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    questions = models.ManyToManyField(Question, blank=True, on_delete=models.CASCADE)
+    exams = models.ManyToManyField(Exam, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

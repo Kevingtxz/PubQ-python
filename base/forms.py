@@ -5,10 +5,10 @@ from django import forms
 
 from .models import Question
 
-class QuestionForm(ModelForm):
-	class Meta:
-		model = Question
-		fields = '__all__'
+# class QuestionForm(ModelForm):
+# 	class Meta:
+# 		model = Question
+# 		fields = '__all__'
 
 # class CreateUserForm(ModelForm):
 # 	class Meta:
