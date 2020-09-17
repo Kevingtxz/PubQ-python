@@ -1,0 +1,24 @@
+RJ = State(initials='RJ')
+
+Macae = City(name='Macaé', state=RJ)
+
+kevin_address = Address(number=181, neighborhood='Mirante da Lagoa', complement='Portão branco', city=Macae)
+
+iff_address = Address(number=2020, neighborhood='Mirante da Lagoa', complement=None, city=Macae)
+
+knutsk_address = Address(number=104, neighborhood='Centro', complement=None, city=Macae)
+
+kevin = Student(user=None, firstname='Kevin', lastname='Trindade Gonçalves', phone='22937841287', email='kevingtxz@gmail.com', sex='M', birth='21101996', address=kevin_address)
+
+IFF = University(name='Instituto Federal Fluminense', initials='IFF', address=iff_address, teacher_students=None)
+
+knutsk = Teacher(user=None, firstname='José', lastname='Knustk', phone='22937841283', email='knutsk@gmail.com', sex='M', birth='21101990', address=knutsk_address)
+
+exam_iff = Exam(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, questions=None)
+
+question_iff = Question(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, text="Faça 30 questões X", right_answear='C', exam=exam_iff)
+
+subject_integral = Subject(name='Integral', question=question_iff, discipline=None)
+
+discipline_calculus = Discipline(name='Calculus', subject=[subject_integral])
+
