@@ -44,6 +44,10 @@ class StandardUser(models.Model):
     address = models.OneToOneField(Address, blank=True, on_delete=models.PROTECT)
     university = models.ForeignKey('University', on_delete=models.SET_NULL, null= True, blank= True)
     questions = models.ManyToManyField('Question', on_delete=models.CASCADE, null=True, blank=True)
+    Groups = models.ManyToManyField('Groups', blank=True, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.firstname
 
     class Meta:
         abstract = True
@@ -69,7 +73,7 @@ class Student(StandardUser):
 class Teacher(StandardUser):
     pass
 
-# Abstract class for making clean code
+# Abstract class for making clean code;
 class baseExamQuestion(models.Model):
     teacher_name = models.CharField(max_length=300, blank=True, null=True)
     note = models.CharField(max_length=300, blank=True, null=True)
@@ -91,7 +95,7 @@ class Exam(baseExamQuestion):
 class Question(baseExamQuestion):
     text = models.TextField(blank= True)
     right_answear = models.CharField(max_length=1, blank= True)
-    # only for PostgreSQL
+    # only for PostgreSQL;
     # answears = ArrayField(ArrayField(models.TextField(null=True, blank=True)))
 
     exam = models.ForeignKey(Exam, blank=True, on_delete=models.CASCADE, null=True)
@@ -129,29 +133,29 @@ class Book(models.Model):
         return self.name
 
 
-# Abstract class for making clean code
+# Abstract class for making clean code;
 class Commentary(models.Model):
     text = models.TextField
     class Meta:
         abstract = True
 
-# ManyToOne: Question, StandardUser;;
+# ManyToOne: Question, StandardUser;
 class CommentaryQuestion(Commentary):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
-# ManyToOne: Exam, StandardUser;;
+# ManyToOne: Exam, StandardUser;
 class CommentaryExam(Commentary):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
 
-# ManyToOne: Book, StandardUser;;
+# ManyToOne: Book, StandardUser;
 class CommentaryBook(Commentary):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
-# ManyToOne: University, StandardUser;;
+# ManyToOne: University, StandardUser;
 class CommentaryUniversity(Commentary):
     university = models.ForeignKey(University, on_delete=models.CASCADE)
 
-# class to manage commentaries
+# class to manage commentaries;
 class Commentaries(models.Model):
     standard_user = models.ForeignKey(StandardUser, on_delete=models.PROTECT)
     commentary_question = models.ManyToManyField(CommentaryQuestion, blank=True, null=True, on_delete=models.CASCADE)
@@ -159,34 +163,25 @@ class Commentaries(models.Model):
     commentary_book = models.ManyToManyField(CommentaryBook, blank=True, null=True, on_delete=models.CASCADE)
     commentary_university = models.ManyToManyField(CommentaryUniversity, blank=True, null=True, on_delete=models.CASCADE)
 
-
-# ManyToOne: Question, StandardUser;
-class LikeQuestion(models.Model):
+# Abstract class : clean code;
+class LikeDeslike(models.Model):
+    standard_user = models.OneToOneField(StandardUser, on_delete=models.CASCADE)
     questions = models.ManyToManyField(Question, on_delete=models.CASCADE, blank=True)
-
-# ManyToOne: Exam, StandardUser;
-class LikeExam(models.Model):
     exams = models.ManyToManyField(Exam, on_delete=models.CASCADE, blank=True)
-
-# ManyToOne: Commentary, StandardUser;
-class LikeCommentary(models.Model):
     commentaries = models.ManyToManyField(Commentary, on_delete=models.CASCADE, blank=True)
-
-# ManyToOne: Book, StandardUser;
-class LikeBook(models.Model):
     books = models.ManyToManyField(Book, on_delete=models.CASCADE, blank=True)
-
-# ManyToOne: University, StandardUser;
-class LikeUniversity(models.Model):
     universities = models.ManyToManyField(University, on_delete=models.CASCADE, blank=True)
 
-# class to manage likes
-class Likes(models.Model):
-    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-    like_question = models.ForeignKey(LikeQuestion, blank=True, null=True, on_delete=models.CASCADE)
-    like_question = models.ForeignKey(LikeQuestion, blank=True, null=True, on_delete=models.CASCADE)
-    like_commentary = models.ForeignKey(LikeCommentary, blank=True, null=True, on_delete=models.CASCADE)
-    like_book = models.ForeignKey(LikeBook, blank=True, null=True, on_delete=models.CASCADE)
+    class Meta:
+        abstract = True
+
+# class to manage likes;
+class Likes(LikeDeslike):
+    pass
+
+# class to manage desliks;
+class Deslikes(LikeDeslike):
+    pass
 
 
 # OneToOne: University; OneToMany: Teacher, Student;
@@ -202,9 +197,46 @@ class UniversityExamQuestion(models.Model):
     exams = models.ManyToManyField(Exam, on_delete=models.PROTECT, blank=True, null=True)
 
 
+class Report(models.Model):
+    note = models.TextField
 
-# Reports
+    class Meta:
+        abstract = True
 
-# Groups
+# ManyToOne: Question, StandardUser;
+class ReportQuestion(Report):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+# ManyToOne: Exam, StandardUser;
+class ReportExam(Report):
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+
+# ManyToOne: Commentary, StandardUser;
+class ReportCommentary(Report):
+    commentary = models.ForeignKey(Commentary, on_delete=models.CASCADE)
+
+# ManyToOne: Book, StandardUser;
+class ReportBook(Report):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+# ManyToOne: University, StandardUser;
+class ReportUniversity(Report):
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+
+# OneToOne: StandardUser; OneToMany: ReportQuestion, ReportExam, ReportCommentary, ReportBook, ReportUniversity;
+class reports(models.Model):
+    reporter = models.ForeignKey(StandardUser, on_delete=models.PROTECT)
+    questions = models.ManyToManyField(ReportQuestion, on_delete=models.CASCADE, blank=True)
+    exams = models.ManyToManyField(ReportExam, on_delete=models.CASCADE, blank=True)
+    commentaries = models.ManyToManyField(ReportCommentary, on_delete=models.CASCADE, blank=True)
+    books = models.ManyToManyField(ReportBook, on_delete=models.CASCADE, blank=True)
+    universities = models.ManyToManyField(ReportUniversity, on_delete=models.CASCADE, blank=True)
+
+
+# OneToMany: StandardUser;
+class Groups(models.Model):
+    lider = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    members = models.ManyToManyField(StandardUser, blank=True, null=True, on_delete=models.CASCADE)
+
 
 # Chat
