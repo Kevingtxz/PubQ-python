@@ -59,14 +59,14 @@ class StandardUser(models.Model):
 
 # OneToOne: StandardUser, University;
 class Student(StandardUser):
-    question_right = models.ManyToManyField('Question', blank=True)
+    pass
 
 # OneToOne: StandardUser, University;
 class Teacher(StandardUser):
     pass
 
 
-# ManyToOne: Discipline; OneToMany: Question, Exam;
+# ManyToOne: Discipline; OneToMany: Question;
 class Subject(models.Model):
     name = models.CharField(max_length=100)
 
@@ -83,8 +83,8 @@ class Discipline(models.Model):
         return self.name
 
 
-# Abstract class for making clean code;
-class baseExamQuestion(models.Model):
+# ManyToOne: OneToOne: Teacher, University;
+class Question(models.Model):
     teacher_name = models.CharField(max_length=300, blank=True, null=True)
     note = models.CharField(max_length=300, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -92,25 +92,13 @@ class baseExamQuestion(models.Model):
     teacher_owner = models.OneToOneField(Teacher, blank=True, on_delete=models.PROTECT)
     university = models.ForeignKey(University, blank=True, null=True, on_delete=models.PROTECT)
     poster_student = models.ForeignKey(Student, null=True, blank=True, on_delete=models.PROTECT)
-
-    class Meta:
-        abstract = True
-
-# ManyToOne: Teacher, University;
-class Exam(baseExamQuestion):
-    pass
-
-# ManyToOne: Exam; OneToOne: Teacher, University;
-class Question(baseExamQuestion):
     text = models.TextField(blank= True)
     right_answear = models.CharField(max_length=1, blank= True)
     # only for PostgreSQL;
     # answears = ArrayField(ArrayField(models.TextField(blank=True)))
 
-    exam = models.ForeignKey(Exam, blank=True, on_delete=models.CASCADE, null=True)
 
-
-# OneToOne: Teacher, Student; OneToMany: Question, Exam;
+# OneToOne: Teacher, Student; OneToMany: Question;
 class Book(models.Model):
     name = models.CharField(max_length=100)
     note = models.CharField(max_length=400)
@@ -119,7 +107,6 @@ class Book(models.Model):
     student = models.ForeignKey(Student, blank=True, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, blank=True, on_delete=models.CASCADE)
     questions = models.ManyToManyField(Question, blank=True)
-    exams = models.ManyToManyField(Exam, blank=True)
 
     def __str__(self):
         return self.name
@@ -136,10 +123,6 @@ class Commentary(models.Model):
 class CommentaryQuestion(Commentary):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
-# ManyToOne: Exam;
-class CommentaryExam(Commentary):
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-
 # ManyToOne: Book;
 class CommentaryBook(Commentary):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -153,7 +136,6 @@ class Commentaries(models.Model):
     student = models.ForeignKey(Student, blank=True, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, blank=True, on_delete=models.CASCADE)
     commentary_question = models.ManyToManyField(CommentaryQuestion, blank=True)
-    commentary_exam = models.ManyToManyField(CommentaryExam, blank=True)
     commentary_book = models.ManyToManyField(CommentaryBook, blank=True)
     commentary_university = models.ManyToManyField(CommentaryUniversity, blank=True)
 
@@ -163,8 +145,9 @@ class LikeDeslike(models.Model):
     student = models.ForeignKey(Student, blank=True, on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, blank=True, on_delete=models.CASCADE)
     questions = models.ManyToManyField(Question, blank=True)
-    exams = models.ManyToManyField(Exam, blank=True)
-    commentaries = models.ManyToManyField(Commentary, blank=True)
+    commentaries_questions = models.ManyToManyField(CommentaryQuestion, blank=True)
+    commentaries_books = models.ManyToManyField(CommentaryBook, blank=True)
+    commentaries_universities = models.ManyToManyField(CommentaryUniversity, blank=True) 
     books = models.ManyToManyField(Book, blank=True)
     universities = models.ManyToManyField(University, blank=True)
 
@@ -183,15 +166,13 @@ class Deslikes(LikeDeslike):
 # OneToOne: University; OneToMany: Teacher, Student;
 class UniversityTeacherStudent(models.Model):
     university = models.OneToOneField(University, blank=True, on_delete=models.PROTECT)
-    teachers = models.ManyToManyField(University, blank=True)
+    teachers = models.ManyToManyField(Teacher, blank=True)
     student = models.ManyToManyField(Student, blank=True)
 
-class UniversityExamQuestion(models.Model):
+class UniversityQuestion(models.Model):
     university = models.OneToOneField(University, on_delete=models.PROTECT, blank=True)
 
     questions = models.ManyToManyField(Question, blank=True)
-    exams = models.ManyToManyField(Exam, blank=True)
-
 
 class Report(models.Model):
     note = models.TextField
@@ -204,13 +185,9 @@ class Report(models.Model):
 class ReportQuestion(Report):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
-# ManyToOne: Exam;
-class ReportExam(Report):
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-
-# ManyToOne: Commentary;
-class ReportCommentary(Report):
-    commentary = models.ForeignKey(Commentary, on_delete=models.CASCADE)
+# ManyToOne: CommentaryQuestion;
+class ReportCommentaryQuestion(Report):
+    commentary_question = models.ForeignKey(CommentaryQuestion, on_delete=models.CASCADE)
 
 # ManyToOne: Book;
 class ReportBook(Report):
@@ -220,13 +197,12 @@ class ReportBook(Report):
 class ReportUniversity(Report):
     university = models.ForeignKey(University, on_delete=models.CASCADE)
 
-# OneToOne: Student, Teacher; OneToMany: ReportQuestion, ReportExam, ReportCommentary, ReportBook, ReportUniversity;
+# OneToOne: Student, Teacher; OneToMany: ReportQuestion, ReportCommentaryQuestion, ReportBook, ReportUniversity;
 class reports(models.Model):
     reporter_st = models.ForeignKey(Student, blank=True, on_delete=models.CASCADE)
     reporter_te = models.ForeignKey(Teacher, blank=True, on_delete=models.CASCADE)
+    commentaries_questions = models.ManyToManyField(ReportCommentaryQuestion, blank=True)
     questions = models.ManyToManyField(ReportQuestion, blank=True)
-    exams = models.ManyToManyField(ReportExam, blank=True)
-    commentaries = models.ManyToManyField(ReportCommentary, blank=True)
     books = models.ManyToManyField(ReportBook, blank=True)
     universities = models.ManyToManyField(ReportUniversity, blank=True)
 
