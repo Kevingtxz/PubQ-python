@@ -1,37 +1,109 @@
+python manage.py makemigrations
+python manage.py migrate
+python manage.py shell
+
+
+from base.models import *
+
 RJ = State(initials='RJ')
+RJ.save()
 
 Macae = City(name='Macaé', state=RJ)
+Macae.save()
 
-kevin_address = Address(number=181, neighborhood='Mirante da Lagoa', complement='Portão branco', city=Macae)
+kevin_address = Address(number='181', neighborhood='Mirante da Lagoa', complement='Portão branco', city=Macae)
+kevin_address.save()
 
-iff_address = Address(number=2020, neighborhood='Mirante da Lagoa', complement=None, city=Macae)
+iff_address = Address(number='2020', neighborhood='Mirante da Lagoa', complement=None, city=Macae)
+iff_address.save()
 
-knutsk_address = Address(number=104, neighborhood='Centro', complement=None, city=Macae)
+knutsk_address = Address(number='104', neighborhood='Centro', complement=None, city=Macae)
+knutsk_address.save()
 
-IFF = University(name='Instituto Federal Fluminense', initials='IFF', address=iff_address, teacher_students=None)
+IFF = University(name='Instituto Federal Fluminense', initials='IFF', address=iff_address)
+IFF.save()
 
-kevin = Student(user=None, firstname='Kevin', lastname='Trindade Gonçalves', phone='22937841287', email='kevingtxz@gmail.com', sex='M', birth='21101996', address=kevin_address)
+kevin_standard = StandardUser(user=None, firstname='Kevin', lastname='Trindade Gonçalves', phone='22937841287', email='kevingtxz@gmail.com', sex='M', birth='21101996', address=kevin_address)
+kevin_standard.save()
 
-knutsk = Teacher(user=None, firstname='José', lastname='Knustk', phone='22937841283', email='knutsk@gmail.com', sex='M', birth='21101990', address=knutsk_address)
+knutsk_standard = StandardUser(user=None, firstname='José', lastname='Knustk', email='knutsk@gmail.com', sex='M', birth='21101990', address=knutsk_address)
+knutsk_standard.save()
 
-exam_iff = Exam(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, questions=None)
+kevin=Student(standard_user=kevin_standard)
+kevin.save()
 
-question_iff_1 = Question(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, text="Faça 1 questões X", right_answear='C', exam=exam_iff)
+knutsk=Teacher(standard_user=knutsk_standard)
+knutsk.save()
 
-question_iff_2 = Question(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, text="Faça 2 questões X", right_answear='C', exam=exam_iff)
+subject_integral = Subject(name='Integral')
+subject_integral.save()
 
-question_iff_3 = Question(teacher_name=None, note=None, teacher_owner=knutsk, university=iff, subject=None, poster_student=kevin, text="Faça 3 questões X", right_answear='C', exam=exam_iff)
+discipline_calculus = Discipline(name='Calculus')
+discipline_calculus.save()
+discipline_calculus.subjects.add(subject_integral)
+discipline_calculus.save()
 
-subject_integral = Subject(name='Integral', question=question_iff, discipline=None)
+question_1 = Question(teacher_owner=knutsk, university=IFF, subject=subject_integral, text="Faça 1 questões X", right_answear='A', poster=knutsk_standard)
+question_1.save()
 
-discipline_calculus = Discipline(name='Calculus', subject=[subject_integral])
+question_2 = Question(teacher_owner=knutsk, university=IFF, text="Faça 2 questões X", right_answear='B', poster=knutsk_standard)
+question_2.save()
 
-kevin_book = Book(name='calculus', note=None, student=kevin, questions=[question_iff], exams=[exam_iff])
+question_3 = Question(subject=subject_integral, text="Faça 3 questões X", right_answear='C', poster=kevin_standard)
+question_3.save()
 
-kevin_commentary_question = CommentaryQuestion(questions=[question_iff])
+book_calculus = Book(name='Calculus', note="Calculus", standard_user=kevin_standard)
+book_calculus.save()
+book_calculus.questions.add(question_1, question_3)
+book_calculus.save()
 
-Commentaries(standardUser=kevin, commentary_question=kevin_commentary_question)
+book_others = Book(name='Others', standard_user=knutsk_standard)
+book_others.save()
+book_others.questions.add(question_2)
+book_others.save()
 
-iff_ts = UniversityTeacherStudent(university=IFF, teachers=None)
+kevin_commentary_question = CommentaryQuestion(question=question_3)
+kevin_commentary_question.save()
+kevin_commentary_question.text = 'Hi 1'
+kevin_commentary_question.save()
 
-iff_eq = UniversityExamQuestion(university=IFF)
+knutsk_commentary_question = CommentaryQuestion(question=question_1)
+knutsk_commentary_question.save()
+knutsk_commentary_question.text = 'Hi 2'
+knutsk_commentary_question.save()
+
+commentaries_kevin = Commentaries(standard_user=kevin_standard)
+commentaries_kevin.save()
+commentaries_kevin.commentaries_questions.add(kevin_commentary_question)
+commentaries_kevin.save()
+
+commentaries_knutsk = Commentaries(standard_user=knutsk_standard)
+commentaries_knutsk.save()
+commentaries_knutsk.commentaries_questions.add(knutsk_commentary_question)
+commentaries_knutsk.save()
+
+kevin_like = Like(standard_user=kevin_standard)
+kevin_like.save()
+kevin_like.questions.add(question_3, question_2)
+kevin_like.save()
+
+kevin_deslike = Deslike(standard_user=kevin_standard)
+kevin_deslike.save()
+
+kevin_deslike.questions.add(question_1)
+kevin_deslike.save()
+
+iff_ts = UniversityTeacherStudent(university=IFF)
+iff_ts.save()
+
+iff_ts.students.add(kevin)
+iff_ts.save()
+
+iff_ts.teachers.add(knutsk)
+iff_ts.save()
+
+iff_eq = UniversityQuestion(university=IFF)
+iff_eq.save()
+
+iff_eq.questions.add(question_1, question_2)
+iff_eq.save()
