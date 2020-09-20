@@ -2,26 +2,133 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py shell
 
+python manage.py createsuperuser
+python manage.py runserver
 
 from base.models import *
 
+# 1
+AC = State(initials='AC')
+AC.save()
+
+# 2
+AL = State(initials='AL')
+AL.save()
+
+# 3
+AP = State(initials='AP')
+AP.save()
+
+# 4
+AM = State(initials='AM')
+AM.save()
+
+# 5
+BA = State(initials='BA')
+BA.save()
+
+# 6
+CE = State(initials='CE')
+CE.save()
+
+# 7
+ES = State(initials='ES')
+ES.save()
+
+# 8
+GO = State(initials='GO')
+GO.save()
+
+# 9
+MA = State(initials='MA')
+MA.save()
+
+# 10
+MT = State(initials='MT')
+MT.save()
+
+# 11
+MS = State(initials='MS')
+MS.save()
+
+# 12
+MG = State(initials='MG')
+MG.save()
+
+# 13
+PA = State(initials='PA')
+PA.save()
+
+# 14
+PB = State(initials='PB')
+PB.save()
+
+# 15
+PR = State(initials='PR')
+PR.save()
+
+# 16
+PE = State(initials='PE')
+PE.save()
+
+# 17
+PI = State(initials='PI')
+PI.save()
+
+# 18
 RJ = State(initials='RJ')
 RJ.save()
+
+# 19
+RN = State(initials='RN')
+RN.save()
+
+# 20
+RS = State(initials='RS')
+RS.save()
+
+# 21
+RO = State(initials='RO')
+RO.save()
+
+# 22
+RR = State(initials='RR')
+RR.save()
+
+# 23
+SC = State(initials='SC')
+SC.save()
+
+# 24
+SP = State(initials='SP')
+SP.save()
+
+# 25
+SE = State(initials='SE')
+SE.save()
+
+# 26
+TO = State(initials='TO')
+TO.save()
+
+# 27
+DF = State(initials='DF')
+DF.save()
 
 Macae = City(name='Macaé', state=RJ)
 Macae.save()
 
+
 kevin_address = Address(number='181', neighborhood='Mirante da Lagoa', complement='Portão branco', city=Macae)
 kevin_address.save()
 
-iff_address = Address(number='2020', neighborhood='Mirante da Lagoa', complement=None, city=Macae)
+iff_address = Address(number='164', neighborhood='Imboassica', city=Macae)
 iff_address.save()
 
-knutsk_address = Address(number='104', neighborhood='Centro', complement=None, city=Macae)
+knutsk_address = Address(number='104', neighborhood='Centro', city=Macae)
 knutsk_address.save()
 
-IFF = University(name='Instituto Federal Fluminense', initials='IFF', address=iff_address)
-IFF.save()
+leo_address = Address(number='230', neighborhood='Mirante da Lagora', city=Macae)
 
 kevin_standard = StandardUser(user=None, firstname='Kevin', lastname='Trindade Gonçalves', phone='22937841287', email='kevingtxz@gmail.com', sex='M', birth='21101996', address=kevin_address)
 kevin_standard.save()
@@ -29,11 +136,11 @@ kevin_standard.save()
 knutsk_standard = StandardUser(user=None, firstname='José', lastname='Knustk', email='knutsk@gmail.com', sex='M', birth='21101990', address=knutsk_address)
 knutsk_standard.save()
 
-kevin=Student(standard_user=kevin_standard)
-kevin.save()
+leo = StandardUser(user=None, firstname='Léo', lastname='Viana', email='leo@gmail.com', sex='M', birth='21101990', address=leo_address)
+leo_standard.save()
 
-knutsk=Teacher(standard_user=knutsk_standard)
-knutsk.save()
+IFF = University(name='Instituto Federal Fluminense', initials='IFF', address=iff_address)
+IFF.save()
 
 subject_integral = Subject(name='Integral')
 subject_integral.save()
@@ -43,13 +150,13 @@ discipline_calculus.save()
 discipline_calculus.subjects.add(subject_integral)
 discipline_calculus.save()
 
-question_1 = Question(teacher_owner=knutsk, university=IFF, subject=subject_integral, text="Faça 1 questões X", right_answear='A', poster=knutsk_standard)
+question_1 = Question(teacher_name='João', university=IFF, subject=subject_integral, text="Faça 1 questões X", right_answear='A')
 question_1.save()
 
-question_2 = Question(teacher_owner=knutsk, university=IFF, text="Faça 2 questões X", right_answear='B', poster=knutsk_standard)
+question_2 = Question(teacher_name='knutsk', university=IFF, text="Faça 2 questões X", right_answear='B')
 question_2.save()
 
-question_3 = Question(subject=subject_integral, text="Faça 3 questões X", right_answear='C', poster=kevin_standard)
+question_3 = Question(teacher_name='Léo', subject=subject_integral, text="Faça 3 questões X", right_answear='C')
 question_3.save()
 
 book_calculus = Book(name='Calculus', note="Calculus", standard_user=kevin_standard)
@@ -82,12 +189,12 @@ commentaries_knutsk.save()
 commentaries_knutsk.commentaries_questions.add(knutsk_commentary_question)
 commentaries_knutsk.save()
 
-kevin_like = Like(standard_user=kevin_standard)
+kevin_like = Likes(standard_user=kevin_standard)
 kevin_like.save()
 kevin_like.questions.add(question_3, question_2)
 kevin_like.save()
 
-kevin_deslike = Deslike(standard_user=kevin_standard)
+kevin_deslike = Deslikes(standard_user=kevin_standard)
 kevin_deslike.save()
 
 kevin_deslike.questions.add(question_1)

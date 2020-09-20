@@ -4,8 +4,11 @@ from . import views
 # use include;      model_detail;           app_name = 'public_exam;         
 
 urlpatterns = [
+	path('register/', views.registerPage, name='register'),
+	path('login/', views.loginPage, name='login'),  
+	path('logout/', views.logoutUser, name="logout"),  
+
     path('', views.questions, name='questions'),
-    path('exams/', views.exams, name='exams'),
     path('postquestion/', views.postquestion, name='postquestion'),
     path('postexam/', views.postexam, name='postexam'),
     path('universities/', views.universities, name='universities'),
