@@ -3,5 +3,31 @@
 {% block content %} 
 <div>
     <h1>Questions</h1>
+            <hr>
+        {% for question in questions %}
+            <div style="display:block; margin-bottom:50px;">
+                <ol style="margin:0px; list-style:none;">
+                    <li style="display: inline;">
+                        <p>{{question.teacher_name}}</p>
+                    </li>
+                    <li style="display: inline;">
+                        {% if question.university != None %}
+                            <p>{{question.university.initials}}</p>
+                        {% endif %}
+                    </li>
+                    <li style="display: inline;">
+                        <p>{{question.subject}}</p>
+                    </li>
+                    <li style="display: inline;">
+                        <p>{{question.date_created}}</p>
+                    </li>
+                    
+                </ol>
+                <p>{{question.text}}</p>
+                <button style="padding:10px; padding-right:20px; padding-left:20px;">Commentaries</button>
+                <button style="padding:10px; padding-right:20px; padding-left:20px;">Report</button>
+            </div>
+            <hr>
+        {% endfor %}
 </div>
 {% endblock %}

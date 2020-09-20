@@ -5,6 +5,16 @@ from django import forms
 
 from .models import *
 
+class CityForm(ModelForm):
+	class Meta:
+		model = City
+		fields = '__all__'
+
+class AddressForm(ModelForm):
+	class Meta:
+		model = Address
+		fields = '__all__'
+		
 class CreateUserForm(UserCreationForm):
 	class Meta:
 		model = User
@@ -18,21 +28,6 @@ class StandardUserForm(ModelForm):
 class UniversityForm(ModelForm):
 	class Meta:
 		model = University
-		fields = '__all__'
-
-class CityForm(ModelForm):
-	class Meta:
-		model = City
-		fields = '__all__'
-
-class AddressUserForm(ModelForm):
-	class Meta:
-		model = AddressUser
-		fields = '__all__'
-
-class AddressUniversityForm(ModelForm):
-	class Meta:
-		model = AddressUniversity
 		fields = '__all__'
 
 class SubjectForm(ModelForm):

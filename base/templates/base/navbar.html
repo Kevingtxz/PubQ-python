@@ -1,22 +1,22 @@
 {% load static %}
 <div class="blue">
     <div>
-        <nav class="navbar navbar-light" style="background-color: #e3f2fd; margin-bottom:30px;">
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <img src="{% static 'images/logo1.png' %}">
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'questions' %}">Questions</a>
+                    <a class="nav-link" href="{% url 'questions' %}" style="margin-left:100px; padding:15px;">Questions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'universities' %}">Universities</a>
+                    <a class="nav-link" href="{% url 'universities' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Universities</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'support' %}">Support</a>
+                    <a class="nav-link" href="{% url 'support' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Support</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'aboutus' %}">About Us</a>
+                    <a class="nav-link" href="{% url 'aboutus' %}" style="padding:15px; padding-left:30px; padding-right:30px;">About Us</a>
                 </li>
             </ul>
         </nav>

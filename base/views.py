@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout       
 from django.contrib.auth.decorators import login_required
@@ -38,7 +40,7 @@ def loginPage(request):
 
 		if user is not None:
 			login(request, user)
-			return redirect('home')
+			return redirect('questions')
 		else:
 			messages.info(request, 'Username OR password is incorrect')
 
@@ -51,14 +53,24 @@ def logoutUser(request):
 
 
 def questions(request):
-    # questions = Question.objects.values('text', 'answears')
-    return render(request, 'base/questions.html')
+	questions = Question.objects.all()
+	paginator = Paginator(questions, 2)
+	questions = Question.objects.values_list('text', 'education_Level', 'teacher_name', 'university', 'subject', 'right_answear')
+	page = request.GET.get('page')
+	try:
+		questions = paginator.page(page)
+	except PageNotAnInteger:
+		questions = paginator.page(1)
+	except EmptyPage:
+		questions = paginator.page(paginator.num_pages)
 
-def exams(request):
-    return render(request, 'base/exams.html')
+	context = {'page':page, 'questions':questions}
+	return render(request, 'base/questions.html', context)
 
-def postexam(request):
-    return render(request, 'base/postexam.html')
+def universities(request):
+	universities = University.objects.all()
+	context = {'universities':universities, 'addresses':addresses}
+	return render(request, 'base/universities.html', context)
 
 def postquestion(request):
     return render(request, 'base/postquestion.html')
@@ -68,9 +80,6 @@ def support(request):
 
 def aboutus(request):
     return render(request, 'base/aboutus.html')
-
-def universities(request):
-    return render(request, 'base/universities.html')
 
 
 # Um professor posta uma prova e ganha créditos
