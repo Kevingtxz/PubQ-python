@@ -50,10 +50,10 @@ class QuestionForm(ModelForm):
 		model = Question
 		fields = '__all__'
 
-# class BookForm(ModelForm):
-# 	class Meta:
-# 		model = Book
-# 		fields = ('name')
+class BookForm(ModelForm):
+	class Meta:
+		model = Book
+		fields = ('name',)
 
 # class CommentaryQuestionForm(ModelForm):
 # 	class Meta:
