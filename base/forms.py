@@ -50,7 +50,42 @@ class BookForm(ModelForm):
 		model = Book
 		fields = ('title',)
 
-# class CommentaryQuestionForm(ModelForm):
-# 	class Meta:
-# 		model = CommentaryQuestion
-# 		fields = '__all__'
+class CommentaryQuestionForm(ModelForm):
+	class Meta:
+		model = CommentaryQuestion
+		fields = '__all__'
+
+class ReportQuestionForm(ModelForm):
+	class Meta:
+		model = ReportQuestion
+		fields = '__all__'
+
+class ReportBookForm(ModelForm):
+	class Meta:
+		model = ReportBook
+		fields = '__all__'
+
+class ReportUniversityForm(ModelForm):
+	class Meta:
+		model = ReportUniversity
+		fields = '__all__'
+
+class ReportQuestionForm(ModelForm):
+	class Meta:
+		model = ReportQuestion
+		fields = '__all__'
+
+class ChatMessageForm(ModelForm):
+	class Meta:
+		model = ChatMessage
+		fields = '__all__'
+
+class ChatForm(ModelForm):
+	class Meta:
+		model = Chat
+		fields = '__all__'
+
+class NotificationForm(ModelForm):
+	class Meta:
+		model = Notification
+		fields = '__all__'

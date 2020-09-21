@@ -182,7 +182,7 @@ class Likes(models.Model):
 class Report(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
-    note = models.TextField
+    note = models.CharField(max_length=2000)
 
     class Meta:
         abstract = True
@@ -244,8 +244,33 @@ class ChatMessage(models.Model):
 class Chat(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
+
+    chat_pic = models.ImageField(default='chat.png', null=True, blank=True)
     title = models.CharField(max_length=200)
 
     messages = models.ManyToManyField(ChatMessage)
     users = models.ManyToManyField(UserPermission)
 
+
+
+
+
+class Notification(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    not_pic = models.ImageField(default='notification.png', null=True, blank=True)
+    message = models.CharField(max_length=1000)
+
+    class Meta:
+        abstract = True
+
+class NotificationCommentaryQuestion(Notification):
+    commentary = models.ForeignKey(CommentaryQuestion, on_delete=models.CASCADE)
+
+class NotificationSystem(Notification):
+    pass
+
+class Notifications(models.Model):
+    standard_user_id = models.IntegerField(StandardUser, primary_key=True)
+    notification_commentary_question = models.ManyToManyField(NotificationCommentaryQuestion)
+    notification_system = models.ManyToManyField(NotificationSystem)
