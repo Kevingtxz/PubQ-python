@@ -2,28 +2,40 @@
 
 {% block content %} 
 <div>
-    <h1>Questions</h1>
+    <div style="display:inline-block;"><h1>Questions</h1></div>
+    <div style="display:inline-block; margin-left: 700px;"><button style="padding: 10px; margin-bottom: 10px;">Post Question</button></div>
             <hr>
         {% for question in questions %}
             <div style="display:block; margin-bottom:50px;">
-                <ol style="margin:0px; list-style:none;">
-                    <li style="display: inline;">
-                        <p>{{question.teacher_name}}</p>
-                    </li>
-                    <li style="display: inline;">
+                <div style="display:block;">
+                    <div style="display:inline-block; margin:5px; margin-right:20px;">
+                        <p>Discipline:</p> 
+                    </div>
+                    <div style="display:inline-block; margin:5px; margin-right:20px;">
+                        <p>Subject: {{question.subject}}</p>
+                    </div>
+                    <div style="display: inline-block; margin:5px; margin-right:20px;">
                         {% if question.university != None %}
-                            <p>{{question.university.initials}}</p>
+                            <p>University: {{question.university.initials}}</p>
                         {% endif %}
-                    </li>
-                    <li style="display: inline;">
-                        <p>{{question.subject}}</p>
-                    </li>
-                    <li style="display: inline;">
-                        <p>{{question.date_created}}</p>
-                    </li>
-                    
-                </ol>
+                    </div>
+                    <div style="display:inline-block; margin:5px; margin-right:20px;">
+                        <p>Teacher: {{question.teacher_name}}</p>
+                    </div>
+                    <div style="display:inline-block; margin:5px; margin-right:20px;">
+                        <p>Education Level: {{question.education_level}}</p>
+                    </div>
+                    <div style="display:inline-block;">
+                        <p>Posted: {{question.date_created}}</p>
+                    </div>      
+                </div>
                 <p>{{question.text}}</p>
+                {% comment %} <ul>
+                    {% for answear in question.aswears.all %}
+                        <li><h1>{{answear}}</h1></li>
+                    {% endfor %}
+                </ul> {% endcomment %}
+                <button style="padding:10px; padding-right:20px; padding-left:20px;">Confirm</button>
                 <button style="padding:10px; padding-right:20px; padding-left:20px;">Commentaries</button>
                 <button style="padding:10px; padding-right:20px; padding-left:20px;">Report</button>
             </div>

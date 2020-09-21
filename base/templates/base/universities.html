@@ -2,11 +2,21 @@
 
 {% block content %} 
 <div class="container">
-    <h1>Universities</h1>
+    <h1 style="margin-bottom:40px;">Universities</h1>
+    <hr>
     {% for university in universities %}
-        <h5>{{university.initials}}</h5>
-        <p>{{university.name}}</p>
-        <p>{{addresses.filter(id=question.id).citya}}</p>
+        <div style="padding:20px;">
+            <h5>{{university.initials}}</h5>
+            <p>{{university.name}}</p>
+            {% for address in university.addresses.all %}
+                <p>{{address}}</p>
+            {% endfor %}
+            <button>Questions</button>
+            <button>Teachers</button>
+            <button>Students</button>
+            <button style="position:absolute; right:200px;">Report</button>
+        </div>
+        <hr>
     {% endfor %}
 </div>
 {% endblock %}

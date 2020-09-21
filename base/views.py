@@ -57,6 +57,7 @@ def questions(request):
 	paginator = Paginator(questions, 2)
 	questions = Question.objects.values_list('text', 'education_Level', 'teacher_name', 'university', 'subject', 'right_answear')
 	page = request.GET.get('page')
+	# disciplines = Discipline.objects.all()
 	try:
 		questions = paginator.page(page)
 	except PageNotAnInteger:
@@ -64,16 +65,44 @@ def questions(request):
 	except EmptyPage:
 		questions = paginator.page(paginator.num_pages)
 
-	context = {'page':page, 'questions':questions}
+	context = {'page':page, 'questions':questions, 
+	# 'disciplines':disciplines,
+	}
 	return render(request, 'base/questions.html', context)
 
 def universities(request):
 	universities = University.objects.all()
-	context = {'universities':universities, 'addresses':addresses}
+	paginator = Paginator(universities, 5)
+	universities = University.objects.values_list('name', 'initials', 'profile_pic', 'addresses')
+	page = request.GET.get('page')
+	try:
+		universities = paginator.page(page)
+	except PageNotAnInteger:
+		universities = paginator.page(1)
+	except EmptyPage:
+		universities = paginator.page(paginator.num_pages)
+		
+
+	context = {'page':page, 'universities':universities,}
 	return render(request, 'base/universities.html', context)
 
 def postquestion(request):
     return render(request, 'base/postquestion.html')
+
+def books(request):
+	books = Book.objects.all()
+	paginator = Paginator(books, 2)
+	books = Book.objects.values_list('title', 'note', 'date_created')
+	page = request.GET.get('page')
+	try:
+		books = paginator.page(page)
+	except PageNotAnInteger:
+		books = paginator.page(1)
+	except EmptyPage:
+		books = paginator.page(paginator.num_pages)
+
+	context = {'page':page, 'books':books,}
+	return render(request, 'base/books.html')
 
 def support(request):
     return render(request, 'base/support.html')

@@ -27,6 +27,10 @@ class Address(models.Model):
     complement = models.CharField(max_length=200, blank=True)
     city = models.ForeignKey(City, on_delete=models.PROTECT)
 
+    def __str__(self):
+        return self.city.name
+    
+
 
 
 
@@ -61,7 +65,7 @@ class StandardUser(models.Model):
 # OneToOne: Address;
 class University(models.Model):
     profile_pic = models.ImageField(default='profile1.png', null=True, blank=True)  
-    data_created = models.DateTimeField(auto_now_add=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     name = models.CharField(max_length=200)
     initials = models.CharField(max_length=5, blank= True)
@@ -112,7 +116,8 @@ class Question(models.Model):
     teacher_name = models.CharField(max_length=300)
     university = models.ForeignKey(University, blank=True, null=True, on_delete=models.SET_NULL)
     subject = models.ForeignKey(Subject, null=True, on_delete=models.SET_NULL)
-    # users = models.ManyToManyField('UserPermission') 
+    users = models.ManyToManyField('UserPermission')
+    # statistic = models.OneToOne(Statistic)
 
     # only for PostgreSQL;  
     # answears = ArrayField(ArrayField(models.TextField(blank=True)))
@@ -123,113 +128,106 @@ class Question(models.Model):
 
 # OneToOne: Teacher, StandardUser; OneToMany: Question;
 class Book(models.Model):
-    data_created = models.DateTimeField(auto_now_add=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
     
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     note = models.CharField(max_length=400, blank=True, null=True)
-    questions = models.ManyToManyField(Question, blank=True)
-    # users = models.ManyToManyField('UserPermission') 
+    questions = models.ManyToManyField(Question)
+    subject = models.ManyToManyField(Subject)
+    users = models.ManyToManyField('UserPermission') 
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 
 
 
-# # Abstract class for making clean code;
-# class Commentary(models.Model):
-#     data_created = models.DateTimeField(auto_now_add=True, null=True)
+# Abstract class for making clean code;
+class Commentary(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
     
-#     text = models.TextField
+    text = models.TextField
 
-#     class Meta:
-#         abstract = True
+    class Meta:
+        abstract = True
 
-# # ManyToOne: Question;
-# class CommentaryQuestion(Commentary):
-#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+# ManyToOne: Question;
+class CommentaryQuestion(Commentary):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
-# # class to manage commentaries;
-# class Commentaries(models.Model):
-#     standard_user_id = models.IntegerField(StandardUser, primary_key=True)
-#     commentaries_questions = models.ManyToManyField(CommentaryQuestion, blank=True)
-
-
-
-
-
-# # Create Likes with StandardUser
-# # Abstract class : clean code;
-# class Likes(models.Model):
-#     standard_user_id = models.IntegerField(StandardUser, primary_key=True)
-#     questions = models.ManyToManyField(Question, blank=True)
-#     commentaries_questions = models.ManyToManyField(CommentaryQuestion, blank=True)
-#     books = models.ManyToManyField(Book, blank=True)
-#     universities = models.ManyToManyField(University, blank=True)
+# class to manage commentaries;
+class Commentaries(models.Model):
+    standard_user_id = models.IntegerField(StandardUser, primary_key=True)
+    commentaries_questions = models.ManyToManyField(CommentaryQuestion, blank=True)
 
 
 
 
 
-
-# class Report(models.Model):
-#     data_created = models.DateTimeField(auto_now_add=True, null=True)
-
-#     note = models.TextField
-
-#     class Meta:
-#         abstract = True
-
-# # ManyToOne: Question;
-# class ReportQuestion(Report):
-#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-
-# # ManyToOne: CommentaryQuestion;
-# class ReportCommentaryQuestion(Report):
-#     commentary_question = models.ForeignKey(CommentaryQuestion, on_delete=models.CASCADE)
-
-# # ManyToOne: Book;
-# class ReportBook(Report):
-#     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-
-# # ManyToOne: University;
-# class ReportUniversity(Report):
-#     university = models.ForeignKey(University, on_delete=models.CASCADE)
-
-# # Create Likes with StandardUser
-# # OneToOne: StandardUser, Teacher; OneToMany: ReportQuestion, ReportCommentaryQuestion, ReportBook, ReportUniversity;
-# class Reports(models.Model):
-#     standard_user_id = models.IntegerField(StandardUser, primary_key=True)
-#     reporter = models.ForeignKey(StandardUser, blank=True, on_delete=models.CASCADE)
-#     commentaries_questions = models.ManyToManyField(ReportCommentaryQuestion, blank=True)
-#     questions = models.ManyToManyField(ReportQuestion, blank=True)
-#     books = models.ManyToManyField(ReportBook, blank=True)
-#     universities = models.ManyToManyField(ReportUniversity, blank=True)
+# Create Likes with StandardUser
+# Abstract class : clean code;
+class Likes(models.Model):
+    standard_user_id = models.IntegerField(StandardUser, primary_key=True)
+    questions = models.ManyToManyField(Question, blank=True)
+    commentaries_questions = models.ManyToManyField(CommentaryQuestion, blank=True)
+    books = models.ManyToManyField(Book, blank=True)
+    universities = models.ManyToManyField(University, blank=True)
 
 
 
 
 
 
-# Create UserPermition members to start a group  
-# # OneToMany: UserPermition;
-# class Group(models.Model):
-#     data_created = models.DateTimeField(auto_now_add=True, null=True)
+class Report(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    note = models.TextField
+
+    class Meta:
+        abstract = True
+
+# ManyToOne: Question;
+class ReportQuestion(Report):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+# ManyToOne: CommentaryQuestion;
+class ReportCommentaryQuestion(Report):
+    commentary_question = models.ForeignKey(CommentaryQuestion, on_delete=models.CASCADE)
+
+# ManyToOne: Book;
+class ReportBook(Report):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+# ManyToOne: University;
+class ReportUniversity(Report):
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+
+# Create Likes with StandardUser
+# OneToOne: StandardUser, Teacher; OneToMany: ReportQuestion, ReportCommentaryQuestion, ReportBook, ReportUniversity;
+class Reports(models.Model):
+    standard_user_id = models.IntegerField(StandardUser, primary_key=True)
+    reporter = models.ForeignKey(StandardUser, blank=True, on_delete=models.CASCADE)
+    commentaries_questions = models.ManyToManyField(ReportCommentaryQuestion, blank=True)
+    questions = models.ManyToManyField(ReportQuestion, blank=True)
+    books = models.ManyToManyField(ReportBook, blank=True)
+    universities = models.ManyToManyField(ReportUniversity, blank=True)
 
 
 
 
-# PERMISSION = [('A','Admin'),
-#               ('S','Student'),
-#               ('T','Teacher'),
-#               ('P', 'Poster'),
-#               ('O', 'Owner'),]
 
-# # ManyToOne: University, Group, StandardUser, Group, Question;
-# class UserPermission(models.Model):
-#     standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-#     permission = models.CharField(max_length=1, choices=PERMISSION)
+
+PERMISSION = [('A','Admin'),
+              ('S','Student'),
+              ('T','Teacher'),
+              ('P', 'Poster'),
+              ('O', 'Owner'),]
+
+# ManyToOne: University, Group, StandardUser, Group, Question;
+class UserPermission(models.Model):
+    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    permission = models.CharField(max_length=1, choices=PERMISSION)
 
 
 

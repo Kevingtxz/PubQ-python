@@ -48,7 +48,7 @@ class QuestionForm(ModelForm):
 class BookForm(ModelForm):
 	class Meta:
 		model = Book
-		fields = ('name',)
+		fields = ('title',)
 
 # class CommentaryQuestionForm(ModelForm):
 # 	class Meta:

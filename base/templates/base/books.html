@@ -1,0 +1,13 @@
+{%  extends 'base/main.html' %}
+
+{% block content %} 
+<div class="container">
+    <h1 style="margin-bottom:40px;">Books</h1>
+    <hr>
+    {% for book in books %}
+        <h3>{{book.title}}</h3>
+        <p>{{book.note}}</p>
+        <p>{{book.date_created}}</p>
+    {% endfor %}
+</div>
+{% endblock %}
