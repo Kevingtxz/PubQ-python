@@ -25,6 +25,21 @@ class StandardUserForm(ModelForm):
 		model = StandardUser
 		fields = '__all__'
 
+class UserPermissionForm(ModelForm):
+	class Meta:
+		model = UserPermission
+		fields = '__all__'	
+
+class ReportForm(ModelForm):
+	class Meta:
+		model = Report
+		fields = '__all__'
+
+class CommentaryForm(ModelForm):
+	class Meta:
+		model = Commentary
+		fields = ('text', 'standard_user',)
+
 class UniversityForm(ModelForm):
 	class Meta:
 		model = University
@@ -40,6 +55,11 @@ class DisciplineForm(ModelForm):
 		model = Discipline
 		fields = '__all__'
 
+class AnswearForm(ModelForm):
+	class Meta:
+		model = Answear
+		fields = ('standard_user', 'text',)
+
 class QuestionForm(ModelForm):
 	class Meta:
 		model = Question
@@ -49,31 +69,6 @@ class BookForm(ModelForm):
 	class Meta:
 		model = Book
 		fields = ('title',)
-
-class CommentaryQuestionForm(ModelForm):
-	class Meta:
-		model = CommentaryQuestion
-		fields = '__all__'
-
-class ReportQuestionForm(ModelForm):
-	class Meta:
-		model = ReportQuestion
-		fields = '__all__'
-
-class ReportBookForm(ModelForm):
-	class Meta:
-		model = ReportBook
-		fields = '__all__'
-
-class ReportUniversityForm(ModelForm):
-	class Meta:
-		model = ReportUniversity
-		fields = '__all__'
-
-class ReportQuestionForm(ModelForm):
-	class Meta:
-		model = ReportQuestion
-		fields = '__all__'
 
 class ChatMessageForm(ModelForm):
 	class Meta:
@@ -88,4 +83,9 @@ class ChatForm(ModelForm):
 class NotificationForm(ModelForm):
 	class Meta:
 		model = Notification
+		fields = '__all__'
+
+class RequisitionForm(ModelForm):
+	class Meta:
+		model = Requisition
 		fields = '__all__'

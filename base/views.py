@@ -54,8 +54,7 @@ def logoutUser(request):
 
 def questions(request):
 	questions = Question.objects.all()
-	paginator = Paginator(questions, 2)
-	questions = Question.objects.values_list('text', 'education_Level', 'teacher_name', 'university', 'subject', 'right_answear')
+	paginator = Paginator(questions, 5)
 	page = request.GET.get('page')
 	# disciplines = Discipline.objects.all()
 	try:
@@ -73,7 +72,6 @@ def questions(request):
 def universities(request):
 	universities = University.objects.all()
 	paginator = Paginator(universities, 5)
-	universities = University.objects.values_list('name', 'initials', 'profile_pic', 'addresses')
 	page = request.GET.get('page')
 	try:
 		universities = paginator.page(page)
@@ -91,8 +89,7 @@ def postquestion(request):
 
 def books(request):
 	books = Book.objects.all()
-	paginator = Paginator(books, 2)
-	books = Book.objects.values_list('title', 'note', 'date_created')
+	paginator = Paginator(books, 5)
 	page = request.GET.get('page')
 	try:
 		books = paginator.page(page)
@@ -100,9 +97,9 @@ def books(request):
 		books = paginator.page(1)
 	except EmptyPage:
 		books = paginator.page(paginator.num_pages)
-
+		
 	context = {'page':page, 'books':books,}
-	return render(request, 'base/books.html')
+	return render(request, 'base/books.html', context)
 
 def support(request):
     return render(request, 'base/support.html')
