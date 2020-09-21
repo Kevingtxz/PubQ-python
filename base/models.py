@@ -232,4 +232,20 @@ class UserPermission(models.Model):
 
 
 
-# Chat
+
+# OneToOne: StandardUser;
+class ChatMessage(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    
+    text = models.CharField(max_length=5000)
+
+    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    
+class Chat(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    title = models.CharField(max_length=200)
+
+    messages = models.ManyToManyField(ChatMessage)
+    users = models.ManyToManyField(UserPermission)
+
