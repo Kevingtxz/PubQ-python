@@ -1,0 +1,11 @@
+{%  extends 'base/main.html' %}
+
+{% block content %} 
+<div class="container">
+    <h1 style="margin-bottom:40px;">Notification</h1>
+    <hr>
+    {% csrf_token %}
+    {% for notification in notifications %}
+    {% endfor %}
+</div>
+{% endblock %}

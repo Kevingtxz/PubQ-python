@@ -70,16 +70,6 @@ class BookForm(ModelForm):
 		model = Book
 		fields = ('title',)
 
-class ChatMessageForm(ModelForm):
-	class Meta:
-		model = ChatMessage
-		fields = '__all__'
-
-class ChatForm(ModelForm):
-	class Meta:
-		model = Chat
-		fields = '__all__'
-
 class NotificationForm(ModelForm):
 	class Meta:
 		model = Notification

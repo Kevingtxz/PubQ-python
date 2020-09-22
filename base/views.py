@@ -56,7 +56,7 @@ def questions(request):
 	questions = Question.objects.all()
 	paginator = Paginator(questions, 5)
 	page = request.GET.get('page')
-	# disciplines = Discipline.objects.all()
+	disciplines = Discipline.objects.all()
 	try:
 		questions = paginator.page(page)
 	except PageNotAnInteger:
@@ -65,7 +65,7 @@ def questions(request):
 		questions = paginator.page(paginator.num_pages)
 
 	context = {'page':page, 'questions':questions, 
-	# 'disciplines':disciplines,
+	'disciplines':disciplines,
 	}
 	return render(request, 'base/questions.html', context)
 
@@ -79,7 +79,6 @@ def universities(request):
 		universities = paginator.page(1)
 	except EmptyPage:
 		universities = paginator.page(paginator.num_pages)
-		
 
 	context = {'page':page, 'universities':universities,}
 	return render(request, 'base/universities.html', context)
@@ -100,6 +99,12 @@ def books(request):
 		
 	context = {'page':page, 'books':books,}
 	return render(request, 'base/books.html', context)
+
+def notifications(request):
+    return render(request, 'base/notifications.html')
+
+def account_settings(request):
+    return render(request, 'base/account_settings.html')
 
 def support(request):
     return render(request, 'base/support.html')

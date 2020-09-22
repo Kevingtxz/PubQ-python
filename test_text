@@ -123,21 +123,21 @@ Macae.save()
 
 kevin_address = Address(neighborhood='Mirante', city=Macae)
 kevin_address.save()
-kevin = StandardUser(user=None, firstname='Kevin', lastname='Trindade Gonçalves', phone='22937841287', email='kevingtxz@gmail.com', sex='M', birth='21101996')
+kevin = StandardUser(user=None, firstname='Kevin', lastname='Trindade Gonçalves', nickname='CHEFÃO', phone='22937841287', email='kevingtxz@gmail.com', sex='M', birth='21101996')
 kevin.save()
 kevin.addresses.add(kevin_address)
 kevin.save()
 
 knutsk_address = Address(neighborhood='Centro', city=Macae)
 knutsk_address.save()
-knutsk = StandardUser(user=None, firstname='Knustk', lastname='Zé', email='knutsk@gmail.com', sex='M', birth='21101990')
+knutsk = StandardUser(user=None, firstname='Knustk', lastname='Zé', nickname='DEUSZNUTSK', email='knutsk@gmail.com', sex='M', birth='21101990')
 knutsk.save()
 knutsk.addresses.add(knutsk_address)
 knutsk.save()
 
 leo_address = Address(neighborhood='Mirante', city=Macae) 
 leo_address.save()
-leo = StandardUser(user=None, firstname='Léo', lastname='Viana', email='leo@gmail.com', sex='M', birth='21101990')
+leo = StandardUser(user=None, firstname='Léo', lastname='Viana', nickname='Duque de Viana', email='leo@gmail.com', sex='M', birth='21101990')
 leo.save()
 leo.addresses.add(leo_address)
 leo.save()
@@ -152,16 +152,16 @@ IFF.save()
 IFF.addresses.add(IFF_address)
 IFF.save()
 
-UFF_address = Address(neighborhood='Imboassica', city=Macae)
+UFF_address = Address(neighborhood='Cavaleiros', city=Macae)
 UFF_address.save()
-UFF = University(name='Instituto Federal Fluminense', initials='IFF')
+UFF = University(name='Universidade Federal Fluminense', initials='UFF')
 UFF.save()
 UFF.addresses.add(UFF_address)
 UFF.save()
 
-UFRJ_address = Address(neighborhood='Imboassica', city=Macae)
+UFRJ_address = Address(neighborhood='Cavaleiros', city=Macae)
 UFRJ_address.save()
-UFRJ = University(name='Universitdade Federal do Rio de Janeiro', initials='IFF')
+UFRJ = University(name='Universitdade Federal do Rio de Janeiro', initials='UFRJ')
 UFRJ.save()
 UFRJ.addresses.add(UFRJ_address)
 UFRJ.save()
@@ -169,7 +169,7 @@ UFRJ.save()
 
 
 
-subject_integral = Subject(name='Integral')
+subject_integral = Subject(name='Integral', discipline_name='Calculus')
 subject_integral.save()
 
 discipline_calculus = Discipline(name='Calculus')
@@ -180,15 +180,13 @@ discipline_calculus.save()
 
 
 
-question_1 = Question(teacher_name='João', university=IFF, subject=subject_integral, right_answear='A', education_Level='D', text="t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).")
+question_1 = Question(teacher_name='João', university_name="IFF",  subject=subject_integral, right_answear='A', education_Level='D', text="t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).")
 question_1.save()
 
-question_2 = Question(teacher_name='knutsk', university=IFF, right_answear='B', education_Level='D', text="Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.")
+question_2 = Question(teacher_name='knutsk', university_name="UFRJ", right_answear='B', education_Level='D', text="Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of 'de Finibus Bonorum et Malorum' (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, 'Lorem ipsum dolor sit amet..', comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from 'de Finibus Bonorum et Malorum' by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.")
 question_2.save()
 
-question_3 = Question(teacher_name='Léo', subject=subject_integral, right_answear='C', education_Level='D', text="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.")
+question_3 = Question(teacher_name='Léo', university_name="PUC",  subject=subject_integral, right_answear='C', education_Level='D', text="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.")
 question_3.save()
 
 
@@ -203,29 +201,3 @@ book_others = Book(title='Others')
 book_others.save()
 book_others.questions.add(question_2)
 book_others.save()
-
-
-kevin_commentary_question = CommentaryQuestion(question=question_3)
-kevin_commentary_question.save()
-kevin_commentary_question.text = 'Hi'
-kevin_commentary_question.save()
-
-knutsk_commentary_question = CommentaryQuestion(question=question_1)
-knutsk_commentary_question.save()
-kevin_commentary_question.text = 'Hellow'
-kevin_commentary_question.save()
-
-commentaries_kevin = Commentaries(standard_user_id=kevin.id)
-commentaries_kevin.save()
-commentaries_kevin.commentaries_questions.add(kevin_commentary_question)
-commentaries_kevin.save()
-
-commentaries_knutsk = Commentaries(standard_user_id=knutsk.id)
-commentaries_knutsk.save()
-commentaries_knutsk.commentaries_questions.add(knutsk_commentary_question)
-commentaries_knutsk.save()
-
-kevin_likes = Likes(standard_user_id=kevin.id)
-kevin_likes.save()
-kevin_likes.questions.add(question_3, question_2)
-kevin_likes.save()

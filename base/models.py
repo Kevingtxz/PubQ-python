@@ -5,6 +5,50 @@ from django.contrib.auth.models import User
 # models.Manager
 
 
+
+
+
+
+# OneToMany:
+class Like(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+# OneToMany:
+class Deslike(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+
+
+
+
+class Report(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    note = models.CharField(max_length=2000)
+
+
+
+
+
+# ManyToMany: 
+class Commentary(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    
+    text = models.CharField(max_length=2000)
+    like_count = models.IntegerField(default=0)
+    deslike_count = models.IntegerField(default=0)
+
+    likes = models.ManyToManyField(Like, blank=True)
+    deslikes = models.ManyToManyField(Deslike, blank=True)
+    reports = models.ManyToManyField(Report, blank=True)
+    standard_user = models.ForeignKey('StandardUser', on_delete=models.CASCADE)
+
+
+
+
+
+
 # OneToMany: City;
 class State(models.Model):
     initials = models.CharField(max_length=2)
@@ -28,7 +72,7 @@ class Address(models.Model):
     city = models.ForeignKey(City, on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.city.name
+        return self.neighborhood
     
 
 
@@ -39,6 +83,8 @@ SEX = [('M', 'Male'),
        ('F', 'Female'),
        ('O', 'Other'),]
 
+ACCOUNT_TYPE = [('S', 'Student'),
+                ('T', 'Teacher'),]
 
 # OneToOne: Address, Student, Teacher, University; 
 class StandardUser(models.Model):
@@ -46,21 +92,24 @@ class StandardUser(models.Model):
     profile_pic = models.ImageField(default='profile1.png', null=True, blank=True)
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     
+    account_type = models.CharField(max_length=1, choices=ACCOUNT_TYPE)
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=200)
+    nickname = models.CharField(max_length=200, null=True)
     phone = models.CharField(max_length=11, blank= True)
     email = models.CharField(max_length=200)
     sex = models.CharField(max_length=1, blank= True)
     birth = models.CharField(max_length=8)
-    addresses = models.ManyToManyField(Address)
-    notifications = models.ManyToManyField('Notification')
+
+    addresses = models.ManyToManyField(Address, blank=True)
+    reports = models.ManyToManyField(Report, blank=True)
+    notifications = models.ManyToManyField('Notification', blank=True)
 
     def __str__(self):
-        return self.firstname
+        return self.nickname
 
-PERMISSION = [('A','Admin'),
-              ('S','Student'),
-              ('T','Teacher'),
+PERMISSION = [('S', 'Student'),
+              ('T', 'Teacher'),
               ('P', 'Poster'),
               ('O', 'Owner'),]
 
@@ -68,50 +117,6 @@ PERMISSION = [('A','Admin'),
 class UserPermission(models.Model):
     standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
     permission = models.CharField(max_length=1, choices=PERMISSION)
-
-
-
-
-
-class Report(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-
-    note = models.CharField(max_length=2000)
-
-    reporter = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-
-
-
-
-
-# OneToMany:
-class Like(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-
-    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-
-# OneToMany:
-class Deslike(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-
-    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-
-
-
-
-
-# OneToMany: 
-class Commentary(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-    
-    text = models.CharField(max_length=2000)
-
-    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-    likes = models.ManyToManyField(Like)
-    like_count = models.IntegerField(default=0)
-    deslikes = models.ManyToManyField(Deslike)
-    deslike_count = models.IntegerField(default=0)
-    reports = models.ManyToManyField(Report)
 
 
 
@@ -125,15 +130,16 @@ class University(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     name = models.CharField(max_length=200)
-    initials = models.CharField(max_length=5, blank= True)
-    addresses = models.ManyToManyField(Address)
-    users = models.ManyToManyField(UserPermission) 
-    commentaries = models.ManyToManyField(Commentary)
-    likes = models.ManyToManyField(Like)
-    like_count = models.IntegerField(default=0)
-    deslikes = models.ManyToManyField(Deslike)
-    deslike_count = models.IntegerField(default=0)
-    reports = models.ManyToManyField(Report)
+    initials = models.CharField(max_length=10)
+    like_count = models.IntegerField(default=0, blank=True)
+    deslike_count = models.IntegerField(default=0, blank=True)
+
+    addresses = models.ManyToManyField(Address, blank=True)
+    users = models.ManyToManyField(UserPermission, blank=True) 
+    commentaries = models.ManyToManyField(Commentary, blank=True)
+    likes = models.ManyToManyField(Like, blank=True)
+    deslikes = models.ManyToManyField(Deslike, blank=True)
+    reports = models.ManyToManyField(Report, blank=True)
 
     def __str__(self):
         return self.initials
@@ -146,7 +152,9 @@ class University(models.Model):
 # ManyToOne: Discipline; OneToMany: Question;
 class Subject(models.Model):
     name = models.CharField(max_length=100)
-    reports = models.ManyToManyField(Report)
+    discipline_name = models.CharField(max_length=100)
+
+    reports = models.ManyToManyField(Report, blank=True)
 
     def __str__(self):
         return self.name
@@ -155,11 +163,15 @@ class Subject(models.Model):
 class Discipline(models.Model):
     name = models.CharField(max_length=100)
 
-    subjects = models.ManyToManyField(Subject)
-    reports = models.ManyToManyField(Report)
+    subjects = models.ManyToManyField(Subject, blank=True)
+    reports = models.ManyToManyField(Report, blank=True)
 
     def __str__(self):
         return self.name
+
+
+
+
 
 
 EDUCATIONS = [('M', 'Master'),
@@ -175,34 +187,37 @@ ANSWEARS = [('A', 'a'), ('B', 'b'), ('C', 'c'), ('D', 'd'), ('E', 'e'), ]
 class Answear(models.Model):
     standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
     text = models.CharField(max_length=10000)
-    commentaries = models.ManyToManyField(Commentary)
-    likes = models.ManyToManyField(Like)
-    like_count = models.IntegerField(default=0)
-    deslikes = models.ManyToManyField(Deslike)
-    deslike_count = models.IntegerField(default=0)
-    reports = models.ManyToManyField(Report)
+    like_count = models.IntegerField(default=0, blank=True)
+    deslike_count = models.IntegerField(default=0, blank=True)
 
+    commentaries = models.ManyToManyField(Commentary, blank=True)
+    likes = models.ManyToManyField(Like, blank=True)
+    deslikes = models.ManyToManyField(Deslike, blank=True)
+    reports = models.ManyToManyField(Report, blank=True)
 
 # ManyToOne: OneToOne: Teacher, University;
 class Question(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
-    text = models.CharField (max_length=5000)
+    text = models.CharField (max_length=10000)
     right_answear = models.CharField(max_length=1, choices=ANSWEARS)
     education_Level = models.CharField(max_length=1, choices=EDUCATIONS)
-    teacher_name = models.CharField(max_length=300)
+    teacher_name = models.CharField(max_length=200)
+    university_name = models.CharField(max_length=200)
+    wrong_answears_count = models.IntegerField(default=0, blank=True, null=True)
+    answears_count = models.IntegerField(default=0, blank=True, null=True)
+    like_count = models.IntegerField(default=0, blank=True)
+    deslike_count = models.IntegerField(default=0, blank=True)
+
     university = models.ForeignKey(University, blank=True, null=True, on_delete=models.SET_NULL)
-    subject = models.ForeignKey(Subject, null=True, on_delete=models.SET_NULL)
-    users = models.ManyToManyField(UserPermission)
-    wrong_answears_count = models.IntegerField(default=0)
-    answears_count = models.IntegerField(default=0)
-    answears = models.ManyToManyField(Answear)
-    commentaries = models.ManyToManyField(Commentary)
-    likes = models.ManyToManyField(Like)
-    like_count = models.IntegerField(default=0)
-    deslikes = models.ManyToManyField(Deslike)
-    deslike_count = models.IntegerField(default=0)
-    reports = models.ManyToManyField(Report)
+    subject = models.ForeignKey(Subject, blank=True, null=True, on_delete=models.SET_NULL)
+    discipline = models.ForeignKey(Discipline, blank=True, null=True, on_delete=models.SET_NULL)
+    users = models.ManyToManyField(UserPermission, blank=True)
+    answears = models.ManyToManyField(Answear, blank=True)
+    commentaries = models.ManyToManyField(Commentary, blank=True)
+    likes = models.ManyToManyField(Like, blank=True)
+    deslikes = models.ManyToManyField(Deslike, blank=True)
+    reports = models.ManyToManyField(Report, blank=True)
 
 
 
@@ -216,15 +231,16 @@ class Book(models.Model):
     
     title = models.CharField(max_length=100)
     note = models.CharField(max_length=400, blank=True, null=True)
-    questions = models.ManyToManyField(Question)
-    subject = models.ManyToManyField(Subject)
-    users = models.ManyToManyField(UserPermission) 
-    commentaries = models.ManyToManyField(Commentary)
-    likes = models.ManyToManyField(Like)
-    like_count = models.IntegerField(default=0)
-    deslikes = models.ManyToManyField(Deslike)
-    deslike_count = models.IntegerField(default=0)
-    reports = models.ManyToManyField(Report)
+    like_count = models.IntegerField(default=0, blank=True)
+    deslike_count = models.IntegerField(default=0, blank=True)
+
+    questions = models.ManyToManyField(Question, blank=True)
+    subject = models.ManyToManyField(Subject, blank=True)
+    users = models.ManyToManyField(UserPermission, blank=True)
+    commentaries = models.ManyToManyField(Commentary, blank=True)
+    likes = models.ManyToManyField(Like, blank=True)
+    deslikes = models.ManyToManyField(Deslike, blank=True)
+    reports = models.ManyToManyField(Report, blank=True)
 
 
     def __str__(self):
@@ -235,41 +251,19 @@ class Book(models.Model):
 
 
 
-# OneToOne: StandardUser;
-class ChatMessage(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-    
-    text = models.CharField(max_length=5000)
-
-    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-    reports = models.ManyToManyField(Report)
-    
-class Chat(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-
-
-    chat_pic = models.ImageField(default='chat.png', null=True, blank=True)
-    title = models.CharField(max_length=200)
-
-    messages = models.ManyToManyField(ChatMessage)
-    users = models.ManyToManyField(UserPermission)
-    reports = models.ManyToManyField(Report)
-
-
-
-
-
 # ManyToOne: StandardUser, Question, Answear, Book, University, Report;
 class Notification(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     not_pic = models.ImageField(default='notification.png', null=True, blank=True)
-    message = models.CharField(max_length=1000)
+    message = models.CharField(max_length=1000, blank=True, default='Hi, you have a notification.')
+
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     answear = models.ForeignKey(Answear, on_delete=models.CASCADE)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    commentaries = models.ForeignKey(Commentary, on_delete=models.CASCADE)
 
 
 

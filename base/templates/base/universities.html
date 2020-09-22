@@ -4,6 +4,7 @@
 <div class="container">
     <h1 style="margin-bottom:40px;">Universities</h1>
     <hr>
+    {% csrf_token %}
     {% for university in universities %}
         <div style="padding:20px;">
             <h5>{{university.initials}}</h5>
