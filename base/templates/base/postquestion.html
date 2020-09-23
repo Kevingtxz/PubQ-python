@@ -1,6 +1,11 @@
 {% extends 'base/main.html' %}
 {% load static %}
 {% block content %}
+<style>
+    .hidden{
+        display:None;
+    }
+</style>
 <br>
     <div>
         <form action="" method="POST">
@@ -10,7 +15,18 @@
                 {{field}}
                 <hr>
             {% endfor %}
-            <input type="submit" name="Submit">
+            <div style="margin-bottom:20px;">
+                <p>Add Pictures: Max = 2</p>
+                <input type="submit" name="Submit">
+            </div>
+            <div style="margin-bottom:20px;">
+                <p>Submit</p>
+                <input type="submit" name="Submit">
+            </div>
+            <div style="margin-bottom:20px;">
+                <p>Come to Questions again</p>
+                <input type="submit" name="Submit">
+            </div>
         </form>
         <script>
             var form_fields = document.getElementsByTagName('input')
@@ -21,7 +37,9 @@
                 form_fields[2].placeholder='Teacher';
                 form_fields[3].placeholder='University';
                 form_fields[4].placeholder='Text';
-                form_fields[5].placeholder='Answear';
+                form_fields[5].className = 'hidden';
+                form_fields[6].className = 'hidden';
+                form_fields[7].placeholder='Answear';
 
                 
                 for (var field in form_fields){	

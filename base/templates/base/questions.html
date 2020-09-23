@@ -1,10 +1,15 @@
 {%  extends 'base/main.html' %}
 
 {% block content %} 
-<style>#id_text {
-    width: 100%;
-    height: 200px;  
-}</style>
+<style>
+    #id_text {
+        width: 100%;
+        height: 200px;  
+    }
+    .hidden {
+        display: None;
+    }
+</style>
 <div>
     <div style="display:inline-block;"><h1>Questions</h1></div>
     <a href="postquestion" type="submit">Post Question</a>
@@ -40,18 +45,21 @@
                 <button style="padding:10px; padding-right:20px; padding-left:20px;">Commentaries</button>
                 <a href="postreport"><button style="padding:10px; padding-right:20px; padding-left:20px;">Report</button></a>
             </div>
-            <div>
+            <div class="hidden">
                 <textarea style="width:100%; height: height:100%;"></textarea>
+                <button style="padding:10px; padding-right:20px; padding-left:20px;" type="submit">Send Answear</button>
             </div>
-            {% for commentary in question.commentaries.all %}
-                <div style="block">
+            <div class="hidden" style="block">
+                {% for commentary in question.commentaries.all %}
                     <p>{{commentary.standard_user}} {{commentary.text}}</p>
-                </div>
-            {% endfor %}
+                {% endfor %}
+                <input>
+                <button style="padding:10px; padding-right:20px; padding-left:20px;" type="submit">Send Answear</button>
+            </div>
             {% for answear in question.answears.all %}
-                <div style="block">
+                <div class="hidden" style="block">
                     <p>{{answear.standard_user}}</p>
-                    <p class="hidden">{{answear.text}}</p>
+                    <p>{{answear.text}}</p>
                 </div>
             {% endfor %}
             <hr>
