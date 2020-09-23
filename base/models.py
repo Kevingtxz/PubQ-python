@@ -36,8 +36,8 @@ class Commentary(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     
     text = models.CharField(max_length=2000)
-    like_count = models.IntegerField(default=0, blank=True)
-    deslike_count = models.IntegerField(default=0, blank=True)
+    like_count = models.IntegerField(default=0, blank=True, null=True)
+    deslike_count = models.IntegerField(default=0, blank=True, null=True)
 
     likes = models.ManyToManyField(Like, blank=True, null=True)
     deslikes = models.ManyToManyField(Deslike, blank=True, null=True)
@@ -67,8 +67,8 @@ class City(models.Model):
 
 class Address(models.Model):
     neighborhood = models.CharField(max_length=200)
-    number = models.CharField(max_length=20, blank=True)
-    complement = models.CharField(max_length=200, blank=True)
+    number = models.CharField(max_length=20, blank=True, null=True)
+    complement = models.CharField(max_length=200, blank=True, null=True)
     city = models.ForeignKey(City, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -86,20 +86,20 @@ SEX = [('M', 'Male'),
 # OneToOne: Address, Student, Teacher, University; 
 class StandardUser(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    profile_pic = models.ImageField(default='profile1.png', null=True, blank=True)
+    profile_pic = models.ImageField(default='profile1.png', blank=True, null=True)
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=200)
-    nickname = models.CharField(max_length=200, null=True)
-    phone = models.CharField(max_length=11, blank= True)
     email = models.CharField(max_length=200)
-    sex = models.CharField(max_length=1, blank= True)
     birth = models.CharField(max_length=8)
+    nickname = models.CharField(max_length=200, blank=True, null=True, default=firstname)
+    phone = models.CharField(max_length=11, blank=True, null=True)
+    sex = models.CharField(max_length=1, blank=True, null=True)
 
     addresses = models.ManyToManyField(Address, blank=True)
-    reports = models.ManyToManyField(Report, blank=True)
-    notifications = models.ManyToManyField('Notification', blank=True)
+    reports = models.ManyToManyField(Report, blank=True, null=True)
+    notifications = models.ManyToManyField('Notification', blank=True, null=True)
 
     def __str__(self):
         return self.nickname
@@ -111,7 +111,7 @@ PERMISSION = [('S', 'Student'),
 
 # ManyToOne: University, Group, StandardUser, Group, Question;
 class UserPermission(models.Model):
-    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    standard_user = models.ForeignKey(StandardUser, on_delete=models.PROTECT)
     permission = models.CharField(max_length=1, choices=PERMISSION)
 
 
@@ -127,8 +127,8 @@ class University(models.Model):
 
     name = models.CharField(max_length=200)
     initials = models.CharField(max_length=10)
-    like_count = models.IntegerField(default=0, blank=True)
-    deslike_count = models.IntegerField(default=0, blank=True)
+    like_count = models.IntegerField(default=0, blank=True, null=True)
+    deslike_count = models.IntegerField(default=0, blank=True, null=True)
 
     addresses = models.ManyToManyField(Address, blank=True)
     users = models.ManyToManyField(UserPermission, blank=True) 
@@ -136,7 +136,7 @@ class University(models.Model):
     likes = models.ManyToManyField(Like, blank=True, null=True)
     deslikes = models.ManyToManyField(Deslike, blank=True, null=True)
     reports = models.ManyToManyField(Report, blank=True, null=True)
-    questions = models.ManyToManyField('Question', blank=True)
+    questions = models.ManyToManyField('Question', blank=True, null=True)
 
     def __str__(self):
         return self.initials
@@ -160,8 +160,7 @@ class Subject(models.Model):
 class Discipline(models.Model):
     name = models.CharField(max_length=100)
 
-    subjects = models.ManyToManyField(Subject, blank=True)
-    reports = models.ManyToManyField(Report, blank=True)
+    subjects = models.ManyToManyField(Subject, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -184,8 +183,8 @@ ANSWEARS = [('A', 'a'), ('B', 'b'), ('C', 'c'), ('D', 'd'), ('E', 'e'), ]
 class Answear(models.Model):
     standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
     text = models.CharField(max_length=5000)
-    like_count = models.IntegerField(default=0, blank=True)
-    deslike_count = models.IntegerField(default=0, blank=True)
+    like_count = models.IntegerField(default=0, blank=True, null=True)
+    deslike_count = models.IntegerField(default=0, blank=True, null=True)
 
     likes = models.ManyToManyField(Like, blank=True, null=True)
     deslikes = models.ManyToManyField(Deslike, blank=True, null=True)
@@ -196,19 +195,20 @@ class Question(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     text = models.CharField (max_length=10000)
-    answear = models.CharField(max_length=5000, blank=True, null=True)
     teacher_name = models.CharField(max_length=200)
-    university_name = models.CharField(max_length=200)
     education_Level = models.CharField(max_length=1, choices=EDUCATIONS)
-    answears_count = models.IntegerField(default=0, blank=True)
-    like_count = models.IntegerField(default=0, blank=True)
+    is_public = models.BooleanField(default=True, blank=True)
+    answear = models.CharField(max_length=5000, blank=True, null=True)
+    university_name = models.CharField(max_length=200, blank=True, null=True)
+    answears_count = models.IntegerField(default=0, blank=True, null=True)
+    like_count = models.IntegerField(default=0, blank=True, null=True)
+    deslike_count = models.IntegerField(default=0, blank=True, null=True)
     right_answear = models.CharField(max_length=1, choices=ANSWEARS, blank=True, null=True)
     wrong_answears_count = models.IntegerField(default=0, blank=True, null=True)
-    deslike_count = models.IntegerField(default=0, blank=True)
-    pic_1 = models.ImageField(null=True, blank=True)
-    pic_2 = models.ImageField(null=True, blank=True)
+    pic_1 = models.ImageField(blank=True, null=True)
+    pic_2 = models.ImageField(blank=True, null=True)
 
-    subject = models.ForeignKey(Subject, null=True, on_delete=models.SET_NULL)  
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True)  
     users = models.ManyToManyField(UserPermission, blank=True)
     answears = models.ManyToManyField(Answear, blank=True, null=True)
     commentaries = models.ManyToManyField(Commentary, blank=True, null=True)
@@ -221,20 +221,53 @@ class Question(models.Model):
 
 
 
+class Exam(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    teacher_name = models.CharField(max_length=200)
+    education_Level = models.CharField(max_length=1, choices=EDUCATIONS)
+    is_public = models.BooleanField(default=True, blank=True)
+    university_name = models.CharField(max_length=200, blank=True, null=True)
+    like_count = models.IntegerField(default=0, blank=True, null=True)
+    deslike_count = models.IntegerField(default=0, blank=True, null=True)
+    right_answears_count = models.IntegerField(default=0, blank=True, null=True)
+    wrong_answears_count = models.IntegerField(default=0, blank=True, null=True)
+    pic_1 = models.ImageField(blank=True, null=True)
+    pic_2 = models.ImageField(blank=True, null=True)
+    pic_3 = models.ImageField(blank=True, null=True)
+    pic_4 = models.ImageField(blank=True, null=True)
+    pic_5 = models.ImageField(blank=True, null=True)
+
+    questions = models.ManyToManyField(Question, blank=True)
+    users = models.ManyToManyField(UserPermission, blank=True)
+    subject = models.ManyToManyField(Subject, blank=True, null=True)  
+    commentaries = models.ManyToManyField(Commentary, blank=True, null=True)
+    likes = models.ManyToManyField(Like, blank=True, null=True)
+    deslikes = models.ManyToManyField(Deslike, blank=True, null=True)
+    reports = models.ManyToManyField(Report, blank=True, null=True)
+
+
+
+
+
+
+
+
 
 # OneToOne: Teacher, StandardUser; OneToMany: Question;
 class Book(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     
     title = models.CharField(max_length=100)
+    is_public = models.BooleanField(default=True, blank=True)
     note = models.CharField(max_length=400, blank=True, null=True)
-    like_count = models.IntegerField(default=0, blank=True)
-    deslike_count = models.IntegerField(default=0, blank=True)
+    like_count = models.IntegerField(default=0, blank=True, null=True)
+    deslike_count = models.IntegerField(default=0, blank=True, null=True)
 
     questions = models.ManyToManyField(Question, blank=True)
     subject = models.ManyToManyField(Subject, blank=True)
     users = models.ManyToManyField(UserPermission, blank=True)
-    commentaries = models.ManyToManyField(Commentary, blank=True)
+    commentaries = models.ManyToManyField(Commentary, blank=True, null=True)
     likes = models.ManyToManyField(Like, blank=True, null=True)
     deslikes = models.ManyToManyField(Deslike, blank=True, null=True)
     reports = models.ManyToManyField(Report, blank=True, null=True)
@@ -252,15 +285,15 @@ class Book(models.Model):
 class Notification(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
-    not_pic = models.ImageField(default='notification.png', null=True, blank=True)
-    message = models.CharField(max_length=1000, blank=True, default='Hi, you have a notification.')
+    not_pic = models.ImageField(default='notification.png', blank=True, null=True)
+    message = models.CharField(max_length=1000, blank=True, null=True, default='Hi, see it')
 
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    answear = models.ForeignKey(Answear, on_delete=models.CASCADE)
-    university = models.ForeignKey(University, on_delete=models.CASCADE)
-    report = models.ForeignKey(Report, on_delete=models.CASCADE)
-    commentaries = models.ForeignKey(Commentary, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
+    answear = models.ForeignKey(Answear, on_delete=models.CASCADE, blank=True, null=True)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE, blank=True, null=True)
+    commentaries = models.ForeignKey(Commentary, on_delete=models.CASCADE, blank=True, null=True)
 
 
 
@@ -273,4 +306,4 @@ class Requisition(models.Model):
     about = models.CharField(max_length=200)
     text = models.TextField
 
-    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    standard_user = models.ForeignKey(StandardUser, on_delete=models.CASCADE, blank=True)

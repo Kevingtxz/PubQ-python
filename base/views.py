@@ -60,7 +60,7 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def questions(request):
-	questions = Question.objects.all()
+	questions = Question.objects.filter(is_public=True)
 	paginator = Paginator(questions, 5)
 	page = request.GET.get('page')
 	try:
@@ -85,6 +85,10 @@ def postquestion(request):
 	context = {'form':form,}
 	return render(request, 'base/postquestion.html', context)
 
+@login_required(login_url='login')
+def myquestions(request):
+	context = {}
+	return render(request, 'base/myquestions.html', context)
 
 
 

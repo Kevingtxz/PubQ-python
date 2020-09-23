@@ -18,6 +18,7 @@ urlpatterns = [
     path('support/', views.support, name='support'),
     path('aboutus/', views.aboutus, name='aboutus'),
     path('postreport/', views.postreport, name='postreport'),
+    path('myquestions/', views.myquestions, name='myquestions'),
 ]
 
 # customer settings
