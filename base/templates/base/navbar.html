@@ -1,45 +1,43 @@
 {% load static %}
-<div class="container">
-    <div>
-        <nav class="navbar navbar-light" style="background-color: black;">
+<div style="background:black; margin:0px;">
+        <nav style="margin-top:0px;">
             <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <img src="{% static 'images/logoblacknav.png' %}">
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
+                    <img src="{% static 'images/logoblacknav5.png' %}">
                 </li>
-                <li class="nav-item" style="margin:auto;">
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
                     <a class="nav-link" style="color:white;" href="{% url 'questions' %}" style="margin-left:100px; padding:15px;">Questions</a>
                 </li>
-                <li class="nav-item" style="margin:auto;">
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
                     <a class="nav-link" style="color:white;" href="{% url 'universities' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Universities</a>
                 </li>
-                <li class="nav-item" style="margin:auto;">
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
                     <a class="nav-link" style="color:white;" href="{% url 'books' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Books</a>
                 </li>
-                <li class="nav-item" style="margin:auto;">
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
                     <a class="nav-link" style="color:white;" href="{% url 'support' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Support</a>
                 </li>
-                <li class="nav-item" style="margin:auto;">
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
                     <a class="nav-link" style="color:white;" href="{% url 'aboutus' %}" style="padding:15px; padding-left:30px; padding-right:30px;">About Us</a>
                 </li>
-                <li class="nav-item" style="margin:auto; margin-left:20px;">
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:20px;">
                     <input style="padding:5px;" placeholder="Find Questions" />
                 </li>
-                <li class="nav-item" style="margin:auto; margin-left:15px;">
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
                     <a href="{% url 'notifications' %}">
                         <img src="{% static 'images/notification.png' %}">
                     </a>
                 </li>
-                <li class="nav-item" style="margin:auto; margin-left:15px;">
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
                     <a href="{% url 'account_settings' %}">
                         <img src="{% static 'images/profile.png' %}">
                     </a>
                 </li>
-                <li class="nav-item" style="margin:auto; margin-left:15px;">
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
                     <a href="{% url 'logout' %}">
                         <img src="{% static 'images/logout.png' %}">
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>

@@ -63,7 +63,7 @@ class AnswearForm(ModelForm):
 class QuestionForm(ModelForm):
 	class Meta:
 		model = Question
-		fields = ('teacher_name', 'university_name', 'text', 'education_Level', 'answear',)
+		fields = ('teacher_name', 'university_name', 'text', 'education_Level', 'pic_1', 'pic_2', 'answear', )
 
 class BookForm(ModelForm):
 	class Meta:
