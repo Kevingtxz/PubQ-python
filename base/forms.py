@@ -63,12 +63,12 @@ class AnswearForm(ModelForm):
 class QuestionForm(ModelForm):
 	class Meta:
 		model = Question
-		fields = '__all__'
+		fields = ('teacher_name', 'university_name', 'text', 'education_Level', 'answear',)
 
 class BookForm(ModelForm):
 	class Meta:
 		model = Book
-		fields = ('title',)
+		fields = ('title', 'note',)
 
 class NotificationForm(ModelForm):
 	class Meta:

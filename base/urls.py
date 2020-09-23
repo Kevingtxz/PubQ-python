@@ -12,10 +12,12 @@ urlpatterns = [
     path('postquestion/', views.postquestion, name='postquestion'),
     path('universities/', views.universities, name='universities'),
     path('books', views.books, name='books'),
+    path('postbook/', views.postbook, name='postbook'),
     path('notifications/', views.notifications, name='notifications'),
     path('account_settings', views.account_settings, name='account_settings'),
     path('support/', views.support, name='support'),
     path('aboutus/', views.aboutus, name='aboutus'),
+    path('postreport/', views.postreport, name='postreport'),
 ]
 
 # customer settings

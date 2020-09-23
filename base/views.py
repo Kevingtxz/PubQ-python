@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
-
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
+# from django.forms import inlineformset_factory
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout       
 from django.contrib.auth.decorators import login_required
@@ -56,18 +55,25 @@ def questions(request):
 	questions = Question.objects.all()
 	paginator = Paginator(questions, 5)
 	page = request.GET.get('page')
-	disciplines = Discipline.objects.all()
 	try:
 		questions = paginator.page(page)
 	except PageNotAnInteger:
 		questions = paginator.page(1)
 	except EmptyPage:
 		questions = paginator.page(paginator.num_pages)
-
-	context = {'page':page, 'questions':questions, 
-	'disciplines':disciplines,
-	}
+	context = {'page':page, 'questions':questions,}
 	return render(request, 'base/questions.html', context)
+
+def postquestion(request):
+	form = QuestionForm()
+	if request.method == 'POST':
+		print('Printing POST:', request.POST)
+		form = QuestionForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('/')
+	context = {'form':form,}
+	return render(request, 'base/postquestion.html', context)
 
 def universities(request):
 	universities = University.objects.all()
@@ -83,9 +89,6 @@ def universities(request):
 	context = {'page':page, 'universities':universities,}
 	return render(request, 'base/universities.html', context)
 
-def postquestion(request):
-    return render(request, 'base/postquestion.html')
-
 def books(request):
 	books = Book.objects.all()
 	paginator = Paginator(books, 5)
@@ -99,6 +102,29 @@ def books(request):
 		
 	context = {'page':page, 'books':books,}
 	return render(request, 'base/books.html', context)
+
+def postbook(request):
+	form = BookForm()
+	if request.method == 'POST':
+		print('Printing POST:', request.POST)
+		form = BookForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('/')
+	context = {'form':form,}
+	return render(request, 'base/postbook.html', context)
+
+
+def postreport(request):
+	form = ReportForm()
+	if request.method == 'POST':
+		print('Printing POST:', request.POST)
+		form = ReportForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('/')
+	context = {'form':form,}
+	return render(request, 'base/postreport.html', context)	
 
 def notifications(request):
     return render(request, 'base/notifications.html')

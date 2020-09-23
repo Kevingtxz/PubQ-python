@@ -1,13 +1,10 @@
 {% load static %}
-<div class="blue">
+<div class="container">
     <div>
         <nav class="navbar navbar-light" style="background-color: black;">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <img src="{% static 'images/logo5.png' %}">
-                </li>
-                <li class="nav-item" style="margin:auto; margin-left:20px;">
-                    <input style="padding:5px; padding-right:100px;" />
+                    <img src="{% static 'images/logoblacknav.png' %}">
                 </li>
                 <li class="nav-item" style="margin:auto;">
                     <a class="nav-link" style="color:white;" href="{% url 'questions' %}" style="margin-left:100px; padding:15px;">Questions</a>
@@ -25,12 +22,22 @@
                     <a class="nav-link" style="color:white;" href="{% url 'aboutus' %}" style="padding:15px; padding-left:30px; padding-right:30px;">About Us</a>
                 </li>
                 <li class="nav-item" style="margin:auto; margin-left:20px;">
-                    <a style="padding:8px; padding-right:35px; background:white;" href="{% url 'notifications' %}"><img></a>
+                    <input style="padding:5px;" placeholder="Find Questions" />
                 </li>
-                <li class="nav-item" style="margin:auto; margin-left:20px;">
-                    <a style="padding:8px; padding-right:35px; background:white;" href="{% url 'account_settings' %}"><img></a>
+                <li class="nav-item" style="margin:auto; margin-left:15px;">
+                    <a href="{% url 'notifications' %}">
+                        <img src="{% static 'images/notification.png' %}">
+                    </a>
                 </li>
-                <li class="nav-item" style="margin:auto; padding-right:752px;">
+                <li class="nav-item" style="margin:auto; margin-left:15px;">
+                    <a href="{% url 'account_settings' %}">
+                        <img src="{% static 'images/profile.png' %}">
+                    </a>
+                </li>
+                <li class="nav-item" style="margin:auto; margin-left:15px;">
+                    <a href="{% url 'logout' %}">
+                        <img src="{% static 'images/logout.png' %}">
+                    </a>
                 </li>
             </ul>
         </nav>
