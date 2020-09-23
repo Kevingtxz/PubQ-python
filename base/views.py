@@ -77,7 +77,6 @@ def questions(request):
 def postquestion(request):
 	form = QuestionForm()
 	if request.method == 'POST':
-		print('Printing POST:', request.POST)
 		form = QuestionForm(request.POST)
 		if form.is_valid():
 			form.save()
@@ -134,7 +133,6 @@ def books(request):
 def postbook(request):
 	form = BookForm()
 	if request.method == 'POST':
-		print('Printing POST:', request.POST)
 		form = BookForm(request.POST)
 		if form.is_valid():
 			form.save()

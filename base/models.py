@@ -132,7 +132,7 @@ class University(models.Model):
 
     addresses = models.ManyToManyField(Address, blank=True)
     users = models.ManyToManyField(UserPermission, blank=True) 
-    commentaries = models.ManyToManyField(Commentary, blank=True, null=True)
+    comments = models.ManyToManyField(Commentary, blank=True, null=True)
     likes = models.ManyToManyField(Like, blank=True, null=True)
     deslikes = models.ManyToManyField(Deslike, blank=True, null=True)
     reports = models.ManyToManyField(Report, blank=True, null=True)
@@ -211,7 +211,7 @@ class Question(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True)  
     users = models.ManyToManyField(UserPermission, blank=True)
     answears = models.ManyToManyField(Answear, blank=True, null=True)
-    commentaries = models.ManyToManyField(Commentary, blank=True, null=True)
+    comments = models.ManyToManyField(Commentary, blank=True, null=True)
     likes = models.ManyToManyField(Like, blank=True, null=True)
     deslikes = models.ManyToManyField(Deslike, blank=True, null=True)
     reports = models.ManyToManyField(Report, blank=True, null=True)
@@ -241,7 +241,7 @@ class Exam(models.Model):
     questions = models.ManyToManyField(Question, blank=True)
     users = models.ManyToManyField(UserPermission, blank=True)
     subject = models.ManyToManyField(Subject, blank=True, null=True)  
-    commentaries = models.ManyToManyField(Commentary, blank=True, null=True)
+    comments = models.ManyToManyField(Commentary, blank=True, null=True)
     likes = models.ManyToManyField(Like, blank=True, null=True)
     deslikes = models.ManyToManyField(Deslike, blank=True, null=True)
     reports = models.ManyToManyField(Report, blank=True, null=True)
@@ -267,7 +267,7 @@ class Book(models.Model):
     questions = models.ManyToManyField(Question, blank=True)
     subject = models.ManyToManyField(Subject, blank=True)
     users = models.ManyToManyField(UserPermission, blank=True)
-    commentaries = models.ManyToManyField(Commentary, blank=True, null=True)
+    comments = models.ManyToManyField(Commentary, blank=True, null=True)
     likes = models.ManyToManyField(Like, blank=True, null=True)
     deslikes = models.ManyToManyField(Deslike, blank=True, null=True)
     reports = models.ManyToManyField(Report, blank=True, null=True)
@@ -293,7 +293,7 @@ class Notification(models.Model):
     answear = models.ForeignKey(Answear, on_delete=models.CASCADE, blank=True, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     report = models.ForeignKey(Report, on_delete=models.CASCADE, blank=True, null=True)
-    commentaries = models.ForeignKey(Commentary, on_delete=models.CASCADE, blank=True, null=True)
+    comments = models.ForeignKey(Commentary, on_delete=models.CASCADE, blank=True, null=True)
 
 
 
