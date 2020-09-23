@@ -83,16 +83,12 @@ SEX = [('M', 'Male'),
        ('F', 'Female'),
        ('O', 'Other'),]
 
-ACCOUNT_TYPE = [('S', 'Student'),
-                ('T', 'Teacher'),]
-
 # OneToOne: Address, Student, Teacher, University; 
 class StandardUser(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     profile_pic = models.ImageField(default='profile1.png', null=True, blank=True)
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     
-    account_type = models.CharField(max_length=1, choices=ACCOUNT_TYPE)
     firstname = models.CharField(max_length=100)
     lastname = models.CharField(max_length=200)
     nickname = models.CharField(max_length=200, null=True)
@@ -123,7 +119,7 @@ class UserPermission(models.Model):
 
 
 
-# Create UserPermition poster and teacher if asked;
+# Create UserPermission poster and teacher if asked;
 # OneToOne: Address;
 class University(models.Model):
     profile_pic = models.ImageField(default='profile1.png', null=True, blank=True)  

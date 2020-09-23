@@ -6,12 +6,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
-from .decorators import unauthenticated_user
+from .decorators import unauthenticated_user, allowed_users, admin_only
 from .forms import *
 from .models import *
 
 # from django.views import generic
 # ListView; DetailView; FormView; DeleteView; UpdateView...@unauthenticated_user
+
 
 @unauthenticated_user
 def registerPage(request):
@@ -27,6 +28,9 @@ def registerPage(request):
 
 	context = {'form':form}
 	return render(request, 'base/register.html', context)
+
+
+
 
 @unauthenticated_user
 def loginPage(request):
@@ -51,6 +55,10 @@ def logoutUser(request):
 	return redirect('login')
 
 
+
+
+
+@login_required(login_url='login')
 def questions(request):
 	questions = Question.objects.all()
 	paginator = Paginator(questions, 5)
@@ -64,6 +72,8 @@ def questions(request):
 	context = {'page':page, 'questions':questions,}
 	return render(request, 'base/questions.html', context)
 
+
+@login_required(login_url='login')
 def postquestion(request):
 	form = QuestionForm()
 	if request.method == 'POST':
@@ -75,6 +85,10 @@ def postquestion(request):
 	context = {'form':form,}
 	return render(request, 'base/postquestion.html', context)
 
+
+
+
+@login_required(login_url='login')
 def universities(request):
 	universities = University.objects.all()
 	paginator = Paginator(universities, 5)
@@ -89,6 +103,15 @@ def universities(request):
 	context = {'page':page, 'universities':universities,}
 	return render(request, 'base/universities.html', context)
 
+
+
+
+
+
+
+
+
+@login_required(login_url='login')
 def books(request):
 	books = Book.objects.all()
 	paginator = Paginator(books, 5)
@@ -103,6 +126,7 @@ def books(request):
 	context = {'page':page, 'books':books,}
 	return render(request, 'base/books.html', context)
 
+@login_required(login_url='login')
 def postbook(request):
 	form = BookForm()
 	if request.method == 'POST':
@@ -115,6 +139,15 @@ def postbook(request):
 	return render(request, 'base/postbook.html', context)
 
 
+
+
+
+@admin_only
+def reports(request):
+	context = {}
+	return render(request, 'base/reports.html', context)	
+
+@login_required(login_url='login')
 def postreport(request):
 	form = ReportForm()
 	if request.method == 'POST':
@@ -126,15 +159,26 @@ def postreport(request):
 	context = {'form':form,}
 	return render(request, 'base/postreport.html', context)	
 
+
+
+
+
+@login_required(login_url='login')
 def notifications(request):
     return render(request, 'base/notifications.html')
 
+
+@login_required(login_url='login')
 def account_settings(request):
     return render(request, 'base/account_settings.html')
 
+
+@login_required(login_url='login')
 def support(request):
     return render(request, 'base/support.html')
 
+
+@login_required(login_url='login')
 def aboutus(request):
     return render(request, 'base/aboutus.html')
 
