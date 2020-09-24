@@ -83,6 +83,10 @@ SEX = [('M', 'Male'),
        ('F', 'Female'),
        ('O', 'Other'),]
 
+COLORS = [('W', 'White'),
+          ('B', 'Black'),
+          ('G', 'Grey'),]
+
 # OneToOne: Address, Student, Teacher, University; 
 class StandardUser(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -93,7 +97,8 @@ class StandardUser(models.Model):
     lastname = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     birth = models.CharField(max_length=8)
-    nickname = models.CharField(max_length=200, blank=True, null=True, default=firstname)
+    color = models.CharField(max_length=1, choices=COLORS, default='W', blank=True, null=True)
+    nickname = models.CharField(max_length=200, default=firstname, blank=True, null=True)
     phone = models.CharField(max_length=11, blank=True, null=True)
     sex = models.CharField(max_length=1, blank=True, null=True)
 

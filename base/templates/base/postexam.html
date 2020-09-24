@@ -1,0 +1,26 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<br>
+    <div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.management_form }}
+            {% for field in form %}
+                {{field}}
+                <hr>
+            {% endfor %}
+            <input type="submit" name="Submit">
+        </form>
+        <script>
+            var form_fields = document.getElementsByTagName('input')
+
+
+            for (var field in form_fields){	
+                form_fields[field].className += ' form-control'
+                form_fields[2].placeholder='Name';
+                form_fields[3].placeholder='Note';
+            }
+        </script>
+    </div>
+{% endblock %}

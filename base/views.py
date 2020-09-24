@@ -91,6 +91,36 @@ def myquestions(request):
 
 
 
+
+
+def exams(request):
+	exams = Exam.objects.filter(is_public=True)
+	paginator = Paginator(exams, 1)
+	page = request.GET.get('page')
+	try:
+		exams = paginator.page(page)
+	except PageNotAnInteger:
+		exams = paginator.page(1)
+	except EmptyPage:
+		exams = paginator.page(paginator.num_pages)
+	context = {'page':page, 'exams':exams,}
+	return render(request, 'base/exams.html', context)
+
+def postexam(request):
+	form = ExamForm()
+	if request.method == 'POST':
+		form = ExamForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('/')
+	context = {'form':form,}
+	return render(request, 'base/postexam.html', context)
+
+
+
+
+
+
 @login_required(login_url='login')
 def universities(request):
 	universities = University.objects.all()
@@ -105,10 +135,6 @@ def universities(request):
 
 	context = {'page':page, 'universities':universities,}
 	return render(request, 'base/universities.html', context)
-
-
-
-
 
 
 

@@ -16,6 +16,11 @@
             <button>Teachers</button>
             <button>Students</button>
             <button style="position:absolute; right:200px;">Report</button>
+            <div style="display:None;">
+                {% for question in university.questions.all %}
+                    {% include 'base/question_display.html' %}
+                {% endfor %}
+            </div>
         </div>
         <hr>
     {% endfor %}

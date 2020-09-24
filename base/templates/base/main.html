@@ -9,9 +9,9 @@
 	<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
   
 </head>
-<body style="margin:0px;">
-    <div style="background:grey; width:100%;">
-        <div style="background:white;" class="container">
+<body style="margin:0px; background:grey;">
+    <div class="container">
+        <div style="background:white;">
             {% include 'base/navbar.html' %}
             {% block content %}
             {% endblock %}

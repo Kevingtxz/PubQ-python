@@ -1,7 +1,7 @@
 {%  extends 'base/main.html' %}
 {% csrf_token %}
 {% block content %} 
-<div class="container">
+<div>
     <h1 style="margin-bottom:40px;">Books</h1>
     <a href="postbook" type="submit">Post Book</a>
     <hr>
@@ -11,6 +11,11 @@
             <p>{{book.note}}</p>
         {% endif %}
         <p>{{book.date_created}}</p>
+            <div style="display:None;">
+                {% for question in book.questions.all %}
+                    {% include 'base/question_display.html' %}
+                {% endfor %}
+            </div>
     {% endfor %}
 </div>
 {% endblock %}

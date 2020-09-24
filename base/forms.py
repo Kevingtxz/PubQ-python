@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -65,10 +66,25 @@ class QuestionForm(ModelForm):
 		model = Question
 		fields = ('teacher_name', 'university_name', 'text', 'education_Level', 'pic_1', 'pic_2', 'answear', 'is_public',)
 
+class ExamForm(ModelForm):
+	class Meta:
+		model = Exam
+		fields = '__all__'
+	def clean(self):
+		questions = self.cleaned_data.get('questions')
+		if questions and questions.count() > 20:
+			raise ValidationError('Maximum twenty questions are allowed.')
+		return self.cleaned_data
+
 class BookForm(ModelForm):
 	class Meta:
 		model = Book
 		fields = ('title', 'note',)
+	def clean(self):
+		questions = self.cleaned_data.get('questions')
+		if questions and questions.count() > 50:
+			raise ValidationError('Maximum twenty questions are allowed.')
+		return self.cleaned_data
 
 class NotificationForm(ModelForm):
 	class Meta:
