@@ -8,17 +8,18 @@
                 <input style="padding:5px;" placeholder="Find Questions" />
             </li>
             <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
-                <a href="{% url 'notifications' %}">
-                    <img src="{% static 'images/notification.png' %}">
+                <a href="{% url 'myquestions' %}">
+                    <img src="{% static 'images/myfolder.png' %}">
                 </a>
             </li>
             <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
-                <a href="{% url 'logout' %}">
-                    <img src="{% static 'images/myfolder.png' %}">
-                </a>
-            <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
                 <a href="{% url 'account_settings' %}">
                     <img src="{% static 'images/profilelogo.png' %}">
+                </a>
+            </li>
+            <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
+                <a href="{% url 'notifications' %}">
+                    <img src="{% static 'images/notification.png' %}">
                 </a>
             </li>
             <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">

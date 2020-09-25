@@ -4,7 +4,11 @@
 <div>
     <h1>My Questions</h1>
     <br>
-    <p>Email: publicexam@gmail.com</p>
-    <p>WhatsApp: 22 998592191</p>
+    <a href="postquestion" type="submit">Post Question</a>
+        <hr>
+        {% csrf_token %}
+        {% for question in questions %}
+            {% include 'base/question_display.html' %}
+        {% endfor %}
 </div>
 {% endblock %}

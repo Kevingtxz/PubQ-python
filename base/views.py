@@ -22,12 +22,24 @@ def registerPage(request):
 		if form.is_valid():
 			user = form.save()
 			username = form.cleaned_data.get('username')
+
+			group = Group.objects.get(name='student')
+
+			user.groups.add(group)
+			StandardUser.objects.create(
+					user=user
+				)
+			
 			messages.success(request, 'Account was created for ' + username)
 
 			return redirect('login')
 
 	context = {'form':form}
 	return render(request, 'base/register.html', context)
+
+	context = {'form':form}
+	return render(request, 'accounts/register.html', context)
+
 
 
 
@@ -86,7 +98,8 @@ def postquestion(request):
 
 @login_required(login_url='login')
 def myquestions(request):
-	context = {}
+	questions = request.user.standarduser.questions.all
+	context = {'questions':questions,}
 	return render(request, 'base/myquestions.html', context)
 
 
