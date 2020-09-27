@@ -39,7 +39,7 @@ class ReportForm(ModelForm):
 class CommentaryForm(ModelForm):
 	class Meta:
 		model = Commentary
-		fields = ('text', 'standard_user',)
+		fields = ('text', 'standarduser',)
 
 class UniversityForm(ModelForm):
 	class Meta:
@@ -59,7 +59,7 @@ class DisciplineForm(ModelForm):
 class AnswearForm(ModelForm):
 	class Meta:
 		model = Answear
-		fields = ('standard_user', 'text',)
+		fields = ('standarduser', 'text',)
 
 class QuestionForm(ModelForm):
 	class Meta:

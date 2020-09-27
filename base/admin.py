@@ -3,8 +3,8 @@ from .models import *
 
 admin.site.register(Commentary)
 admin.site.register(Report)
-admin.site.register(Like)
-admin.site.register(Deslike)
+admin.site.register(Likes)
+admin.site.register(Deslikes)
 admin.site.register(City)
 admin.site.register(Address)
 admin.site.register(StandardUser)

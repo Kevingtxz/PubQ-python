@@ -22,7 +22,6 @@ def registerPage(request):
 		if form.is_valid():
 			user = form.save()
 			username = form.cleaned_data.get('username')
-
 			group = Group.objects.get(name='student')
 
 			user.groups.add(group)
@@ -98,7 +97,10 @@ def postquestion(request):
 
 @login_required(login_url='login')
 def myquestions(request):
-	questions = request.user.standarduser.questions.all
+	questions = []
+	for permission in request.user.standarduser.userpermission_set.all():
+		if permission.permission == 'P':
+			questions.append(permission.question_set.all())
 	context = {'questions':questions,}
 	return render(request, 'base/myquestions.html', context)
 
@@ -106,6 +108,7 @@ def myquestions(request):
 
 
 
+@login_required(login_url='login')
 def exams(request):
 	exams = Exam.objects.filter(is_public=True)
 	paginator = Paginator(exams, 1)
@@ -119,6 +122,7 @@ def exams(request):
 	context = {'page':page, 'exams':exams,}
 	return render(request, 'base/exams.html', context)
 
+@login_required(login_url='login')
 def postexam(request):
 	form = ExamForm()
 	if request.method == 'POST':
@@ -214,12 +218,11 @@ def account_settings(request):
     return render(request, 'base/account_settings.html')
 
 
-@login_required(login_url='login')
+
 def support(request):
     return render(request, 'base/support.html')
 
 
-@login_required(login_url='login')
 def aboutus(request):
     return render(request, 'base/aboutus.html')
 
