@@ -81,7 +81,6 @@ class UserPermission(models.Model):
 
 
 
-
 class Report(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -194,9 +193,6 @@ class Question(models.Model):
     comments = models.ManyToManyField(Commentary, blank=True)
     reports = models.ManyToManyField(Report, blank=True)
 
-    def __str__(self):
-        return self.education_Level
-
 
 
 
@@ -248,7 +244,6 @@ class Book(models.Model):
     userpermissions = models.ManyToManyField(UserPermission, blank=True)
     comments = models.ManyToManyField(Commentary, blank=True)
     reports = models.ManyToManyField(Report, blank=True)
-
 
     def __str__(self):
         return self.title

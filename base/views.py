@@ -100,7 +100,8 @@ def myquestions(request):
 	questions = []
 	for permission in request.user.standarduser.userpermission_set.all():
 		if permission.permission == 'P':
-			questions.append(permission.question_set.all())
+			for question in permission.question_set.all():
+				questions.append(question)
 	context = {'questions':questions,}
 	return render(request, 'base/myquestions.html', context)
 
