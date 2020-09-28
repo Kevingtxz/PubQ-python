@@ -1,0 +1,33 @@
+{% load static %}
+<style>
+</style>
+<div class="container">
+    <div style="display:inline-block; margin:5px; margin-right:20px;">
+        <p>Disciplines: 
+        {% for subject in exam.subjects.all %}
+            {{subject.discipline_name}}
+        {% endfor %}    
+        </p>
+    </div>
+    <div style="display:inline-block; margin:5px; margin-right:20px;">
+        <p>Subjects: 
+        {% for subject in exam.subjects.all %}
+            {{subject.name}} 
+        {% endfor %}
+        </p>
+    </div>
+    {% if exam.university_name != None %}
+        <div style="display:inline-block; margin:5px; margin-right:20px;">
+            <p>University:{{exam.university_name}}</p>
+        </div>
+    {% endif %}
+    </div>
+    <div style="display:inline-block; margin:5px; margin-right:20px;">
+        <p>Teacher:{{exam.teacher_name}}</p>
+    </div>
+    {% csrf_token %}
+    {% for question in exam.questions.all %}
+        {% include 'base/question_display.html' %}
+    {% endfor %}
+    <hr>
+</div>

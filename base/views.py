@@ -97,11 +97,11 @@ def postquestion(request):
 
 @login_required(login_url='login')
 def myquestions(request):
-	questions = []
+	questions = set()
 	for permission in request.user.standarduser.userpermission_set.all():
 		if permission.permission == 'P':
-			for question in permission.question_set.all():
-				questions.append(question)
+			if permission.question != None:
+				questions.add(permission.question)
 	context = {'questions':questions,}
 	return render(request, 'base/myquestions.html', context)
 
@@ -112,7 +112,7 @@ def myquestions(request):
 @login_required(login_url='login')
 def exams(request):
 	exams = Exam.objects.filter(is_public=True)
-	paginator = Paginator(exams, 1)
+	paginator = Paginator(exams, 6)
 	page = request.GET.get('page')
 	try:
 		exams = paginator.page(page)
@@ -197,7 +197,6 @@ def reports(request):
 def postreport(request):
 	form = ReportForm()
 	if request.method == 'POST':
-		print('Printing POST:', request.POST)
 		form = ReportForm(request.POST)
 		if form.is_valid():
 			form.save()

@@ -67,17 +67,6 @@ class StandardUser(models.Model):
     notifications = models.ManyToManyField('Notification', blank=True)
 
 
-PERMISSION = [('S', 'Student'),
-              ('T', 'Teacher'),
-              ('P', 'Poster'),
-              ('O', 'Owner'),]
-
-# ManyToOne: University, Group, StandardUser, Group, Question;
-class UserPermission(models.Model):
-    standarduser = models.ForeignKey(StandardUser, on_delete=models.PROTECT)
-    permission = models.CharField(max_length=1, choices=PERMISSION)
-
-
 
 
 
@@ -87,23 +76,6 @@ class Report(models.Model):
     note = models.CharField(max_length=2000)
 
     standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-
-
-
-
-
-
-
-# ManyToMany: 
-class Commentary(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
-    
-    text = models.CharField(max_length=2000)
-    is_public = models.BooleanField(default=True, blank=True)
-
-    reports = models.ManyToManyField(Report, blank=True)
-    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-
 
 
 
@@ -119,8 +91,6 @@ class University(models.Model):
     initials = models.CharField(max_length=10)
 
     addresses = models.ManyToManyField(Address, blank=True)
-    userpermissions = models.ManyToManyField(UserPermission, blank=True) 
-    comments = models.ManyToManyField(Commentary, blank=True)
     reports = models.ManyToManyField(Report, blank=True)
     questions = models.ManyToManyField('Question', blank=True)
 
@@ -187,10 +157,9 @@ class Question(models.Model):
     pic_1 = models.ImageField(blank=True, null=True)
     pic_2 = models.ImageField(blank=True, null=True)
 
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True)  
-    userpermissions = models.ManyToManyField(UserPermission, blank=True)
+    exam = models.ForeignKey('Exam', on_delete=models.CASCADE, null=True, blank=True)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=True)
     answears = models.ManyToManyField(Answear, blank=True)
-    comments = models.ManyToManyField(Commentary, blank=True)
     reports = models.ManyToManyField(Report, blank=True)
 
 
@@ -205,7 +174,6 @@ class Exam(models.Model):
     teacher_name = models.CharField(max_length=200)
     education_Level = models.CharField(max_length=1, choices=EDUCATIONS)
     university_name = models.CharField(max_length=200, blank=True, null=True)
-    right_answears_count = models.IntegerField(default=0, blank=True)
     wrong_answears_count = models.IntegerField(default=0, blank=True)
     is_public = models.BooleanField(default=True, blank=True)
     pic_1 = models.ImageField(blank=True, null=True)
@@ -213,15 +181,12 @@ class Exam(models.Model):
     pic_3 = models.ImageField(blank=True, null=True)
     pic_4 = models.ImageField(blank=True, null=True)
     pic_5 = models.ImageField(blank=True, null=True)
-
-    questions = models.ManyToManyField(Question, blank=True)
-    userpermissions = models.ManyToManyField(UserPermission, blank=True)
-    subject = models.ManyToManyField(Subject, blank=True)  
-    comments = models.ManyToManyField(Commentary, blank=True)
+    
+    subjects = models.ManyToManyField(Subject, blank=True)  
     reports = models.ManyToManyField(Report, blank=True)
 
     def __str__(self):
-        return self.education_Level
+        return self.teacher_name
 
 
 
@@ -241,12 +206,53 @@ class Book(models.Model):
 
     questions = models.ManyToManyField(Question, blank=True)
     subject = models.ManyToManyField(Subject, blank=True)
-    userpermissions = models.ManyToManyField(UserPermission, blank=True)
-    comments = models.ManyToManyField(Commentary, blank=True)
     reports = models.ManyToManyField(Report, blank=True)
 
     def __str__(self):
         return self.title
+
+
+
+
+
+
+
+# ManyToMany: 
+class Commentary(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    
+    text = models.CharField(max_length=2000)
+    is_public = models.BooleanField(default=True, blank=True)
+
+    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
+    answear = models.ForeignKey(Answear, on_delete=models.CASCADE, blank=True, null=True)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
+    reports = models.ManyToManyField(Report, blank=True)
+
+
+
+
+
+
+PERMISSION = [('S', 'Student'),
+              ('T', 'Teacher'),
+              ('P', 'Poster'),
+              ('O', 'Owner'),]
+
+# ManyToOne: University, Group, StandardUser, Group, Question;
+class UserPermission(models.Model):
+    standarduser = models.ForeignKey(StandardUser, on_delete=models.PROTECT)
+    permission = models.CharField(max_length=1, choices=PERMISSION)
+
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
+    answear = models.ForeignKey(Answear, on_delete=models.CASCADE, blank=True, null=True)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
+    commentary = models.ForeignKey(Commentary, on_delete=models.CASCADE, blank=True, null=True)
+
+
 
 
 
@@ -266,7 +272,7 @@ class Notification(models.Model):
     answear = models.ForeignKey(Answear, on_delete=models.CASCADE, blank=True, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     report = models.ForeignKey(Report, on_delete=models.CASCADE, blank=True, null=True)
-    comments = models.ForeignKey(Commentary, on_delete=models.CASCADE, blank=True, null=True)
+    commentary = models.ForeignKey(Commentary, on_delete=models.CASCADE, blank=True, null=True)
 
 
 
@@ -274,26 +280,29 @@ class Notification(models.Model):
 
 
 # OneToMany:
-class Likes(models.Model):
+class Like(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     
-    standarduser = models.OneToOneField(StandardUser, on_delete=models.CASCADE)
-    comments = models.ManyToManyField(Commentary, blank=True)
-    universities = models.ManyToManyField(University, blank=True)
-    answears = models.ManyToManyField(Answear, blank=True)
-    books = models.ManyToManyField(Book, blank=True)
-    notifications = models.ManyToManyField(Notification, blank=True)
+    comments = models.ForeignKey(Commentary, blank=True, null=True, on_delete=models.CASCADE)
+    universities = models.ForeignKey(University, blank=True, null=True, on_delete=models.CASCADE)
+    answears = models.ForeignKey(Answear, blank=True, null=True, on_delete=models.CASCADE)
+    books = models.ForeignKey(Book, blank=True, null=True, on_delete=models.CASCADE)
+    notifications = models.ForeignKey(Notification, blank=True, null=True, on_delete=models.CASCADE)
 
 # OneToMany:
-class Deslikes(models.Model):
+class Deslike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     
+    comments = models.ForeignKey(Commentary, blank=True, null=True, on_delete=models.CASCADE)
+    universities = models.ForeignKey(University, blank=True, null=True, on_delete=models.CASCADE)
+    answears = models.ForeignKey(Answear, blank=True, null=True, on_delete=models.CASCADE)
+    books = models.ForeignKey(Book, blank=True, null=True, on_delete=models.CASCADE)
+    notifications = models.ForeignKey(Notification, blank=True, null=True, on_delete=models.CASCADE)
+
+class LikesDeslikes(models.Model):
     standarduser = models.OneToOneField(StandardUser, on_delete=models.CASCADE)
-    comments = models.ManyToManyField(Commentary, blank=True)
-    universities = models.ManyToManyField(University, blank=True)
-    answears = models.ManyToManyField(Answear, blank=True)
-    books = models.ManyToManyField(Book, blank=True)
-    notifications = models.ManyToManyField(Notification, blank=True)
+    likes = models.ManyToManyField(Like, blank=True)
+    deslikes = models.ManyToManyField(Deslike, blank=True)
 
 
 

@@ -5,5 +5,8 @@
     <h1 style="margin-bottom:40px;">Exams</h1>
     <hr>
     {% csrf_token %}
+    {% for exam in exams %}
+        {% include 'base/exam_display.html' %}
+    {% endfor %}
 </div>
 {% endblock %}

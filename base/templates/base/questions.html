@@ -1,5 +1,5 @@
+{% load static %}
 {%  extends 'base/main.html' %}
-
 {% block content %} 
 <style>
     #id_text {
@@ -12,7 +12,7 @@
 </style>
 <div style="display:inline-block;">
     <h1>Questions</h1></div>
-    <a href="postquestion" type="submit">Post Question</a>
+    <a href="{% url 'postquestion' %}" type="submit">Post Question</a>
         <hr>
         {% csrf_token %}
         {% for question in questions %}
