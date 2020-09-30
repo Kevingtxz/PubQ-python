@@ -225,11 +225,22 @@ class Commentary(models.Model):
     is_public = models.BooleanField(default=True, blank=True)
 
     standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, null=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
-    answear = models.ForeignKey(Answear, on_delete=models.CASCADE, blank=True, null=True)
-    university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
     reports = models.ManyToManyField(Report, blank=True)
+    
+    class Meta:
+        abstract = True
+    
+class CommentaryQuestion(Commentary):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+class CommentaryBook(Commentary):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+class CommentaryAnswear(Commentary):
+    answear = models.ForeignKey(Answear, on_delete=models.CASCADE)
+
+class CommentaryUniversity(Commentary):
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
 
 
 
@@ -245,13 +256,22 @@ PERMISSION = [('S', 'Student'),
 class UserPermission(models.Model):
     standarduser = models.ForeignKey(StandardUser, on_delete=models.PROTECT)
     permission = models.CharField(max_length=1, choices=PERMISSION)
+    
+    class Meta:
+        abstract = True
 
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, null=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
-    answear = models.ForeignKey(Answear, on_delete=models.CASCADE, blank=True, null=True)
-    university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
-    commentary = models.ForeignKey(Commentary, on_delete=models.CASCADE, blank=True, null=True)
 
+class UserPermissionQuestion(UserPermission):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+class UserPermissionBook(UserPermission):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+class UserPermissionAnswear(UserPermission):
+    answear = models.ForeignKey(Answear, on_delete=models.CASCADE)
+
+class UserPermissionUniversity(UserPermission):
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
 
 
 
@@ -267,12 +287,15 @@ class Notification(models.Model):
     not_pic = models.ImageField(default='notification.png', blank=True)
     message = models.CharField(max_length=1000, blank=True, null=True)
 
+    reports = models.ManyToManyField(Report, blank=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=True, null=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
     answear = models.ForeignKey(Answear, on_delete=models.CASCADE, blank=True, null=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE, blank=True, null=True)
-    report = models.ForeignKey(Report, on_delete=models.CASCADE, blank=True, null=True)
-    commentary = models.ForeignKey(Commentary, on_delete=models.CASCADE, blank=True, null=True)
+    commentary_question = models.ForeignKey(CommentaryQuestion, on_delete=models.CASCADE, blank=True, null=True)
+    commentary_book = models.ForeignKey(CommentaryBook, on_delete=models.CASCADE, blank=True, null=True)
+    commentary_answear = models.ForeignKey(CommentaryAnswear, on_delete=models.CASCADE, blank=True, null=True)
+    commentary_university = models.ForeignKey(CommentaryUniversity, on_delete=models.CASCADE, blank=True, null=True)
 
 
 
@@ -280,30 +303,67 @@ class Notification(models.Model):
 
 
 # OneToMany:
-class Like(models.Model):
+class LikeDeslike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
     
-    comments = models.ForeignKey(Commentary, blank=True, null=True, on_delete=models.CASCADE)
-    universities = models.ForeignKey(University, blank=True, null=True, on_delete=models.CASCADE)
-    answears = models.ForeignKey(Answear, blank=True, null=True, on_delete=models.CASCADE)
-    books = models.ForeignKey(Book, blank=True, null=True, on_delete=models.CASCADE)
-    notifications = models.ForeignKey(Notification, blank=True, null=True, on_delete=models.CASCADE)
-
-# OneToMany:
-class Deslike(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    class Meta:
+        abstract = True
     
-    comments = models.ForeignKey(Commentary, blank=True, null=True, on_delete=models.CASCADE)
-    universities = models.ForeignKey(University, blank=True, null=True, on_delete=models.CASCADE)
-    answears = models.ForeignKey(Answear, blank=True, null=True, on_delete=models.CASCADE)
-    books = models.ForeignKey(Book, blank=True, null=True, on_delete=models.CASCADE)
-    notifications = models.ForeignKey(Notification, blank=True, null=True, on_delete=models.CASCADE)
 
-class LikesDeslikes(models.Model):
-    standarduser = models.OneToOneField(StandardUser, on_delete=models.CASCADE)
-    likes = models.ManyToManyField(Like, blank=True)
-    deslikes = models.ManyToManyField(Deslike, blank=True)
 
+class LikeCommentaryQuestion(LikeDeslike):
+    commentary = models.ForeignKey(CommentaryQuestion, on_delete=models.CASCADE)
+    
+class LikeCommentaryBook(LikeDeslike):
+    commentary = models.ForeignKey(CommentaryBook, on_delete=models.CASCADE)
+    
+class LikeCommentaryAnswear(LikeDeslike):
+    commentary = models.ForeignKey(CommentaryAnswear, on_delete=models.CASCADE)
+    
+class LikeCommentaryUniversity(LikeDeslike):
+    commentary = models.ForeignKey(CommentaryUniversity, on_delete=models.CASCADE)
+
+class LikeUniversity(LikeDeslike):
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+
+class LikeAnswear(LikeDeslike):
+    answear = models.ForeignKey(Answear, on_delete=models.CASCADE)
+
+class LikeBook(LikeDeslike):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    
+class LikeNotification(LikeDeslike):
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
+
+
+
+
+
+
+class DeslikeCommentaryQuestion(LikeDeslike):
+    commentary = models.ForeignKey(CommentaryQuestion, on_delete=models.CASCADE)
+    
+class DeslikeCommentaryBook(LikeDeslike):
+    commentary = models.ForeignKey(CommentaryBook, on_delete=models.CASCADE)
+    
+class DeslikeCommentaryAnswear(LikeDeslike):
+    commentary = models.ForeignKey(CommentaryAnswear, on_delete=models.CASCADE)
+    
+class DeslikeCommentaryUniversity(LikeDeslike):
+    commentary = models.ForeignKey(CommentaryUniversity, on_delete=models.CASCADE)
+
+class DeslikeUniversity(LikeDeslike):
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
+
+class DeslikeAnswear(LikeDeslike):
+    answear = models.ForeignKey(Answear, on_delete=models.CASCADE)
+
+class DeslikeBook(LikeDeslike):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    
+class DeslikeNotification(LikeDeslike):
+    notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
 
 
 
