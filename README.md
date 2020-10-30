@@ -1,7 +1,7 @@
 # Advertencia
 
 ```diff
-- O projeto ainda está em produção, portanto, a parte visual ainda não foi modelada.
+- O projeto ainda está em produção e a estilização do frontend será a última etapa.
 ```
 ![](Pubq1.png)
 
