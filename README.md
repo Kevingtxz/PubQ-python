@@ -1,10 +1,9 @@
-![](Pubq1.png)
-
 # Advertencia
 
 ```diff
 - O projeto ainda está em produção, portanto, a parte visual ainda não foi modelada.
 ```
+![](Pubq1.png)
 
 ![](Pubq4.png)
 
