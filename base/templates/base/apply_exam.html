@@ -1,0 +1,16 @@
+{%  extends 'base/main.html' %}
+
+{% block content %} 
+<div>
+    <h1 style="margin-bottom:40px;">Exams</h1>>	
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            {{form.date_to_apply}}
+        </div>
+        <div class="input-group mb-2">
+            {{form.date_to_finish}}
+        </div>
+</div>
+{% endblock %}

@@ -11,6 +11,7 @@ urlpatterns = [
     path('', views.questions, name='questions'),
     path('postquestion/', views.postquestion, name='postquestion'),
     path('exams/', views.exams, name='exams'),
+    path('applyexam/', views.applyexam, name='applyexam'),
     path('postexam/', views.postexam, name='postexam'),
     path('universities/', views.universities, name='universities'),
     path('books', views.books, name='books'),

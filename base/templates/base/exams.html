@@ -4,7 +4,7 @@
 <div>
     <h1 style="margin-bottom:40px;">Exams</h1>
     <p>Passed Exams</p>
-    <p>Exam Now <span>00:00</span></p>
+    <a href="{% url 'applyexam' %}" type="submit">Apply an Exam here</a>
     <hr>
     {% csrf_token %}
     {% for exam in exams %}

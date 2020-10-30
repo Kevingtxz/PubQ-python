@@ -177,6 +177,7 @@ class Exam(models.Model):
     university_name = models.CharField(max_length=200, blank=True, null=True)
     wrong_answears_count = models.IntegerField(default=0, blank=True)
     is_public = models.BooleanField(default=True, blank=True)
+
     pic_1 = models.ImageField(blank=True, null=True)
     pic_2 = models.ImageField(blank=True, null=True)
     pic_3 = models.ImageField(blank=True, null=True)
@@ -190,7 +191,18 @@ class Exam(models.Model):
         return self.teacher_name
 
 
+class TimeToApplyExam(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
 
+    date_to_apply = models.DateTimeField(blank=True, null=True)
+    date_to_finish = models.DateTimeField(blank=True, null=True)
+
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, blank=True)
+
+    def __str__(self):
+        return self.date_to_apply
+    
+    
 
 
 

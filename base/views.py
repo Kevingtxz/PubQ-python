@@ -134,6 +134,14 @@ def postexam(request):
 	context = {'form':form,}
 	return render(request, 'base/postexam.html', context)
 
+# I should require that only teachers apply exams
+@login_required(login_url='login')
+def applyexam(request):
+	form = TimeToApplyExamForm
+	context = {'form':form,}
+	return render(request, 'base/postexam.html', context)
+
+
 
 
 

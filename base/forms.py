@@ -86,6 +86,12 @@ class BookForm(ModelForm):
 			raise ValidationError('Maximum twenty questions are allowed.')
 		return self.cleaned_data
 
+class TimeToApplyExamForm(ModelForm):
+	class Meta:
+		model = TimeToApplyExam
+		fields = ('date_to_apply', 'date_to_finish',)
+
+
 class NotificationForm(ModelForm):
 	class Meta:
 		model = Notification
