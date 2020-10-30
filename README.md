@@ -1,3 +1,11 @@
+![](Pubq1.png)
+
+# Advertencia
+
+```diff
+- O projeto ainda está em produção, portanto, a parte visual ainda não foi modelada.
+```
+
 ![](Pubq4.png)
 
 # PubQ
@@ -7,8 +15,8 @@ PDF com as questões escolhidas, comprar questões de outros professores e ganha
 
 # Ferramentas utilizadas
 
+![](Pubq3.png)
+
 Python, Django, HTML/CSS, Postgre
 
-# Advertencia
-
-O projeto ainda está em produção, portanto, a parte visual ainda não foi modelada.
+![](Pubq2.png)
