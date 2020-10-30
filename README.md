@@ -14,8 +14,8 @@ PDF com as questões escolhidas, comprar questões de outros professores e ganha
 
 # Ferramentas utilizadas
 
-![](Pubq3.png)
-
 Python, Django, HTML/CSS, Postgre
+
+![](Pubq3.png)
 
 ![](Pubq2.png)
