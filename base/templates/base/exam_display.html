@@ -26,7 +26,7 @@
         <p>Teacher:{{exam.teacher_name}}</p>
     </div>
     {% csrf_token %}
-    {% for question in exam.questions.all %}
+    {% for question in exam.question_set.all %}
         {% include 'base/question_display.html' %}
     {% endfor %}
     <hr>

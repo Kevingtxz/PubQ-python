@@ -77,6 +77,7 @@ class Report(models.Model):
 
     standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
 
+    
 
 
 

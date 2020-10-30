@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # from django.forms import inlineformset_factory
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout       
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
@@ -98,10 +98,10 @@ def postquestion(request):
 @login_required(login_url='login')
 def myquestions(request):
 	questions = set()
-	for permission in request.user.standarduser.userpermission_set.all():
-		if permission.permission == 'P':
-			if permission.question != None:
-				questions.add(permission.question)
+	for permission_question in request.user.standarduser.userpermissionquestion_set.all():
+		if permission_question.permission == 'P':
+			if permission_question.question != None:
+				questions.add(permission_question.question)
 	context = {'questions':questions,}
 	return render(request, 'base/myquestions.html', context)
 
