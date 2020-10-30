@@ -14,6 +14,6 @@ PDF com as questões escolhidas, comprar questões de outros professores e ganha
 
 Python, Django, HTML/CSS, Postgre
 
-![](Pubq3.png)
-
 ![](Pubq2.png)
+
+![](Pubq3.png)
