@@ -24,8 +24,5 @@ Python, Django, Javascript, HTML/CSS, Postgre
 
 ![](Pubq2.png)
 
-
-![](Pubq3.png)
-
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
