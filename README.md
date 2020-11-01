@@ -18,7 +18,7 @@ Then you will run the program and can use it by taping 'http://127.0.0.1:8000/' 
 
 # Technologies
 
-Python, Django, HTML/CSS, Postgre
+Python, Django, Javascript, HTML/CSS, Postgre
 
 ![](Pubq2.png)
 
