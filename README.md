@@ -16,7 +16,7 @@ First you will need to install Python 3, Django 3 and Postgre 13 in your machine
 Now that you have Python and Django, download the package, extract it and get in Pubq/base with your terminal and run 'python manage.py runserver"
 Then you will run the program and can use it by taping 'http://127.0.0.1:8000/' on your browser.
 
-# Tools that I used
+# Technologies
 
 Python, Django, HTML/CSS, Postgre
 
