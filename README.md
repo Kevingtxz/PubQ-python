@@ -1,6 +1,6 @@
 # Warning
 
-```diff
+```diff 
 - The project is still in development and the styling of the frontend will be the last step.
 ```
 ![](Pubq1.png)
