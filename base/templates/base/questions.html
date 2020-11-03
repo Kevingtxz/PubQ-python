@@ -9,9 +9,12 @@
         display: None;
     }
 </style>
-<div style="display:inline-block;">
-    <h1>Questions</h1></div>
-    <a href="{% url 'postquestion' %}" type="submit">Post Question</a>
+<div class="container">
+    <h1 style="display: inline-block;">Questions</h1>
+    <a style="display: inline-block;" href="{% url 'postquestion' %}" type="submit">Post Question</a>
+</div>
+<div style="background-color: ghostwhite; height: 200px; border-top: midnightblue 1px solid; border-bottom: midnightblue 1px solid;"></div>
+<div class="container">
         <hr>
         {% csrf_token %}
         {% for question in questions %}
