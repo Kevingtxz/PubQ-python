@@ -21,6 +21,7 @@ urlpatterns = [
     path("aboutus/", views.aboutus, name="aboutus"),
     path("postreport/", views.postreport, name="postreport"),
     path("myquestions/", views.myquestions, name="myquestions"),
+    path("myexams/", views.myexams, name="myexams"),
 ]
 
 # customer settings

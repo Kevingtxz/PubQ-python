@@ -1,59 +1,63 @@
 {% load static %}
-<div style="background:black; margin:0px; width:100%;">
-        <ul class="nav nav-tabs">
-            <li class="nav-item" style="margin-top:0px; margin-left:5px;">
-                <img src="{% static 'images/logoblacknav10.png' %}">
-            </li>
-            <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:20px;">
-                <input style="padding:5px;" placeholder="Find Questions" />
-            </li>
-            <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
-                <a href="{% url 'myquestions' %}">
-                    <img src="{% static 'images/myfolder.png' %}">
-                </a>
-            </li>
-            {% comment %} <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
-                <a href="{% url 'myexams' %}">
-                    <img src="{% static 'images/myfolder.png' %}">
-                </a>
-            </li> {% endcomment %}
-            <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
-                <a href="{% url 'account_settings' %}">
-                    <img src="{% static 'images/profilelogo.png' %}">
-                </a>
-            </li>
-            <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
-                <a href="{% url 'notifications' %}">
-                    <img src="{% static 'images/notification.png' %}">
-                </a>
-            </li>
-            <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
-                <a href="{% url 'logout' %}">
-                    <img src="{% static 'images/logout2.png' %}">
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <nav style="margin:0px;">
-        <ul class="nav nav-tabs">
-            <li class="nav-item" style="margin-top:0px; margin:auto;">
-                <a class="nav-link" style="color:white;" href="{% url 'questions' %}" style="margin-left:100px; padding:15px;">Questions</a>
-            </li>
-            <li class="nav-item" style="margin-top:0px; margin:auto;">
-                <a class="nav-link" style="color:white;" href="{% url 'exams' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Exams</a>
-            </li>
-            <li class="nav-item" style="margin-top:0px; margin:auto;">
-                <a class="nav-link" style="color:white;" href="{% url 'universities' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Universities</a>
-            </li>
-            <li class="nav-item" style="margin-top:0px; margin:auto;">
-                <a class="nav-link" style="color:white;" href="{% url 'books' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Books</a>
-            </li>
-            <li class="nav-item" style="margin-top:0px; margin:auto;">
-                <a class="nav-link" style="color:white;" href="{% url 'support' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Support</a>
-            </li>
-            <li class="nav-item" style="margin-top:0px; margin:auto;">
-                <a class="nav-link" style="color:white;" href="{% url 'aboutus' %}" style="padding:15px; padding-left:30px; padding-right:30px;">About Us</a>
-            </li>
-        </ul>
-    </nav>
+<div style="background:midnightblue; width:100%;">
+    <div class="container">
+        <nav style="width: 100%; height: 10px;"></nav>
+            <ul class="nav nav-tabs">
+                <li class="nav-item" style="margin-top:0px; margin-left:5px;">
+                    <img src="{% static 'images/logoblacknav10.png' %}">
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:20px;">
+                    <input style="padding:5px; border-radius: 5px; width: 300px;" placeholder="Find Questions" />
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
+                    <a href="{% url 'myquestions' %}">
+                        <img src="{% static 'images/myfolder.png' %}">
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
+                    <a href="{% url 'myexams' %}">
+                        <img src="{% static 'images/myfolder.png' %}">
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
+                    <a href="{% url 'account_settings' %}">
+                        <img src="{% static 'images/profilelogo.png' %}">
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
+                    <a href="{% url 'notifications' %}">
+                        <img src="{% static 'images/notification.png' %}">
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:15px;">
+                    <a href="{% url 'logout' %}">
+                        <img src="{% static 'images/logout2.png' %}">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div style="height: 5px;"></div>
+        <nav style="margin:0px;">
+            <ul class="nav nav-tabs">
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
+                    <a class="nav-link" style="color:white;" href="{% url 'questions' %}" style="margin-left:100px; padding:15px;">Questions</a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
+                    <a class="nav-link" style="color:white;" href="{% url 'exams' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Exams</a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
+                    <a class="nav-link" style="color:white;" href="{% url 'universities' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Universities</a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
+                    <a class="nav-link" style="color:white;" href="{% url 'books' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Books</a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
+                    <a class="nav-link" style="color:white;" href="{% url 'support' %}" style="padding:15px; padding-left:30px; padding-right:30px;">Support</a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto;">
+                    <a class="nav-link" style="color:white;" href="{% url 'aboutus' %}" style="padding:15px; padding-left:30px; padding-right:30px;">About Us</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>

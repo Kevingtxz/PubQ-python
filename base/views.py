@@ -142,6 +142,21 @@ def postexam(request):
     return render(request, "base/postexam.html", context)
 
 
+@login_required(login_url="login")
+def myexams(request):
+    exams = set()
+    for (
+        permission_exam
+    ) in request.user.standarduser.userpermissionexam_set.all():
+        if permission_exam.permission == "P":
+            if permission_exam.exam != None:
+                exams.add(permission_exam.exam)
+    context = {
+        "exams": exams,
+    }
+    return render(request, "base/myexams.html", context)
+
+
 # I should require that only teachers apply exams
 @login_required(login_url="login")
 def applyexam(request):

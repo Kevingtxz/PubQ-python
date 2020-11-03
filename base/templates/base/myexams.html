@@ -1,0 +1,12 @@
+{%  extends 'base/main.html' %}
+{% block content %} 
+<div>
+    <h1>My Exams</h1>
+    <br>
+    <button><a href="{% url 'postexam' %}" type="submit">Post Exam</a></button>
+        {% csrf_token %}
+        {% for exam in exams %}
+            {% include 'base/exam_display.html' %}
+        {% endfor %}
+</div>
+{% endblock %}

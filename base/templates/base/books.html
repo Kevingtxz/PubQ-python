@@ -5,7 +5,7 @@
     <h1 style="margin-bottom:40px;">Books</h1>
     <a href="postbook" type="submit">Post Book</a>
     <hr>
-    <div class="container">
+    <div>
         {% for book in books %}
             <h4>{{book.title}}</h4>
             {% if book.note != None %}

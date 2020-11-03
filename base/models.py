@@ -249,6 +249,10 @@ class UserPermissionQuestion(UserPermission):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
 
+class UserPermissionExam(UserPermission):
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+
+
 class UserPermissionBook(UserPermission):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 

@@ -13,10 +13,13 @@
     <div>
         <div style="background:white;">
             {% include 'base/navbar.html' %}
-            {% block content %}
+            
+            <div class="container">
+                {% block content %}
+            </div>
             {% endblock %}
         </div>
-    <hr style="margin-top:50px">
+       <hr style="margin-top:50px">
     </div>
     
     
