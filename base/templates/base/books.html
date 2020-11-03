@@ -5,17 +5,19 @@
     <h1 style="margin-bottom:40px;">Books</h1>
     <a href="postbook" type="submit">Post Book</a>
     <hr>
-    {% for book in books %}
-        <h4>{{book.title}}</h4>
-        {% if book.note != None %}
-            <p>{{book.note}}</p>
-        {% endif %}
-        <p>{{book.date_created}}</p>
-            <div style="display:None;">
-                {% for question in book.questions.all %}
-                    {% include 'base/question_display.html' %}
-                {% endfor %}
-            </div>
-    {% endfor %}
+    <div class="container">
+        {% for book in books %}
+            <h4>{{book.title}}</h4>
+            {% if book.note != None %}
+                <p>{{book.note}}</p>
+            {% endif %}
+            <p>{{book.date_created}}</p>
+                <div style="display:None;">
+                    {% for question in book.questions.all %}
+                        {% include 'base/question_display.html' %}
+                    {% endfor %}
+                </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
