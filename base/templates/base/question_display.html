@@ -36,10 +36,10 @@
         <div>
             <p style="margin-bottom:30px;">{{question.text}}</p>
         </div>
-        <button style="padding:10px; padding-right:20px; padding-left:20px;" type="submit">Answear</button>
-        <button id="answears" style="padding:10px; padding-right:20px; padding-left:20px;"  onclick="Show">Answears</button>
-        <button style="padding:10px; padding-right:20px; padding-left:20px;">Commentaries</button>
-        <a href="postreport"><button style="padding:10px; padding-right:20px; padding-left:20px;">Report</button></a>
+        <button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #bd0d22; color: white; border-radius: 5%; border: white 1px solid; margin-right: 15px;" type="submit">Answear</button>
+        <button id="answears" style="padding:10px; padding-right:20px; padding-left:20px; background-color: #bd0d22; color: white; border-radius: 5%; border: white 1px solid; margin-right: 15px;"  onclick="Show">Answears</button>
+        <button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #bd0d22; color: white; border-radius: 5%; border: white 1px solid; margin-right: 15px;">Commentaries</button>
+        <a href="postreport"><button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #bd0d22; color: white; border-radius: 5%; border: white 1px solid;">Report</button></a>
     </div>
     <div class="hidden">
         <textarea style="width:100%; height: height:100%;"></textarea>
@@ -53,9 +53,8 @@
         <button style="padding:10px; padding-right:20px; padding-left:20px;" type="submit">Send Answear</button>
     </div>
     {% for answear in question.answears.all %}
-    <div class="hidden" style="block">
-        <p>{{answear.standard_user}}</p>
-        <p>{{answear.text}}</p>
+    <div class="hidden">
+        {% include 'base/answears.html' %}
     </div>
     {% endfor %}
     <hr>

@@ -2,9 +2,17 @@
 
 {% block content %} 
 <div>
-    <h1 style="margin-bottom:40px;">Exams</h1>
-    <p>Passed Exams</p>
-    <a href="{% url 'applyexam' %}" type="submit">Apply an Exam here</a>
+    <div class="container">
+        <div style="display: inline-block;">
+            <h1 style="color:#252c35; margin-right: 10px;">Exams</h1>
+        </div>
+        <div style="display: inline-block;">
+            <a style="color: #e35760; font-size: 22px; text-align: center;"  href="" type="submit">Post Exam</a>
+        </div>
+        <div style="display: inline-block;">
+            <button>Apply Exam</button>
+        </div>
+    </div>
     <hr>
     {% csrf_token %}
     {% for exam in exams %}

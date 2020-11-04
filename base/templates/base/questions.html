@@ -10,10 +10,12 @@
     }
 </style>
 <div class="container">
-    <h1 style="display: inline-block;">Questions</h1>
-    <a style="display: inline-block;" href="{% url 'postquestion' %}" type="submit">Post Question</a>
+    <h1 style="display: inline-block; color:#252c35; margin-right: 10px;">Questions</h1>
+    <div style="display: inline-block;">
+        <a style="color: #e35760; font-size: 22px; text-align: center;" href="{% url 'postquestion' %}" type="submit">Post Question</a>
+    </div>
 </div>
-<div style="background-color: ghostwhite; height: 200px; border-top: midnightblue 1px solid; border-bottom: midnightblue 1px solid;"></div>
+<div style="background-color: #f6f5f5; height: 200px; border-top: #252c35 1px solid; border-bottom: #252c35 1px solid;"></div>
 <div class="container">
         <hr>
         {% csrf_token %}

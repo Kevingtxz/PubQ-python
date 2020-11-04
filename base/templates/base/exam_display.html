@@ -21,13 +21,10 @@
             <p>University:{{exam.university_name}}</p>
         </div>
     {% endif %}
-    </div>
     <div style="display:inline-block; margin:5px; margin-right:20px;">
         <p>Teacher:{{exam.teacher_name}}</p>
-    </div>
+</div>
     {% csrf_token %}
     {% for question in exam.question_set.all %}
         {% include 'base/question_display.html' %}
     {% endfor %}
-    <hr>
-</div>

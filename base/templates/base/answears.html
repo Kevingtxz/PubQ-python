@@ -1,6 +1,5 @@
 {% csrf_token %}
 {% block answears %} 
-    {% for answear in question.answears %}
-        <p>Pudim</p>
-    {% endfor %}
+    <p>{{answear.standard_user}}</p>
+    <p>{{answear.text}}</p>
 {% endblock %}
