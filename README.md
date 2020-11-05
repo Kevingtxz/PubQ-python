@@ -25,4 +25,4 @@ Python, Django, Javascript, HTML/CSS, Postgre
 ![](Pubq2.png)
 
 ## License
-[GNU General Public License v3.0](https://choosealicense.com/licenses/mit/)
+[GNU](https://www.gnu.org/licenses/gpl-3.0.en.html)
