@@ -12,45 +12,49 @@
     {% csrf_token %}
     <div style="display:block; margin-bottom:50px; margin-bottom:50px;">
         <div style="display:block;">
-            <div style="display:inline-block; margin:10px; margin-right:20px; margin-left: 0px;">
-                <b style="font-size: 20px; color:#252c35;">Discipline: {{question.subject.discipline_name}}</b>
-            </div>
-            <div style="display:inline-block; margin:10px; margin-right:20px;">
-                <b style="font-size: 20px; color:#252c35;">Subject: {{question.subject}}</b>
-            </div>
-            <div style="display: inline-block; margin:10px; margin-right:20px;">
-                {% if question.university != None %}
-                    <b style="font-size: 20px; color:#252c35;">University: {{question.university.initials}}</b>
-                {% endif %}
-            </div>
-            <div style="display:inline-block; margin:10px; margin-right:20px;">
+            {% if question.subject != None %}
+                <div style="display:inline-block; display:inline-block;">
+                    <b style="font-size: 20px; color:#252c35;">Discipline: {{question.subject.discipline_name}}</b>
+                </div>
+            {% endif %}
+            {% if question.subject != None %}
+                <div style="display:inline-block; margin-left: 5%;">
+                    <b style="font-size: 20px; color:#252c35;">Subject: {{question.subject}}</b>
+                </div>
+            {% endif %}
+            {% if question.university != None %}
+                <div style="display:inline-block; display:inline-block; margin-left: 5%;">
+                    <b style="font-size: 20px; color:#252c35;">Uni: {{question.university.initials}}</b>
+                </div>
+            {% endif %}
+            <div style="display:inline-block; display:inline-block; margin-left: 5%;">
                 <b style="font-size: 20px; color:#252c35;">Teacher: {{question.teacher_name}}</b>
             </div>
-            <div style="display:inline-block; margin:10px; margin-right:20px;">
-                <b style="font-size: 20px; color:#252c35;">Education Level: {{question.education_Level}}</b>
-            </div>
-            <div style="display:inline-block;">
-                <b style="font-size: 20px; color:#252c35;">Posted: {{question.date_created.year}}</b>
+            <div style="display:inline-block; display:inline-block; margin-left: 5%;">
+                <b style="font-size: 20px; color:#252c35;">Year: {{question.date_created.year}}</b>
             </div>      
         </div>
         <div>
             <p style="margin-bottom:30px;">{{question.text}}</p>
         </div>
-        <button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #bd0d22; color: white; border-radius: 10%; border: #e35760 1px solid; margin-right: 15px;" type="submit">Answear</button>
-        <button id="answears" style="padding:10px; padding-right:20px; padding-left:20px; background-color: #bd0d22; color: white; border-radius: 10%; border: #e35760 1px solid; margin-right: 15px;"  onclick="Show">Answears</button>
-        <button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #bd0d22; color: white; border-radius: 10%; border: #e35760 1px solid; margin-right: 15px;">Commentaries</button>
-        <a href="postreport"><button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #bd0d22; color: white; border-radius: 10%; border: #e35760 1px solid;">Report</button></a>
+        <div>
+            <button id="answears" style="padding:10px; padding-right:20px; padding-left:20px; background-color: #e45c5c; color: white; border-radius: 10%; border:none; margin-right: 15px; font-weight: bold; font-size: 18px;"  onclick="Show">Answears</button>
+            <button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #e45c5c; color: white; border-radius: 10%; border: none; margin-right: 15px; font-weight: bold; font-size: 18px;">Commentaries</button>
+            <a href="postreport"><button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #e45c5c; color: white; border-radius: 10%; border: none; font-weight: bold; font-size: 18px;">Report</button></a>
+        </div>
     </div>
-    <div class="hidden">
-        <textarea style="width:100%; height: height:100%;"></textarea>
-        <button style="padding:10px; padding-right:20px; padding-left:20px;" type="submit">Send Answear</button>
+    <div>
+        <textarea style="width:100%; height: 150px;"></textarea>
+        <div style="margin-left: 80%; width: 20%;">
+            <button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #e45c5c; color: white; border-radius: 10%; border: none; margin-right: 15px; font-weight: bold; font-size: 18px;" type="submit">Answear</button>
+        </div>
     </div>
     <div class="hidden" style="block">
         {% for commentary in question.comments.all %}
             <p>{{commentary.standard_user}} {{commentary.text}}</p>
         {% endfor %}
         <input>
-        <button style="padding:10px; padding-right:20px; padding-left:20px;" type="submit">Send Answear</button>
+        <button style="padding:10px; padding-right:20px; padding-left:20px; background-color: #e45c5c; color: white; border-radius: 10%; border: none; margin-right: 15px; font-weight: bold; font-size: 18px;" type="submit">Comment</button>
     </div>
     {% for answear in question.answears.all %}
     <div class="hidden">
