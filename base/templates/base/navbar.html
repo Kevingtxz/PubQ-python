@@ -9,7 +9,7 @@
                     </a>
                 </li>
                 <li class="nav-item" style="margin-top:0px; margin:auto; margin-left:20px;">
-                    <input style="padding:5px; border-radius: 5%; border: #e45c5c 1px ridge; width: 300px; background-color: #FFFBFC; margin-right: 100px; margin-left: 30px;" placeholder="Find Questions" />
+                    <input style="padding:5px; border-radius: 5%; border: #252c35 1px ridge; width: 300px; background-color: #f6f5f5    ; margin-right: 100px; margin-left: 30px;" placeholder="Find Questions" />
                 </li>
                 <li class="nav-item" style="margin-top:0px; margin:auto; margin-left: 25px;">
                     <a href="{% url 'myquestions' %}">
@@ -26,6 +26,11 @@
                 <li class="nav-item" style="margin-top:0px; margin:auto; margin-left: 25px;">
                     <a href="{% url 'notifications' %}">
                         <img src="{% static 'images/notification_k.png' %}">
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-top:0px; margin:auto; margin-left: 25px;">
+                    <a href="{% url 'support' %}">
+                        <img src="{% static 'images/info.png' %}">
                     </a>
                 </li>
                 <li class="nav-item" style="margin-top:0px; margin:auto; margin-left: 25px;">
@@ -51,11 +56,8 @@
                 <li class="nav-item" style="margin:auto;">
                     <a class="nav-link" style="border-radius: 10%; color:#252c35; padding:15px; padding-left:30px; padding-right:30px;  font-size: 28px; color:#252c35; font-weight: bold;" href="{% url 'books' %}">Books</a>
                 </li>
-                <li class="nav-item" style="margin:auto;">
-                    <a class="nav-link" style="border-radius: 10%; color:#252c35; padding:15px; padding-left:30px; padding-right:30px;  font-size: 28px; color:#252c35; font-weight: bold;" href="{% url 'support' %}"">Support</a>
-                </li>
                 <li class="nav-item" style="margin:auto; margin-right: 10px;">
-                    <a class="nav-link" style="border-radius: 10%; color:#252c35; padding:15px; padding-left:30px; padding-right:30px;  font-size: 28px; color:#252c35; font-weight: bold;" href="{% url 'aboutus' %}"">About Us</a>
+                    <a class="nav-link" style="border-radius: 10%; color:#252c35; padding:15px; padding-left:30px; padding-right:30px;  font-size: 28px; color:#252c35; font-weight: bold;" href="{% url 'info' %}">Info</a>
                 </li>
             </ul>
         </nav>

@@ -253,8 +253,8 @@ def support(request):
     return render(request, "base/support.html")
 
 
-def aboutus(request):
-    return render(request, "base/aboutus.html")
+def info(request):
+    return render(request, "base/info.html")
 
 
 # Um professor posta uma prova e ganha créditos
