@@ -89,7 +89,6 @@ class QuestionForm(ModelForm):
         model = Question
         fields = (
             "teacher_name",
-            "university_name",
             "text",
             "education_Level",
             "pic_1",

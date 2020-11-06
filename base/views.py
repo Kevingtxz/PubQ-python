@@ -10,6 +10,7 @@ from django.contrib.auth.models import Group
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from .forms import *
 from .models import *
+from .filters import *
 
 # from django.views import generic
 # ListView; DetailView; FormView; DeleteView; UpdateView...@unauthenticated_user
@@ -65,8 +66,8 @@ def logoutUser(request):
 
 @login_required(login_url="login")
 def questions(request):
-    questions = Question.objects.filter(is_public=True)
-    paginator = Paginator(questions, 5)
+    filterQuestions = QuestionFilter(request.GET, queryset=Question.objects.filter(is_public=True))
+    paginator = Paginator(filterQuestions.qs, 5)
     page = request.GET.get("page")
     try:
         questions = paginator.page(page)
@@ -77,7 +78,9 @@ def questions(request):
     context = {
         "page": page,
         "questions": questions,
+        "filterQuestions": filterQuestions,
     }
+
     return render(request, "base/questions.html", context)
 
 

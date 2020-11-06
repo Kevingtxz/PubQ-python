@@ -82,7 +82,6 @@ class University(models.Model):
 
     addresses = models.ManyToManyField(Address, blank=True)
     reports = models.ManyToManyField(Report, blank=True)
-    questions = models.ManyToManyField("Question", blank=True)
 
     def __str__(self):
         return self.initials
@@ -109,6 +108,16 @@ class Discipline(models.Model):
         return self.name
 
 
+
+# ManyToOne: StandardUser;
+class Answear(models.Model):
+    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    text = models.CharField(max_length=5000)
+    is_public = models.BooleanField(default=True, blank=True)
+
+    reports = models.ManyToManyField(Report, blank=True)
+
+
 EDUCATIONS = [
     ("M", "Master"),
     ("H", "High School"),
@@ -126,30 +135,57 @@ ANSWEARS = [
     ("E", "e"),
 ]
 
-# ManyToOne: StandardUser;
-class Answear(models.Model):
-    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
-    text = models.CharField(max_length=5000)
-    is_public = models.BooleanField(default=True, blank=True)
+YEARS = [
+    ("21", "2021"),
+    ("20", "2020"),
+    ("19", "2019"),
+    ("18", "2018"),
+    ("17", "2017"),
+    ("16", "2016"),
+    ("15", "2015"),
+    ("14", "2014"),
+    ("13", "2013"),
+    ("12", "2012"),
+    ("11", "2011"),
+    ("10", "2010"),
+    ("9", "2009"),
+    ("8", "2008"),
+    ("7", "2007"),
+    ("6", "2006"),
+    ("5", "2005"),
+    ("4", "2004"),
+    ("3", "2003"),
+    ("2", "2002"),
+    ("1", "2001"),
+    ("0", "2000"),
+]
 
-    reports = models.ManyToManyField(Report, blank=True)
-
+DIFFICULTS = [
+    ('E', 'Very Easy'),
+    ('e', 'Easy'),
+    ('m', 'Middle Level'),
+    ('h', 'Hard'),
+    ('H', 'Very Hard'),
+]
 
 # ManyToOne: OneToOne: Teacher, University;
 class Question(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     text = models.CharField(max_length=10000)
     teacher_name = models.CharField(max_length=200)
-    university_name = models.CharField(max_length=200, blank=True, null=True)
     education_Level = models.CharField(max_length=1, choices=EDUCATIONS)
+    year = models.CharField(max_length=2, choices=YEARS)
     answear = models.CharField(max_length=5000, blank=True, null=True)
     is_public = models.BooleanField(default=True, blank=True)
     wrong_answears_count = models.IntegerField(default=0, blank=True)
+    difficult = models.CharField(max_length=1, blank=True, default='E', choices=DIFFICULTS)
     pic_1 = models.ImageField(blank=True, null=True)
     pic_2 = models.ImageField(blank=True, null=True)
 
-    exam = models.ForeignKey("Exam", on_delete=models.CASCADE, null=True, blank=True)
+    books = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True, blank=True)
+    university = models.ForeignKey('University', on_delete=models.SET_NULL, null=True, blank=True)
     subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True, blank=True)
+    exams = models.ManyToManyField('Exam', blank=True)
     answears = models.ManyToManyField(Answear, blank=True)
     reports = models.ManyToManyField(Report, blank=True)
 
@@ -192,7 +228,6 @@ class Book(models.Model):
     is_public = models.BooleanField(default=True, blank=True)
     note = models.CharField(max_length=400, blank=True, null=True)
 
-    questions = models.ManyToManyField(Question, blank=True)
     subject = models.ManyToManyField(Subject, blank=True)
     reports = models.ManyToManyField(Report, blank=True)
 
@@ -275,7 +310,9 @@ class Notification(models.Model):
     question = models.ForeignKey(
         Question, on_delete=models.CASCADE, blank=True, null=True
     )
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, blank=True, null=True)
+    book = models.ForeignKey(
+        Book, on_delete=models.CASCADE, blank=True, null=True
+    )
     answear = models.ForeignKey(
         Answear, on_delete=models.CASCADE, blank=True, null=True
     )

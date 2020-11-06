@@ -19,13 +19,15 @@
 </div>
 <div style="background-color: #f6f5f5; border-top: #252c35 1px solid; border-bottom: #252c35 1px solid;">
     <div style="margin-top: 2%; margin-bottom: 2%;" class="container">
-        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Key Word" />
+        <!-- <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Key Word" />
         <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Dicipline" />
         <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Subject" />
         <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="University" />
         <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Teacher" />
         <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Difficult" />
-        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Education Level" />
+        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Education Level" /> -->
+        <form method="get">
+            {{filterQuestions.form}}
     </div>
 </div>
 <div class="container" style="margin-top: 30px;">
@@ -34,4 +36,14 @@
             {% include 'base/question_display.html' %}
         {% endfor %}
 </div>
+<script>
+    var form_fields = document.getElementsByTagName('input')
+    form_fields[1].placeholder='Find';
+    document.getElementsByTagName('label').style.display = "none";
+
+
+    for (var field in form_fields){	
+        form_fields[field].className += ' form-control'
+    }
+</script>
 {% endblock %}
