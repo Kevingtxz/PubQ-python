@@ -17,7 +17,17 @@
         <a style="color: #e35760; font-size: 22px; text-align: center;" href="{% url 'postquestion' %}" type="submit">Post Question</a>
     </div>
 </div>
-<div style="background-color: #f6f5f5; height: 200px; border-top: #252c35 1px solid; border-bottom: #252c35 1px solid;"></div>
+<div style="background-color: #f6f5f5; border-top: #252c35 1px solid; border-bottom: #252c35 1px solid;">
+    <div style="margin-top: 2%; margin-bottom: 2%;" class="container">
+        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Key Word" />
+        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Dicipline" />
+        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Subject" />
+        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="University" />
+        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Teacher" />
+        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Difficult" />
+        <input style="border-radius: 6%; border: #252c35 1px ridge;" placeholder="Education Level" />
+    </div>
+</div>
 <div class="container" style="margin-top: 30px;">
         {% csrf_token %}
         {% for question in questions %}

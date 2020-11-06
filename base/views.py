@@ -241,7 +241,21 @@ def postreport(request):
 
 @login_required(login_url="login")
 def notifications(request):
-    return render(request, "base/notifications.html")
+    notifications = Notification.objects.all()
+    paginator = Paginator(notifications, 10)
+    page = request.GET.get("page")
+    try:
+        notifications = paginator.page(page)
+    except PageNotAnInteger:
+        notifications = paginator.page(1)
+    except EmptyPage:
+        notifications = paginator.page(paginator.num_pages)
+
+    context = {
+        "page": page,
+        "notifications": notifications,
+    }
+    return render(request, "base/notifications.html", context)
 
 
 @login_required(login_url="login")

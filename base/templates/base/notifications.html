@@ -5,6 +5,54 @@
     <h1 style="margin-bottom:40px; color:#252c35;">Notification</h1>
     {% csrf_token %}
     {% for notification in notifications %}
+        {% if notification.not_pic != None %}
+            <div style="width:40px; height: 40px; display: inline-block;">
+            <img style="width: 100%; height: 100%; border-radius: 50%;" src="notification.not_pic.url">
+            </div>
+        {% endif %}
+        {% if notification.question != None %}
+            <div style="display: inline-block;">
+                <b>Question {{notification.question.id}}</b>
+            </div>
+        {% endif %}
+        {% if notification.book != None %}
+            <div style="display: inline-block;">
+                <b>Book {{notification.book.id}}</b>
+            </div>
+        {% endif %}
+        {% if notification.answear != None %}
+            <div style="display: inline-block;">
+                <b>Answear {{notification.answear.id}}</b>
+            </div>
+        {% endif %}
+        {% if notification.university != None %}
+            <div style="display: inline-block;">
+                <b>University {{notification.university.id}}</b>
+            </div>
+        {% endif %}
+        {% if notification.commentary_question != None %}
+            <div style="display: inline-block;">
+                <b>Commentary_Question {{notification.commentary_question.id}}</b>
+            </div>
+        {% endif %}
+        {% if notification.commentary_book != None %}
+            <div style="display: inline-block;">
+                <b>Commentary_Book {{notification.commentary_book.id}}</b>
+            </div>
+        {% endif %}
+        {% if notification.commentary_answear != None %}
+            <div style="display: inline-block;">
+                <b>Commentary_Answear {{notification.commentary_answear.id}}</b>
+            </div>
+        {% endif %}
+        {% if notification.commentary_university != None %}
+            <div style="display: inline-block;">
+                <b>Commentary_University {{notification.commentary_university}}</b>
+            </div>
+        {% endif %}
+        <div>
+            <p>{{notification.message}}</p>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}
