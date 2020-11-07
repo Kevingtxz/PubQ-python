@@ -79,7 +79,6 @@ class AnswearForm(ModelForm):
     class Meta:
         model = Answear
         fields = (
-            "standarduser",
             "text",
         )
 

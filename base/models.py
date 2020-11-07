@@ -6,15 +6,12 @@ from django.contrib.auth.models import User
 # models.Manager
 
 
-# OneToMany: City;
 class State(models.Model):
     initials = models.CharField(max_length=2)
 
     def __str__(self):
         return self.initials
 
-
-# ManyToOne: State; OneToMany: Address;
 class City(models.Model):
     name = models.CharField(max_length=100)
 
@@ -47,7 +44,6 @@ COLORS = [
     ("G", "Grey"),
 ]
 
-# OneToOne: Address, Student, Teacher, University;
 class StandardUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -65,15 +61,19 @@ class StandardUser(models.Model):
     notifications = models.ManyToManyField("Notification", blank=True)
 
 
+class TeacherStudents(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    title = models.CharField(max_length=200, blank=True, null=True)
+    note = models.CharField(max_length=2000)
+    
+
 class Report(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     note = models.CharField(max_length=2000)
 
-    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    standarduser = models.ForeignKey(StandardUser, blank=True, null=True, on_delete=models.PROTECT)
 
 
-# Create UserPermission poster and teacher if asked;
-# OneToOne: Address;
 class University(models.Model):
     profile_pic = models.ImageField(default="profile1.png", null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -87,7 +87,6 @@ class University(models.Model):
         return self.initials
 
 
-# ManyToOne: Discipline; OneToMany: Question;
 class Subject(models.Model):
     name = models.CharField(max_length=100)
     discipline_name = models.CharField(max_length=100)
@@ -98,7 +97,6 @@ class Subject(models.Model):
         return self.name
 
 
-# OneToMany: Subject;
 class Discipline(models.Model):
     name = models.CharField(max_length=100)
 
@@ -109,9 +107,7 @@ class Discipline(models.Model):
 
 
 
-# ManyToOne: StandardUser;
 class Answear(models.Model):
-    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
     text = models.CharField(max_length=5000)
     is_public = models.BooleanField(default=True, blank=True)
 
@@ -168,7 +164,6 @@ DIFFICULTS = [
     ('H', 'Very Hard'),
 ]
 
-# ManyToOne: OneToOne: Teacher, University;
 class Question(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     text = models.CharField(max_length=10000)
@@ -192,7 +187,7 @@ class Question(models.Model):
 
 class Exam(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    teacher_name = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, blank=True, null=True)
     education_Level = models.CharField(max_length=1, choices=EDUCATIONS)
     university_name = models.CharField(max_length=200, blank=True, null=True)
     wrong_answears_count = models.IntegerField(default=0, blank=True)
@@ -207,7 +202,7 @@ class Exam(models.Model):
     reports = models.ManyToManyField(Report, blank=True)
 
     def __str__(self):
-        return self.teacher_name
+        return self.title
 
 
 class TimeToApplyExam(models.Model):
@@ -221,10 +216,9 @@ class TimeToApplyExam(models.Model):
         return self.date_to_apply
 
 
-# OneToOne: Teacher, StandardUser; OneToMany: Question;
 class Book(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=200, blank=True, null=True)
     is_public = models.BooleanField(default=True, blank=True)
     note = models.CharField(max_length=400, blank=True, null=True)
 
@@ -235,13 +229,12 @@ class Book(models.Model):
         return self.title
 
 
-# ManyToMany:
 class Commentary(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     text = models.CharField(max_length=2000)
     is_public = models.BooleanField(default=True, blank=True)
 
-    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    standarduser = models.ForeignKey(StandardUser, blank=True, null=True, on_delete=models.PROTECT)
     reports = models.ManyToManyField(Report, blank=True)
 
     class Meta:
@@ -271,9 +264,8 @@ PERMISSION = [
     ("O", "Owner"),
 ]
 
-# ManyToOne: University, Group, StandardUser, Group, Question;
 class UserPermission(models.Model):
-    standarduser = models.ForeignKey(StandardUser, on_delete=models.PROTECT)
+    standarduser = models.ForeignKey(StandardUser, blank=True, null=True, on_delete=models.PROTECT)
     permission = models.CharField(max_length=1, choices=PERMISSION)
 
     class Meta:
@@ -299,8 +291,13 @@ class UserPermissionAnswear(UserPermission):
 class UserPermissionUniversity(UserPermission):
     university = models.ForeignKey(University, on_delete=models.CASCADE)
 
+class UserPermissionTeacher(UserPermission):
+    teacher_students = models.ForeignKey(TeacherStudents, on_delete=models.CASCADE)
 
-# ManyToOne: StandardUser, Question, Answear, Book, University, Report;
+class UserPermissionStudents(UserPermission):
+    teacher_students = models.ForeignKey(TeacherStudents, on_delete=models.CASCADE)
+
+
 class Notification(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     not_pic = models.ImageField(default="notification.png", blank=True)
@@ -333,10 +330,9 @@ class Notification(models.Model):
     )
 
 
-# OneToMany:
 class LikeDeslike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE)
+    standarduser = models.ForeignKey(StandardUser, blank=True, null=True, on_delete=models.PROTECT)
 
     class Meta:
         abstract = True
@@ -406,10 +402,10 @@ class DeslikeNotification(LikeDeslike):
     notification = models.ForeignKey(Notification, on_delete=models.CASCADE)
 
 
-# ManyToOne: StandardUser;
+
 class Requisition(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     about = models.CharField(max_length=200, blank=True, null=True)
     text = models.TextField
 
-    standarduser = models.ForeignKey(StandardUser, on_delete=models.CASCADE, blank=True)
+    standarduser = models.ForeignKey(StandardUser, blank=True, null=True, on_delete=models.PROTECT)
