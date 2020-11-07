@@ -188,6 +188,7 @@ class Question(models.Model):
 class Exam(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     title = models.CharField(max_length=200, blank=True, null=True)
+    teacher_name = models.CharField(max_length=200, blank=True, null=True)
     education_Level = models.CharField(max_length=1, choices=EDUCATIONS)
     university_name = models.CharField(max_length=200, blank=True, null=True)
     wrong_answears_count = models.IntegerField(default=0, blank=True)

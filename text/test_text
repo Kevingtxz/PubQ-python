@@ -123,7 +123,7 @@ Macae.save()
 
 
 
-kevin_address = Address(neighborhood='Mirante', city=Macae)
+
 kevin_address.save()
 kevin = StandardUser(user=None, firstname='Kevin', lastname='Trindade Gonçalves', nickname='CHEFÃO', phone='22937841287', email='kevingtxz@gmail.com', sex='M', birth='21101996')
 kevin.save()
