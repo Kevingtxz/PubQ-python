@@ -119,16 +119,8 @@ EDUCATIONS = [
     ("H", "High School"),
     ("P", "Phd"),
     ("D", "Degree"),
-    ("T", "Tecnical"),
+    ("T", "Technical"),
     ("F", "Fundamental"),
-]
-
-ANSWEARS = [
-    ("A", "a"),
-    ("B", "b"),
-    ("C", "c"),
-    ("D", "d"),
-    ("E", "e"),
 ]
 
 YEARS = [
