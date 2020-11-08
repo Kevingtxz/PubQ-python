@@ -18,9 +18,13 @@
     </div>
 </div>
 <div style="background-color: #f6f5f5; border-top: #252c35 1px solid; border-bottom: #252c35 1px solid;">
+    <div><p>{{questions.count}}</p></div>
     <div style="margin-top: 2%; margin-bottom: 2%;" class="container">
             <form method="get">
+              {% csrf_token %}
+              <table>
               {{ filter.form }}
+              </table>
               <button type="submit">Search</button>
             </form>
     </div>
@@ -35,5 +39,9 @@
     var form_fields = document.getElementsByTagName('input')
     form_fields[1].placeholder='Find';
     document.getElementsByTagName('label').style.display = "none";
+    
+    for (var field in form_fields){	
+	    form_fields[field].className += ' form-control'
+	}
 </script>
 {% endblock %}

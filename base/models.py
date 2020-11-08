@@ -33,21 +33,21 @@ class Address(models.Model):
 
 
 SEX = [
-    ("M", "Male"),
-    ("F", "Female"),
-    ("O", "Other"),
+    ('M', 'Male'),
+    ('F', 'Female'),
+    ('O', 'Other'),
 ]
 
 COLORS = [
-    ("W", "White"),
-    ("B", "Black"),
-    ("G", "Grey"),
+    ('W', 'White'),
+    ('B', 'Black'),
+    ('G', 'Grey'),
 ]
 
 class StandardUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    profile_pic = models.ImageField(default="profile1.png", blank=True, null=True)
+    profile_pic = models.ImageField(default='profile1.png', blank=True, null=True)
     nickname = models.CharField(max_length=200, blank=True, null=True)
     firstname = models.CharField(max_length=100, blank=True, null=True)
     lastname = models.CharField(max_length=200, blank=True, null=True)
@@ -55,10 +55,10 @@ class StandardUser(models.Model):
     phone = models.CharField(max_length=11, blank=True, null=True)
     sex = models.CharField(max_length=1, blank=True, null=True)
     education = models.CharField(max_length=100, blank=True, null=True)
-    color = models.CharField(max_length=1, choices=COLORS, default="W", blank=True)
+    color = models.CharField(max_length=1, choices=COLORS, default='W', blank=True)
 
     addresses = models.ManyToManyField(Address, blank=True)
-    notifications = models.ManyToManyField("Notification", blank=True)
+    notifications = models.ManyToManyField('Notification', blank=True)
 
 
 class TeacherStudents(models.Model):
@@ -75,7 +75,7 @@ class Report(models.Model):
 
 
 class University(models.Model):
-    profile_pic = models.ImageField(default="profile1.png", null=True, blank=True)
+    profile_pic = models.ImageField(default='profile1.png', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     name = models.CharField(max_length=200)
     initials = models.CharField(max_length=10)
@@ -113,40 +113,40 @@ class Answear(models.Model):
 
     reports = models.ManyToManyField(Report, blank=True)
 
-
 EDUCATIONS = [
-    ("M", "Master"),
-    ("H", "High School"),
-    ("P", "Phd"),
-    ("D", "Degree"),
-    ("T", "Technical"),
-    ("F", "Fundamental"),
+       ('M', 'Master'),
+    ('H', 'High School'),
+    ('P', 'Phd'),
+    ('D', 'Degree'),
+    ('T', 'Technical'),
+    ('F', 'Fundamental'),
 ]
 
 YEARS = [
-    ("21", "2021"),
-    ("20", "2020"),
-    ("19", "2019"),
-    ("18", "2018"),
-    ("17", "2017"),
-    ("16", "2016"),
-    ("15", "2015"),
-    ("14", "2014"),
-    ("13", "2013"),
-    ("12", "2012"),
-    ("11", "2011"),
-    ("10", "2010"),
-    ("9", "2009"),
-    ("8", "2008"),
-    ("7", "2007"),
-    ("6", "2006"),
-    ("5", "2005"),
-    ("4", "2004"),
-    ("3", "2003"),
-    ("2", "2002"),
-    ("1", "2001"),
-    ("0", "2000"),
+    ('21', '2021'),
+    ('20', '2020'),
+    ('19', '2019'),
+    ('18', '2018'),
+    ('17', '2017'),
+    ('16', '2016'),
+    ('15', '2015'),
+    ('14', '2014'),
+    ('13', '2013'),
+    ('12', '2012'),
+    ('11', '2011'),
+    ('10', '2010'),
+    ('9', '2009'),
+    ('8', '2008'),
+    ('7', '2007'),
+    ('6', '2006'),
+    ('5', '2005'),
+    ('4', '2004'),
+    ('3', '2003'),
+    ('2', '2002'),
+    ('1', '2001'),
+    ('0', '2000'),
 ]
+
 
 DIFFICULTS = [
     ('E', 'Very Easy'),
@@ -251,10 +251,10 @@ class CommentaryUniversity(Commentary):
 
 
 PERMISSION = [
-    ("S", "Student"),
-    ("T", "Teacher"),
-    ("P", "Poster"),
-    ("O", "Owner"),
+    ('S', 'Student'),
+    ('T', 'Teacher'),
+    ('P', 'Poster'),
+    ('O', 'Owner'),
 ]
 
 class UserPermission(models.Model):
@@ -293,7 +293,7 @@ class UserPermissionStudents(UserPermission):
 
 class Notification(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    not_pic = models.ImageField(default="notification.png", blank=True)
+    not_pic = models.ImageField(default='notification.png', blank=True)
     message = models.CharField(max_length=1000, blank=True, null=True)
 
     reports = models.ManyToManyField(Report, blank=True)
