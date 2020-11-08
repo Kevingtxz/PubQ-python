@@ -1,13 +1,14 @@
-# Warning
+
+![](logo.png)
+
+# PubQ
+
+## Warning
 
 ```diff 
 - The project is still in development and the styling of the frontend will be the last step.
 ```
-![](logo.png)
-
 ![](Pubq1.png)
-
-# PubQ
 
 ## Description
 
