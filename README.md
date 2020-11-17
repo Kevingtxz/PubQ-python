@@ -8,7 +8,7 @@
 ```diff 
 - The project is still in development, but it's almost finished. 
 ```
-![](Pubq1.png)
+![](images/Pubq1.png)
 
 ## Description
 
