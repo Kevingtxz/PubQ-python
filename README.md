@@ -1,5 +1,5 @@
 
-![](logo.png)
+<img src="images/logo.png">
 
 # PubQ
 
