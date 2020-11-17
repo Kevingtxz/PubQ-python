@@ -5,7 +5,7 @@
 
 <p align="center">
  <a href="#Description">Description</a> •
- <a href="#How to Run it">How to Run it</a> • 
+ <a href="#Manual">How to Run it</a> • 
  <a href="#Dependencies">Dependencies</a> • 
  <a href="#Technologies">Technologies</a> • 
  <a href="#Licence">Licence</a> • 
@@ -28,13 +28,10 @@
 
 PubQ is a platform to study for exams published at universities.
 
-## How to Run it
+## Manual
 
-First you will need to install Python 3, Django 3 and Postgre 13 in your machine , you can download Python on https://www.python.org/downloads/ , Django by following this tutorial https://www.djangoproject.com/download/ and Postgre on https://www.postgresql.org/download/
-
-Now that you have Python and Django, download the package, extract it and get in Pubq/base with your terminal and run 'python manage.py runserver"
-Then you will run the program and can use it by taping 'http://127.0.0.1:8000/' on your browser.
-
+First download and extract the folder, then run 'pip install -r requirements.txt' to downaload the dependencies
+After this, you can run it with the command 'python manage.py runserver" and can use see the project on 'http://127.0.0.1:8000/'.
 
 ## Dependencies
 
