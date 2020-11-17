@@ -1,5 +1,5 @@
 
-<img src="images/logo.png">
+<img src="Images/logo.png">
 
 # PubQ
 
