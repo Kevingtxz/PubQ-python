@@ -19,72 +19,56 @@ from .filters import *
 # ListView; DetailView; FormView; DeleteView; UpdateView...@unauthenticated_user
 
 
-
-
 @unauthenticated_user
 def registerPage(request):
     form = CreateUserForm()
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            username = form.cleaned_data.get('username')
-            group = Group.objects.get(name='student')
+            username = form.cleaned_data.get("username")
+            group = Group.objects.get(name="student")
             user.groups.add(group)
             StandardUser.objects.create(user=user)
-            messages.success(request, 'Account was created for ' + username)
+            messages.success(request, "Account was created for " + username)
 
+            return redirect("login")
 
-            return redirect('login')
-
-
-    context = {'form': form}
-    return render(request, 'base/register.html', context)
-
-
-    context = {'form': form}
-    return render(request, 'accounts/register.html', context)
-
-
+    context = {"form": form}
+    return render(request, "accounts/register.html", context)
 
 
 @unauthenticated_user
 def loginPage(request):
 
-
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
         user = authenticate(request, username=username, password=password)
 
-
         if user is not None:
             login(request, user)
-            return redirect('questions')
+            return redirect("questions")
         else:
-            messages.info(request, 'Username OR password is incorrect')
-
+            messages.info(request, "Username OR password is incorrect")
 
     context = {}
-    return render(request, 'base/login.html', context)
-
-
+    return render(request, "base/login.html", context)
 
 
 def logoutUser(request):
     logout(request)
-    return redirect('login')
+    return redirect("login")
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def questions(request):
-    filter = QuestionFilter(request.GET, queryset=Question.objects.filter(is_public=True))
+    filter = QuestionFilter(
+        request.GET, queryset=Question.objects.filter(is_public=True)
+    )
     paginator = Paginator(filter.qs, 5)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         questions = paginator.page(page)
     except PageNotAnInteger:
@@ -93,56 +77,49 @@ def questions(request):
         questions = paginator.page(paginator.num_pages)
     questions_num = len(questions)
     context = {
-        'page': page,
-        'questions': questions,
-        'filter': filter,
-        'questions_num': questions_num,
+        "page": page,
+        "questions": questions,
+        "filter": filter,
+        "questions_num": questions_num,
     }
 
-
-    return render(request, 'base/questions.html', context)
-
+    return render(request, "base/questions.html", context)
 
 
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def postquestion(request):
     form = QuestionForm()
-    if request.method == 'POST':
+    if request.method == "POST":
         form = QuestionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect("/")
     context = {
-        'form': form,
+        "form": form,
     }
-    return render(request, 'base/postquestion.html', context)
+    return render(request, "base/postquestion.html", context)
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def myquestions(request):
     questions = set()
     for (
         permission_question
     ) in request.user.standarduser.userpermissionquestion_set.all():
-        if permission_question.permission == 'P':
+        if permission_question.permission == "P":
             if permission_question.question != None:
                 questions.add(permission_question.question)
     context = {
-        'questions': questions,
+        "questions": questions,
     }
-    return render(request, 'base/myquestions.html', context)
-
-
+    return render(request, "base/myquestions.html", context)
 
 
 @login_required(login_url="login")
 def exams(request):
     exams = Exam.objects.filter(is_public=True)
     paginator = Paginator(exams, 6)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         exams = paginator.page(page)
     except PageNotAnInteger:
@@ -150,64 +127,54 @@ def exams(request):
     except EmptyPage:
         exams = paginator.page(paginator.num_pages)
     context = {
-        'page': page,
-        'exams': exams,
+        "page": page,
+        "exams": exams,
     }
-    return render(request, 'base/exams.html', context)
+    return render(request, "base/exams.html", context)
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def postexam(request):
     form = ExamForm()
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ExamForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect("/")
     context = {
-        'form': form,
+        "form": form,
     }
-    return render(request, 'base/postexam.html', context)
+    return render(request, "base/postexam.html", context)
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def myexams(request):
     exams = set()
-    for (
-        permission_exam
-    ) in request.user.standarduser.userpermissionexam_set.all():
-        if permission_exam.permission == 'P':
+    for permission_exam in request.user.standarduser.userpermissionexam_set.all():
+        if permission_exam.permission == "P":
             if permission_exam.exam != None:
                 exams.add(permission_exam.exam)
     context = {
-        'exams': exams,
+        "exams": exams,
     }
-    return render(request, 'base/myexams.html', context)
-
-
+    return render(request, "base/myexams.html", context)
 
 
 # I should require that only teachers apply exams
-@login_required(login_url='login')
+@login_required(login_url="login")
 def applyexam(request):
     form = TimeToApplyExamForm
     context = {
-        'form': form,
+        "form": form,
     }
-    return render(request, 'base/postexam.html', context)
+    return render(request, "base/postexam.html", context)
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def universities(request):
     universities = University.objects.all()
     paginator = Paginator(universities, 5)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         universities = paginator.page(page)
     except PageNotAnInteger:
@@ -215,21 +182,18 @@ def universities(request):
     except EmptyPage:
         universities = paginator.page(paginator.num_pages)
 
-
     context = {
-        'page': page,
-        'universities': universities,
+        "page": page,
+        "universities": universities,
     }
-    return render(request, 'base/universities.html', context)
+    return render(request, "base/universities.html", context)
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def books(request):
     books = Book.objects.all()
     paginator = Paginator(books, 5)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         books = paginator.page(page)
     except PageNotAnInteger:
@@ -237,61 +201,52 @@ def books(request):
     except EmptyPage:
         books = paginator.page(paginator.num_pages)
 
-
     context = {
-        'page': page,
-        'books': books,
+        "page": page,
+        "books": books,
     }
-    return render(request, 'base/books.html', context)
+    return render(request, "base/books.html", context)
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def postbook(request):
     form = BookForm()
-    if request.method == 'POST':
+    if request.method == "POST":
         form = BookForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect("/")
     context = {
-        'form': form,
+        "form": form,
     }
-    return render(request, 'base/postbook.html', context)
-
-
+    return render(request, "base/postbook.html", context)
 
 
 @admin_only
 def reports(request):
     context = {}
-    return render(request, 'base/reports.html', context)
+    return render(request, "base/reports.html", context)
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def postreport(request):
     form = ReportForm()
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ReportForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect("/")
     context = {
-        'form': form,
+        "form": form,
     }
-    return render(request, 'base/postreport.html', context)
+    return render(request, "base/postreport.html", context)
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def notifications(request):
     notifications = Notification.objects.all()
     paginator = Paginator(notifications, 10)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         notifications = paginator.page(page)
     except PageNotAnInteger:
@@ -299,33 +254,24 @@ def notifications(request):
     except EmptyPage:
         notifications = paginator.page(paginator.num_pages)
 
-
     context = {
-        'page': page,
-        'notifications': notifications,
+        "page": page,
+        "notifications": notifications,
     }
-    return render(request, 'base/notifications.html', context)
+    return render(request, "base/notifications.html", context)
 
 
-
-
-@login_required(login_url='login')
+@login_required(login_url="login")
 def account_settings(request):
-    return render(request, 'base/account_settings.html')
-
-
+    return render(request, "base/account_settings.html")
 
 
 def support(request):
-    return render(request, 'base/support.html')
-
-
+    return render(request, "base/support.html")
 
 
 def info(request):
-    return render(request, 'base/info.html')
-
-
+    return render(request, "base/info.html")
 
 
 # Um professor posta uma prova e ganha créditos

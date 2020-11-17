@@ -114,7 +114,7 @@ class Answear(models.Model):
     reports = models.ManyToManyField(Report, blank=True)
 
 EDUCATIONS = [
-       ('M', 'Master'),
+    ('M', 'Master'),
     ('H', 'High School'),
     ('P', 'Phd'),
     ('D', 'Degree'),
