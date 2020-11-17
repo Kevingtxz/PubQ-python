@@ -8,7 +8,7 @@
 ```diff 
 - The project is still in development, but it's almost finished. 
 ```
-![](images/Pubq1.png)
+<img src="Images/Pubq1.png">
 
 ## Description
 
@@ -30,7 +30,10 @@ Django, django-filter
 
 Python, Django, Javascript, HTML/CSS, Postgre
 
-![](Pubq2.png)
+<img src="Images/Pubq2.png">
+
+
+<img src="Images/PubQ3.png">
 
 ## License
 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
