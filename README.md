@@ -5,7 +5,7 @@
 
 <p align="center">
  <a href="#Description">Description</a> •
- <a href="#Manual">How to Run it</a> • 
+ <a href="#Manual">Manual</a> • 
  <a href="#Dependencies">Dependencies</a> • 
  <a href="#Technologies">Technologies</a> • 
  <a href="#Licence">Licence</a> • 
