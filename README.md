@@ -3,12 +3,26 @@
 
 # PubQ
 
+<p align="center">
+ <a href="#Description">Description</a> •
+ <a href="#How to Run it">How to Run it</a> • 
+ <a href="#Dependencies">Dependencies</a> • 
+ <a href="#Technologies">Technologies</a> • 
+ <a href="#Licence">Licence</a> • 
+</p>
+
 ## Warning
 
 ```diff 
 - The project is still in development, but it's almost finished. 
 ```
 <img src="Images/Pubq1.png">
+
+
+<img src="Images/PubQ3.png">
+
+
+<img src="Images/Pubq2.png">
 
 ## Description
 
@@ -30,10 +44,6 @@ Django, django-filter
 
 Python, Django, Javascript, HTML/CSS, Postgre
 
-<img src="Images/Pubq2.png">
-
-
-<img src="Images/PubQ3.png">
 
 ## License
 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
