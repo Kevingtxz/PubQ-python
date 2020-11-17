@@ -6,13 +6,13 @@
 ## Warning
 
 ```diff 
-- The project is still in development and the styling of the frontend will be the last step.
+- The project is still in development, but it's almost finished. 
 ```
 ![](Pubq1.png)
 
 ## Description
 
-PubQ is a platform for studying by exams posted in universities.
+PubQ is a platform to study for exams published at universities.
 
 ## How to Run it
 
