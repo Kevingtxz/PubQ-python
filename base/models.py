@@ -290,7 +290,6 @@ class UserPermissionTeacher(UserPermission):
 class UserPermissionStudents(UserPermission):
     teacher_students = models.ForeignKey(TeacherStudents, on_delete=models.CASCADE)
 
-
 class Notification(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     not_pic = models.ImageField(default='notification.png', blank=True)

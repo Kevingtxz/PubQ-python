@@ -87,7 +87,7 @@ def questions(request):
 
 
 @login_required(login_url="login")
-def postquestion(request):
+def questionPost(request):
     form = QuestionForm()
     if request.method == "POST":
         form = QuestionForm(request.POST)
@@ -97,11 +97,11 @@ def postquestion(request):
     context = {
         "form": form,
     }
-    return render(request, "base/postquestion.html", context)
+    return render(request, "base/question-post.html", context)
 
 
 @login_required(login_url="login")
-def myquestions(request):
+def questionsUser(request):
     questions = set()
     for (
         permission_question
@@ -112,7 +112,7 @@ def myquestions(request):
     context = {
         "questions": questions,
     }
-    return render(request, "base/myquestions.html", context)
+    return render(request, "base/my_questions.html", context)
 
 
 @login_required(login_url="login")
@@ -134,7 +134,7 @@ def exams(request):
 
 
 @login_required(login_url="login")
-def postexam(request):
+def examPost(request):
     form = ExamForm()
     if request.method == "POST":
         form = ExamForm(request.POST)
@@ -148,7 +148,7 @@ def postexam(request):
 
 
 @login_required(login_url="login")
-def myexams(request):
+def examsUser(request):
     exams = set()
     for permission_exam in request.user.standarduser.userpermissionexam_set.all():
         if permission_exam.permission == "P":
@@ -162,64 +162,12 @@ def myexams(request):
 
 # I should require that only teachers apply exams
 @login_required(login_url="login")
-def applyexam(request):
+def examApply(request):
     form = TimeToApplyExamForm
     context = {
         "form": form,
     }
     return render(request, "base/postexam.html", context)
-
-
-@login_required(login_url="login")
-def universities(request):
-    universities = University.objects.all()
-    paginator = Paginator(universities, 5)
-    page = request.GET.get("page")
-    try:
-        universities = paginator.page(page)
-    except PageNotAnInteger:
-        universities = paginator.page(1)
-    except EmptyPage:
-        universities = paginator.page(paginator.num_pages)
-
-    context = {
-        "page": page,
-        "universities": universities,
-    }
-    return render(request, "base/universities.html", context)
-
-
-@login_required(login_url="login")
-def books(request):
-    books = Book.objects.all()
-    paginator = Paginator(books, 5)
-    page = request.GET.get("page")
-    try:
-        books = paginator.page(page)
-    except PageNotAnInteger:
-        books = paginator.page(1)
-    except EmptyPage:
-        books = paginator.page(paginator.num_pages)
-
-    context = {
-        "page": page,
-        "books": books,
-    }
-    return render(request, "base/books.html", context)
-
-
-@login_required(login_url="login")
-def postbook(request):
-    form = BookForm()
-    if request.method == "POST":
-        form = BookForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("/")
-    context = {
-        "form": form,
-    }
-    return render(request, "base/postbook.html", context)
 
 
 @admin_only
@@ -229,7 +177,7 @@ def reports(request):
 
 
 @login_required(login_url="login")
-def postreport(request):
+def reportPost(request):
     form = ReportForm()
     if request.method == "POST":
         form = ReportForm(request.POST)
