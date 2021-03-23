@@ -14,7 +14,7 @@
 ## Warning
 
 ```diff 
-- The project is still in development, but it's almost finished. 
+- This is not the last version of the project, the new version is private now
 ```
 <img src="Images/Pubq1.png">
 
