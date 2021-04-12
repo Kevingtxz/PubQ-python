@@ -14,8 +14,9 @@
 ## Warning
 
 ```diff 
-- THIS IS NOT THE OFFICIAL REPOSITORY, I AM NOT USING MULTIPLES APPS OR SIGNALS HERE
-- ```
+- This is not the last version of the project, the new version is private now
+```
+
 <img src="Images/Pubq1.png">
 
 
